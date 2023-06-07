@@ -1,35 +1,26 @@
 <template>
-  <PresentationItem>
-    <template #heading>
-      Svara
-    </template>
-    <p><i>Om du tror du vet svaret, skriv det här.</i></p>
+  
+  
+    <PresentationItem :toggleable="true">
+      <template #heading>
+        Svara
+      </template>
+      <p><i>Om du tror du vet svaret, skriv det här.</i></p>
 
-    <input v-model="answer_content"> {{ answer_unit }}
-    <br>
-    <button @click="answer">
-      Svara
-    </button>
-    <p>{{ answer_status }}</p>
-  </PresentationItem>
-
-  <PresentationItem v-if="answer_status">
-    <button>Nästa fråga</button>
+      <input v-model="answer_content"> {{ answerUnit }}
+      <br>
+      <button @click="answer">
+        Svara
+      </button>
+      <p>{{ answer_status }}</p>
+      <button v-if="answer_status">Nästa fråga</button>
   </PresentationItem>
 </template>
 
 <script>
 import PresentationItem from "./PresentationItem.vue";
 
-async function send(method, url, action = null, data = null) {
-  let response = await fetch(`http://localhost:5000/${url}`, {
-    method,
-    ...(data && { body: JSON.stringify(data) }),
-  });
-  let json = await response.json();
-  console.log(json);
-  return json;
-}
+import { send } from '../assets/utils.js';
 
 export default {
   components: {
@@ -47,6 +38,7 @@ export default {
   },
   data: function () {
     return {
+      show: false,
       answer_content: null,
       answer_status: null,
     };
@@ -57,8 +49,8 @@ export default {
 
       let json = await send("POST", "play", "chat", {
         action: "answer",
-        question_id: this.question_id,
-        answer: this.answer_content,
+        question_id: this.questionId,
+        answer: this.answerContent,
       });
       if (json.is_correct) {
         this.answer_status = "RÄTT SVAR! WOHOO";

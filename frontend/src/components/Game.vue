@@ -1,45 +1,36 @@
 <template>
-  <PresentationItem>
-    <template #heading>
-      Beskrivning
-    </template>
-    <!-- <p>Fråga {{ question_id+1 }} av {{ question_count }}</p> -->
-
-    {{ prompt }}
-  </PresentationItem>
+  <HeaderItem 
+    :questionId="question_id"
+    :questionCount="question_count"
+    :prompt="prompt"
+  />
 
   <QuestionItem
     v-if="question_id != null"
-    :question_id="question_id"
+    :questionId="question_id"
   />
 
   <NotesItem />
 
   <AnswerItem
-    :question_id="question_id"
-    :answer_unit="answer_unit"
+    :questionId="question_id"
+    :answerUnit="answer_unit"
   />
 </template>
 
 <script>
 import AnswerItem from "./AnswerItem.vue";
+import HeaderItem from "./HeaderItem.vue";
 import NotesItem from "./NotesItem.vue";
 import QuestionItem from "./QuestionItem.vue";
 import PresentationItem from "./PresentationItem.vue";
 
-async function send(method, url, action = null, data = null) {
-  let response = await fetch(`http://localhost:5000/${url}`, {
-    method,
-    ...(data && { body: JSON.stringify(data) }),
-  });
-  let json = await response.json();
-  console.log(json);
-  return json;
-}
+import { send } from '../assets/utils.js';
 
 export default {
   components: {
     AnswerItem,
+    HeaderItem,
     NotesItem,
     PresentationItem,
     QuestionItem,
@@ -48,9 +39,10 @@ export default {
     return {
       content: null,
       response: null,
-      prompt: null,
+      prompt: '',
       answer_unit: null,
       question_id: 0,
+      question_count: 0,
     };
   },
   async mounted() {

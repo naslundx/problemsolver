@@ -1,26 +1,70 @@
 <template>
-  <div class="item">
-    <div class="details">
+  <div class="container">
+    <div class="item">
       <h3>
         <slot name="heading" />
       </h3>
-      <slot />
+
+      <button 
+        @click="toggleShow" 
+        v-if="toggleable"
+      >
+        Toggle
+      </button>
+      
+      <Transition>
+        <div v-if="!toggleable || show">
+          <slot />
+        </div>
+      </Transition>
+    </div>
+    <div class="explanation" v-if="showExplanation">
+      <slot name="explanation"/>
     </div>
   </div>
 </template>
 
+<script>
+export default {
+  components: {
+  },
+  props: {
+    showExplanation: {
+      type: Boolean,
+      default: false,
+    },
+    toggleable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data: function () {
+    return {
+      show: false,
+    }
+  },
+  methods: {
+    toggleShow: function () {
+      this.show = !this.show;
+    },
+  }
+};
+</script>
+
 <style scoped>
-.item {
-  margin-top: 2rem;
+.container {
   display: flex;
-  border: 1px dashed #ddd;
-  border-radius: 5px;
-  margin-top: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 768px;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: rgba(255,255,255,0.75);
 }
 
-.details {
-  flex: 1;
+.item {
   margin-left: 1rem;
+  width: 67%;
 }
 
 i {
@@ -34,51 +78,16 @@ i {
 
 h3 {
   font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
   color: var(--color-heading);
 }
 
-@media (min-width: 1024px) {
-  .item {
-    padding: 0.4rem 0 1rem calc(var(--section-gap) / 2);
-  }
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
 
-  i {
-    top: calc(50% - 25px);
-    left: -26px;
-    position: absolute;
-    border: 1px solid var(--color-border);
-    background: var(--color-background);
-    border-radius: 8px;
-    width: 50px;
-    height: 50px;
-  }
-
-  .item:before {
-    content: " ";
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    bottom: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:after {
-    content: " ";
-    border-left: 1px solid var(--color-border);
-    position: absolute;
-    left: 0;
-    top: calc(50% + 25px);
-    height: calc(50% - 25px);
-  }
-
-  .item:first-of-type:before {
-    display: none;
-  }
-
-  .item:last-of-type:after {
-    display: none;
-  }
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

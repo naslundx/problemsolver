@@ -1,31 +1,28 @@
 <template>
-  <PresentationItem>
+  <PresentationItem :showExplanation="true">
     <template #heading>
       Ställ frågor
     </template>
-    <p><i>Behöver du ställa klargörande fråga? Gör det här.</i></p>
 
     <input v-model="content">
-    <br>
     <button @click="chat">
       Fråga
     </button>
-    <p>{{ response }}</p>
+    <p><b>Svar: </b>{{ response }}</p>
+
+    <div>
+
+    </div>
+    <template #explanation>
+      <p><i>Behöver du ställa klargörande fråga? Gör det här.</i></p>
+    </template>
   </PresentationItem>
 </template>
 
 <script>
 import PresentationItem from "./PresentationItem.vue";
 
-async function send(method, url, action = null, data = null) {
-  let response = await fetch(`http://localhost:5000/${url}`, {
-    method,
-    ...(data && { body: JSON.stringify(data) }),
-  });
-  let json = await response.json();
-  console.log(json);
-  return json;
-}
+import { send } from '../assets/utils.js';
 
 export default {
   components: {
@@ -41,25 +38,32 @@ export default {
     return {
       content: null,
       response: null,
+      history: [],
     };
   },
   methods: {
     chat: async function () {
+      this.history.push({from: 'user', content: this.content})
       let json = await send("POST", "play", "chat", {
         action: "chat",
-        question_id: this.question_id,
+        question_id: this.questionId,
         content: this.content,
       });
+      this.history.push({from: 'ai', content: json.content});
       this.response = json.content;
+      console.log(this.history)
     },
   },
 };
 </script>
 
 <style scoped>
-input,
+input {
+  width: 75%;
+}
 textarea {
-  width: 50%;
+  width: 100%;
+  min-width: 100%;
 }
 button {
   margin-left: 5px;

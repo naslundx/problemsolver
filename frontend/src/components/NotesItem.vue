@@ -1,8 +1,9 @@
 <template>
-  <PresentationItem>
+  <PresentationItem :toggleable="true">
     <template #heading>
       Anteckningar
     </template>
+    
     <p><i>Valfria anteckningar</i></p>
 
     <textarea />
@@ -20,11 +21,9 @@ export default {
 </script>
 
 <style scoped>
-input,
 textarea {
-  width: 50%;
-}
-button {
-  margin-left: 5px;
+  width: 100%;
+  min-height: 30px;
+  height: 100px;
 }
 </style>
