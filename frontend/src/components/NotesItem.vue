@@ -1,12 +1,23 @@
 <template>
-  <PresentationItem :toggleable="true">
+  <PresentationItem
+    :toggleable="true"
+    :show-explanation="true"
+  >
     <template #heading>
       Anteckningar
     </template>
-    
+
     <p><i>Valfria anteckningar</i></p>
 
+    <button :disabled="true">
+      Kopiera fråga & svar
+    </button>
+
     <textarea />
+
+    <template #explanation>
+      <i>Här kan du spara anteckningar om du behöver.</i>
+    </template>
   </PresentationItem>
 </template>
 

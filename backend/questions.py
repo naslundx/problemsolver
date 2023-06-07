@@ -5,7 +5,7 @@ GENERAL_OPENAI_PROMPT = (
     "Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar."
 )
 
-with open('backend/questions.json') as f:
+with open("backend/questions.json") as f:
     QUESTIONS = json.loads(f.read())
 
 

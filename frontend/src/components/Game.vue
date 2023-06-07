@@ -1,20 +1,25 @@
 <template>
-  <HeaderItem 
-    :questionId="question_id"
-    :questionCount="question_count"
+  <OverviewItem
+    :question-id="question_id"
+    :question-count="question_count"
+  />
+
+  <HeaderItem
+    :question-id="question_id"
     :prompt="prompt"
   />
 
   <QuestionItem
     v-if="question_id != null"
-    :questionId="question_id"
+    :question-id="question_id"
   />
 
   <NotesItem />
 
   <AnswerItem
-    :questionId="question_id"
-    :answerUnit="answer_unit"
+    :question-id="question_id"
+    :answer-unit="answer_unit"
+    @next-question="nextQuestion"
   />
 </template>
 
@@ -22,24 +27,24 @@
 import AnswerItem from "./AnswerItem.vue";
 import HeaderItem from "./HeaderItem.vue";
 import NotesItem from "./NotesItem.vue";
+import OverviewItem from "./OverviewItem.vue";
 import QuestionItem from "./QuestionItem.vue";
-import PresentationItem from "./PresentationItem.vue";
 
-import { send } from '../assets/utils.js';
+import { send } from "../assets/utils.js";
 
 export default {
   components: {
     AnswerItem,
     HeaderItem,
     NotesItem,
-    PresentationItem,
+    OverviewItem,
     QuestionItem,
   },
   data: function () {
     return {
       content: null,
       response: null,
-      prompt: '',
+      prompt: "",
       answer_unit: null,
       question_id: 0,
       question_count: 0,
@@ -60,7 +65,9 @@ export default {
       this.answer_unit = json.unit;
     },
     nextQuestion: function () {
-      this.changeQuestion(this.question_id + 1);
+      if (this.question_id < this.question_count) {
+        this.changeQuestion(this.question_id + 1);
+      }
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <PresentationItem :showExplanation="true">
+  <PresentationItem :show-explanation="true">
     <template #heading>
       Ställ frågor
     </template>
@@ -10,19 +10,15 @@
     </button>
     <p><b>Svar: </b>{{ response }}</p>
 
-    <div>
-
-    </div>
     <template #explanation>
-      <p><i>Behöver du ställa klargörande fråga? Gör det här.</i></p>
+      <i>Behöver du ställa klargörande fråga? Gör det här.</i>
     </template>
   </PresentationItem>
 </template>
 
 <script>
 import PresentationItem from "./PresentationItem.vue";
-
-import { send } from '../assets/utils.js';
+import { send } from "../assets/utils.js";
 
 export default {
   components: {
@@ -43,15 +39,15 @@ export default {
   },
   methods: {
     chat: async function () {
-      this.history.push({from: 'user', content: this.content})
+      this.history.push({ from: "user", content: this.content });
       let json = await send("POST", "play", "chat", {
         action: "chat",
         question_id: this.questionId,
         content: this.content,
       });
-      this.history.push({from: 'ai', content: json.content});
+      this.history.push({ from: "ai", content: json.content });
       this.response = json.content;
-      console.log(this.history)
+      console.log(this.history);
     },
   },
 };
