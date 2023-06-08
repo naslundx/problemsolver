@@ -1,5 +1,5 @@
 async function send(method, url, action = null, data = null) {
-  let response = await fetch(`http://localhost:5000/${url}`, {
+  let response = await fetch(`/api/${url}`, {
     method,
     ...(data && { body: JSON.stringify(data) }),
   });
