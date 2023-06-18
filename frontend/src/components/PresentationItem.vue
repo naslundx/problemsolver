@@ -1,41 +1,63 @@
 <template>
-  <div class="container">
-    <div class="item">
-      <h2>
-        <slot name="heading" />
-        <button
-          v-if="toggleable"
-          @click="toggleShow"
-          class="toggler"
-        >
-          <font-awesome-icon icon="fa-solid fa-circle-plus" />
-        </button>
-      </h2>
+  <div
+    class="container"
+    :class="{ fullWidth: fullWidth }"
+  >
+    <div class="mainflexContainer">
+      <div class="item">
+        <h2>
+          <slot name="heading" />
+          <toggle-button
+            v-if="toggleable"
+            @toggle="toggleShow"
+          />
+        </h2>
 
-      
-
-      <Transition>
-        <div v-if="!toggleable || show">
-          <slot />
+        <Transition>
+          <div v-if="!toggleable || show">
+            <slot />
+          </div>
+        </Transition>
+      </div>
+      <div
+        v-if="showExplanation && shouldShowExplanation && (!toggleable || show)"
+        class="explanation"
+      >
+        <div class="dismisscontainer">
+          <button
+            class="dismiss"
+            @click="dismissexplanation"
+          >
+            X
+          </button>
         </div>
-      </Transition>
-    </div>
-    <div
-      v-if="showExplanation"
-      class="explanation"
-    >
-      <div>
-        <span><font-awesome-icon icon="fa-solid fa-circle-info" />
+        <div class="flexcontainer">
+          <span>
+            <font-awesome-icon icon="fa-solid fa-circle-info" />
+          </span>
           <slot name="explanation" />
-        </span>
+          <span v-show="showOKExplanation">
+            <my-button
+              class="okexplanation wiggle"
+              text="OK!"
+              @click="OKExplanation"
+            />
+          </span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import MyButton from "./MyButton.vue";
+import ToggleButton from "./ToggleButton.vue";
+
 export default {
-  components: {},
+  components: {
+    MyButton,
+    ToggleButton,
+  },
   props: {
     showExplanation: {
       type: Boolean,
@@ -45,15 +67,33 @@ export default {
       type: Boolean,
       default: false,
     },
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ["okexplanation"],
   data: function () {
     return {
-      show: false,
+      show: true,
+      shouldShowExplanation: true,
+      showOKExplanation: true,
     };
   },
   methods: {
     toggleShow: function () {
       this.show = !this.show;
+      this.OKExplanation();
+    },
+    dismissexplanation: function () {
+      this.shouldShowExplanation = false;
+      this.OKExplanation();
+    },
+    OKExplanation: function () {
+      if (this.showOKExplanation) {
+        this.showOKExplanation = false;
+        this.$emit("okexplanation");
+      }
     },
   },
 };
@@ -61,54 +101,45 @@ export default {
 
 <style scoped>
 .container {
-  display: flex;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  max-width: 768px;
-  margin: 10px auto;
-  padding: 10px;
+  border-top: 3px solid #ccc;
+  border-bottom: 3px solid #ccc;
+  max-width: 900px;
+  margin: 15px auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   background-color: rgba(255, 255, 255, 0.75);
+}
+
+.mainflexContainer {
+  display: flex;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.fullWidth {
+  max-width: 95%;
 }
 
 .explanation {
   border-left: 1px dashed black;
   padding-left: 10px;
-  width: 35%;
+  flex: 1;
 }
 
-.explanation div {
+.explanation .flexcontainer {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100%;
   font-size: small;
+  padding-bottom: 20px;
+  margin-top: 0;
 }
 
 .item {
-  margin-left: 1rem;
-  /* padding-right: 10px; */
-  width: 65%;
-}
-
-i {
-  display: flex;
-  place-items: center;
-  place-content: center;
-  width: 32px;
-  height: 32px;
-  color: var(--color-text);
-}
-
-.toggler {
-  background: none;
-  border: 0px;
-  font-size: larger;
-  color:#345
-}
-
-.toggler:hover {
-  background: #345;
-  color: white;
+  width: 100%;
+  flex: 2;
 }
 
 h2 {
@@ -124,5 +155,75 @@ h2 {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+.okexplanation {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: larger;
+  border: 1px solid black;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+    background-color: white;
+  }
+  75% {
+    transform: rotate(0deg);
+    background-color: white;
+  }
+  80% {
+    transform: rotate(15deg);
+    background-color: orange;
+  }
+  95% {
+    transform: rotate(-15deg);
+    background-color: orange;
+  }
+  100% {
+    transform: rotate(0deg);
+    background-color: white;
+  }
+}
+
+.wiggle {
+  display: inline-block;
+  animation: wiggle 2s infinite;
+}
+
+.wiggle:hover {
+  animation: none;
+}
+
+.dismisscontainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dismisscontainer button {
+  font-size: x-large;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  background-color: transparent;
+  line-height: 1.15;
+  font-family: sans-serif;
+  border: 0;
+}
+
+.dismisscontainer button:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+  .mainflexContainer {
+    flex-direction: column;
+  }
+  .explanation {
+    border-left: 0;
+    border-top: 1px dashed black;
+  }
 }
 </style>

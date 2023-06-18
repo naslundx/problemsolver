@@ -1,19 +1,19 @@
 <template>
   <PresentationItem
     :toggleable="true"
-    :show-explanation="true"
+    :show-explanation="showExplanation"
   >
     <template #heading>
       Anteckningar
     </template>
 
-    <p><i>Valfria anteckningar</i></p>
+    <!-- <p><i>Valfria anteckningar</i></p> -->
 
-    <button :disabled="true">
+    <!-- <button :disabled="true">
       Kopiera fråga & svar
-    </button>
+    </button> -->
 
-    <textarea />
+    <textarea placeholder="Valfria anteckningar" />
 
     <template #explanation>
       <i>Här kan du spara anteckningar om du behöver.</i>
@@ -28,6 +28,12 @@ export default {
   components: {
     PresentationItem,
   },
+  props: {
+    showExplanation: {
+      type: Boolean,
+      default: true,
+    },
+  },
 };
 </script>
 
@@ -36,5 +42,6 @@ textarea {
   width: 100%;
   min-height: 30px;
   height: 100px;
+  font-size: larger;
 }
 </style>

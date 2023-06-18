@@ -1,5 +1,6 @@
 async function send(method, url, action = null, data = null) {
   let response = await fetch(`/api/${url}`, {
+  // let response = await fetch(`http://127.0.0.1:5000/api/${url}`, {
     method,
     ...(data && { body: JSON.stringify(data) }),
   });
@@ -8,4 +9,6 @@ async function send(method, url, action = null, data = null) {
   return json;
 }
 
-export { send };
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+export { send, sleep };

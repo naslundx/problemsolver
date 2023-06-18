@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "cd frontend && vite",
     "build": "cd frontend && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write frontend/src/"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",

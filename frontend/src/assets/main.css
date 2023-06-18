@@ -4,8 +4,8 @@ body {
   background: rgb(242, 241, 255);
   background: linear-gradient(
     90deg,
-    rgba(242, 241, 255, 1) 0%,
-    rgba(210, 248, 255, 1) 100%
+    rgba(252, 248, 255, 1) 0%,
+    rgba(210, 248, 225, 1) 100%
   );
 }
 
@@ -13,6 +13,11 @@ body {
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
 
 @media (hover: hover) {

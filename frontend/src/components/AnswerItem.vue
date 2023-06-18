@@ -1,40 +1,74 @@
 <template>
-  <PresentationItem
-    :toggleable="true"
-    :show-explanation="true"
-  >
+  <PresentationItem :show-explanation="showExplanation">
     <template #heading>
       Svara
     </template>
-    <p><i>Om du tror du vet svaret, skriv det här.</i></p>
 
-    <input v-model="answer_content"> {{ answerUnit }}
-    <br>
-    <button @click="answer">
-      Svara
-    </button>
-    <p>{{ answer_status }}</p>
-    <button
-      v-if="answer_status"
-      @click="nextQuestion"
+    <div
+      v-if="!isLoading"
+      class="flexContainer"
     >
-      Nästa fråga
-    </button>
+      <my-button
+        class="clearBtn"
+        :disabled="answer_content.length === 0"
+        icon="eraser"
+        @click="clear"
+      />
+      <div class="answer">
+        <input
+          v-model="answer_content"
+          @keyup.enter="answer"
+        >
+        <span class="units">
+          {{ answerUnit }}
+        </span>
+      </div>
+      <my-button
+        v-if="showAnswerButton"
+        class="actionBtn"
+        text="Svara"
+        @click="answer"
+      />
+    </div>
+    <div
+      v-if="isLoading"
+      ref="animation"
+    >
+      <loading-animation />
+    </div>
+    <div
+      v-if="!isLoading"
+      class="result"
+    >
+      <p>{{ resultMessage }}</p>
+      <p v-if="clue !== ''"><b>Ledtråd: </b>{{ clue }}</p>
+      <my-button
+        v-if="answer_status === true"
+        class="actionBtn"
+        text="Nästa fråga"
+        @click="nextQuestion"
+      />
+    </div>
 
     <template #explanation>
-      <i>Om du tror du vet svaret, skriv det här! Du kan försöka flera
-        gånger.</i>
+      <i>
+        Du svarar på den ursprungliga frågan här. Du kan försöka flera gånger.
+      </i>
     </template>
   </PresentationItem>
 </template>
 
 <script>
+import MyButton from "./MyButton.vue";
 import PresentationItem from "./PresentationItem.vue";
+import LoadingAnimation from "./LoadingAnimation.vue";
 
-import { send } from "../assets/utils.js";
+import { send, sleep } from "../assets/utils.js";
 
 export default {
   components: {
+    LoadingAnimation,
+    MyButton,
     PresentationItem,
   },
   props: {
@@ -46,44 +80,105 @@ export default {
       type: String,
       default: "",
     },
+    showExplanation: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ["nextQuestion"],
   data: function () {
     return {
       show: false,
-      answer_content: null,
+      answer_content: "",
       answer_status: null,
+      show_answer_button: false,
+      isLoading: false,
+      clue: "",
     };
   },
+  computed: {
+    showAnswerButton: function () {
+      return this.answer_content !== "" && this.answer_status !== true;
+    },
+    resultMessage: function () {
+      if (this.answer_status === true) {
+        return "Rätt svar!";
+      }
+      if (this.answer_status === false) {
+        return "Tyvärr, fel svar. Svara igen. Ställ fler frågor vid behov.";
+      }
+      return "";
+    },
+  },
   methods: {
+    clear: function () {
+      this.answer_content = "";
+    },
     nextQuestion: function () {
-      console.log("emitting");
+      this.answer_content = "";
+      this.answer_status = null;
       this.$emit("nextQuestion");
     },
     answer: async function () {
+      this.isLoading = true;
       this.answer_status = "";
 
-      let json = await send("POST", "play", "chat", {
+      let api = send("POST", "play", "chat", {
         action: "answer",
         question_id: this.questionId,
         answer: this.answer_content,
       });
-      if (json.is_correct) {
-        this.answer_status = "RÄTT SVAR! WOHOO";
-      } else {
-        this.answer_status = "Inte rätt.";
-      }
+
+      this.$nextTick(function () {
+        const el = this.$refs.animation.$el;
+        console.log(el);
+        el.scrollIntoView(true);
+      });
+
+      let [_, json] = await Promise.all([sleep(3000), api]);
+
+      this.answer_status = json.is_correct;
+      this.clue = json.clue;
+      this.isLoading = false;
     },
   },
 };
 </script>
 
 <style scoped>
-input,
-textarea {
-  width: 50%;
+.actionBtn {
+  margin-left: 10px;
 }
-button {
-  margin-left: 5px;
+
+input {
+  width: 4rem;
+  font-size: x-large;
+  text-align: right;
+  border: 1px solid black;
+  margin-right: 6px;
+}
+
+b {
+  font-weight: bold;
+}
+
+.flexContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: flex-start;
+}
+.answer {
+  /* border: 1px solid gray; */
+  padding: 5px;
+}
+
+.result {
+  margin-top: 10px;
+}
+
+.result p {
+  font-size: larger;
+  margin-left: 10px;
 }
 </style>

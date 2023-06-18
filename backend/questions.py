@@ -33,3 +33,9 @@ def get_clue(index):
     question = QUESTIONS[index]
 
     return random.choice(question["clues"])
+
+
+def get_image(index):
+    question = QUESTIONS[index]
+
+    return question["image"]
