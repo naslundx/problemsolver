@@ -41,7 +41,9 @@
       class="result"
     >
       <p>{{ resultMessage }}</p>
-      <p v-if="clue !== ''"><b>Ledtråd: </b>{{ clue }}</p>
+      <p v-if="clue !== ''">
+        <b>Ledtråd: </b>{{ clue }}
+      </p>
       <my-button
         v-if="answer_status === true"
         class="actionBtn"
@@ -63,9 +65,9 @@ import MyButton from "./MyButton.vue";
 import PresentationItem from "./PresentationItem.vue";
 import LoadingAnimation from "./LoadingAnimation.vue";
 
-import { mapState } from 'pinia';
+import { mapState } from "pinia";
 import { send, sleep } from "../assets/utils.js";
-import { useSeedStore } from '@/stores/counter'
+import { useSeedStore } from "@/stores/counter";
 
 export default {
   components: {
@@ -99,7 +101,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useSeedStore, ['seed']),
+    ...mapState(useSeedStore, ["seed"]),
     showAnswerButton: function () {
       return this.answer_content !== "" && this.answer_status !== true;
     },

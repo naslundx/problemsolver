@@ -4,14 +4,17 @@ import json
 import os
 
 from .chat import get_response
-from .questions import get_question, get_answer, get_count, get_image, get_clue, get_seed
-
-
-app = Flask(
-    __name__,
-    static_folder='../frontend/dist/',
-    static_url_path='/'
+from .questions import (
+    get_question,
+    get_answer,
+    get_count,
+    get_image,
+    get_clue,
+    get_seed,
 )
+
+
+app = Flask(__name__, static_folder="../frontend/dist/", static_url_path="/")
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
@@ -58,17 +61,14 @@ def play():
         if not is_correct:
             clue = get_clue(question_id)
 
-        return {
-            "is_correct": is_correct, 
-            "clue": clue
-        }
+        return {"is_correct": is_correct, "clue": clue}
 
     return {}, 400
 
 
-@app.get('/')
+@app.get("/")
 def index():
-    return app.send_static_file('index.html')
+    return app.send_static_file("index.html")
 
 
 if __name__ == "__main__":

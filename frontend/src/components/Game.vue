@@ -40,7 +40,7 @@
     @okexplanation="OKExplanation"
   />
 
-  <FooterItem 
+  <FooterItem
     ref="bottom"
     :full-width="true"
   />
@@ -56,8 +56,8 @@ import QuestionItem from "./QuestionItem.vue";
 
 import { send } from "../assets/utils.js";
 
-import { mapActions } from 'pinia';
-import { useSeedStore } from '@/stores/counter'
+import { mapActions } from "pinia";
+import { useSeedStore } from "@/stores/counter";
 
 export default {
   components: {
@@ -95,14 +95,14 @@ export default {
     this.changeQuestion(0);
   },
   methods: {
-    ...mapActions(useSeedStore, ['change']),
+    ...mapActions(useSeedStore, ["change"]),
     OKExplanation: function () {
       this.item_show_index += 1;
       this.$nextTick(function () {
         const el = this.$refs.bottom.$el;
         el.scrollIntoView(false, {
-            behavior: 'smooth',
-          });
+          behavior: "smooth",
+        });
       });
     },
     changeQuestion: async function (new_question_id) {
@@ -121,7 +121,7 @@ export default {
         this.$nextTick(function () {
           const el = this.$refs.top.$el;
           el.scrollIntoView({
-            behavior: 'smooth',
+            behavior: "smooth",
           });
         });
       }

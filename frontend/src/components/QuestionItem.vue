@@ -16,8 +16,8 @@
           @click="clear"
         />
         <input
-          class="flexItem" 
           v-model="content"
+          class="flexItem"
           @keyup.enter="chat"
         >
         <my-button
@@ -62,9 +62,9 @@ import MyButton from "./MyButton.vue";
 import LoadingAnimation from "./LoadingAnimation.vue";
 import PresentationItem from "./PresentationItem.vue";
 
-import { mapState } from 'pinia';
+import { mapState } from "pinia";
 import { send, sleep } from "../assets/utils.js";
-import { useSeedStore } from '@/stores/counter'
+import { useSeedStore } from "@/stores/counter";
 
 export default {
   components: {
@@ -91,7 +91,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useSeedStore, ['seed']),
+    ...mapState(useSeedStore, ["seed"]),
     showInfo: function () {
       return this.content.length > 50;
     },

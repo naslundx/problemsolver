@@ -10,15 +10,13 @@ GENERAL_OPENAI_PROMPT = (
 with open("backend/questions.json") as f:
     QUESTIONS = json.loads(f.read())
 
-SPECIAL_VARS = {
-    'F_NAME': ['Vida', 'Matilda', 'Julia', 'Cecilia']
-}
+SPECIAL_VARS = {"F_NAME": ["Vida", "Matilda", "Julia", "Cecilia"]}
 
 
 def _process_text(text, variables):
     if len(variables) == 0:
         return text
-    
+
     while True:
         match = re.search("\{\{(.*?)\}\}", text)
         if match is None:
@@ -26,7 +24,7 @@ def _process_text(text, variables):
 
         data = match.groups()[0]
         start, end = match.span()
-        
+
         for key, value in variables.items():
             data = data.replace(key, value)
 
@@ -45,9 +43,9 @@ def get_count():
 
 
 def get_seed():
-    date= datetime.utcnow() - datetime(1970, 1, 1)
-    seconds =(date.total_seconds())
-    milliseconds = round(seconds*1000)
+    date = datetime.utcnow() - datetime(1970, 1, 1)
+    seconds = date.total_seconds()
+    milliseconds = round(seconds * 1000)
     return milliseconds
 
 
@@ -65,13 +63,13 @@ def get_question(index, seed=None):
 def get_variables(index, seed=None):
     if seed is not None:
         random.seed(seed)
-    
+
     result = {}
     question = QUESTIONS[index]
 
     if "variables" in question:
-        for key, values in question['variables'].items():
-            if key == 'other':
+        for key, values in question["variables"].items():
+            if key == "other":
                 for item in values:
                     result[item] = random.choice(SPECIAL_VARS[item])
                 continue
