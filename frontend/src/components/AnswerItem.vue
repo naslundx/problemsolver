@@ -63,7 +63,9 @@ import MyButton from "./MyButton.vue";
 import PresentationItem from "./PresentationItem.vue";
 import LoadingAnimation from "./LoadingAnimation.vue";
 
+import { mapState } from 'pinia';
 import { send, sleep } from "../assets/utils.js";
+import { useSeedStore } from '@/stores/counter'
 
 export default {
   components: {
@@ -97,6 +99,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(useSeedStore, ['seed']),
     showAnswerButton: function () {
       return this.answer_content !== "" && this.answer_status !== true;
     },
@@ -127,6 +130,7 @@ export default {
         action: "answer",
         question_id: this.questionId,
         answer: this.answer_content,
+        seed: this.seed,
       });
 
       this.$nextTick(function () {

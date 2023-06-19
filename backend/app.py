@@ -4,7 +4,7 @@ import json
 import os
 
 from .chat import get_response
-from .questions import get_question, get_answer, get_count, get_image, get_clue
+from .questions import get_question, get_answer, get_count, get_image, get_clue, get_seed
 
 
 app = Flask(
@@ -29,10 +29,10 @@ def info():
 def start():
     data = json.loads(request.data)
     question_id = data["question_id"]
-    prompt, _, unit = get_question(question_id)
+    seed = get_seed()
+    prompt, _, unit = get_question(question_id, seed)
     image = get_image(question_id)
-    print("image:", image)
-    return {"prompt": prompt, "unit": unit, "image_url": image}
+    return {"prompt": prompt, "unit": unit, "image_url": image, "seed": seed}
 
 
 @app.post("/api/play")
@@ -41,17 +41,18 @@ def play():
     data = json.loads(request.data)
     action = data["action"]
     question_id = data["question_id"]
+    seed = data["seed"]
 
     if action == "chat":
         original_content = data["content"]
-        _, openapi_prompt, _ = get_question(question_id)
+        _, openapi_prompt, _ = get_question(question_id, seed)
         content = get_response(openapi_prompt, original_content)
 
         return {"content": content}
 
     if action == "answer":
         answer = data["answer"]
-        correct = get_answer(question_id)
+        correct = get_answer(question_id, seed)
         is_correct = str(answer) == str(correct)
         clue = ""
         if not is_correct:

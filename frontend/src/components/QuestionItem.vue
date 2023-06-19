@@ -61,7 +61,10 @@
 import MyButton from "./MyButton.vue";
 import LoadingAnimation from "./LoadingAnimation.vue";
 import PresentationItem from "./PresentationItem.vue";
+
+import { mapState } from 'pinia';
 import { send, sleep } from "../assets/utils.js";
+import { useSeedStore } from '@/stores/counter'
 
 export default {
   components: {
@@ -88,6 +91,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(useSeedStore, ['seed']),
     showInfo: function () {
       return this.content.length > 50;
     },
@@ -100,6 +104,7 @@ export default {
         action: "chat",
         question_id: this.questionId,
         content: this.content,
+        seed: this.seed,
       });
       let [_, json] = await Promise.all([sleep(3), api]);
       this.isLoading = false;

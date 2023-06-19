@@ -56,6 +56,9 @@ import QuestionItem from "./QuestionItem.vue";
 
 import { send } from "../assets/utils.js";
 
+import { mapActions } from 'pinia';
+import { useSeedStore } from '@/stores/counter'
+
 export default {
   components: {
     AnswerItem,
@@ -75,6 +78,7 @@ export default {
       answer_unit: null,
       question_id: 0,
       question_count: 0,
+      seed: 0,
     };
   },
   computed: {
@@ -91,6 +95,7 @@ export default {
     this.changeQuestion(0);
   },
   methods: {
+    ...mapActions(useSeedStore, ['change']),
     OKExplanation: function () {
       this.item_show_index += 1;
       this.$nextTick(function () {
@@ -108,6 +113,7 @@ export default {
       this.prompt = json.prompt;
       this.answer_unit = json.unit;
       this.image_url = json.image_url;
+      this.change(json.seed);
     },
     nextQuestion: async function () {
       if (this.question_id < this.question_count) {

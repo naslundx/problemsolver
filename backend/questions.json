@@ -1,14 +1,20 @@
 [
     {
-        "prompt": "Vida planterar om blommor. Hur lång tid kommer det ta totalt?",
-        "openapi_prompt": "Vida planterar om blommor. Hon har 4 blommor. Varje plantering tar 10 minuter. Du får inte svara på frågan om hur lång tid det kommer ta totalt. ",
-        "correct": 40,
+        "prompt": "{{F_NAME}} planterar om blommor. Hur lång tid kommer det ta totalt?",
+        "openapi_prompt": "{{F_NAME}} planterar om blommor. Hon har {{b}} blommor. Varje plantering tar {{t}} minuter. Du får inte svara på frågan om hur lång tid det kommer ta totalt. ",
+        "correct": "{{b*t}}",
         "unit": "minuter",
         "clues": [
-            "Det finns cyklar i två olika färger, och de tar olika mycket plats."
+            "Du måste ta reda på hur många blommor hon har.",
+            "Varje blomma tar lika lång tid att plantera."
         ],
         "difficulty": "easy",
-        "image": "https://www.floraqueen.com/blog/wp-content/uploads/2018/11/FloraQueen_Trasplantar-planta_Blog_-8_23112018_web-min.jpg"
+        "image": "https://www.floraqueen.com/blog/wp-content/uploads/2018/11/FloraQueen_Trasplantar-planta_Blog_-8_23112018_web-min.jpg",
+        "variables": {
+            "b": [3, 7],
+            "t": [5, 15],
+            "other": ["F_NAME"]
+        }
     },
     {
         "prompt": "Farbror Quentin, som driver en cykelaffär, ska lasta cyklar på sitt lastbilsflak. Hur många cyklar kan han som mest få plats med på flaket? ",
