@@ -17,14 +17,14 @@
         />
         <input
           v-model="content"
-          class="flexItem"
-          @keyup.enter="chat"
+          class="largeFlexItem"
+          @keyup.enter="onChat"
         >
         <my-button
           class="flexItem questionBtn"
           :disabled="showInfo"
           icon="comments"
-          @click="chat"
+          @click="onChat"
         />
       </div>
       <p
@@ -44,9 +44,9 @@
       v-if="!isLoading"
       class="answer"
     >
-      <p v-visible="!!response">
+      <p v-visible="!!latestResponse">
         <b>Svar: </b>
-        {{ response }}
+        {{ latestResponse }}
       </p>
     </div>
 
@@ -62,9 +62,8 @@ import MyButton from "./MyButton.vue";
 import LoadingAnimation from "./LoadingAnimation.vue";
 import PresentationItem from "./PresentationItem.vue";
 
-import { mapState } from "pinia";
-import { send, sleep } from "../assets/utils.js";
-import { useSeedStore } from "@/stores/counter";
+import { mapActions, mapState } from "pinia";
+import { useQuestionStore } from "@/stores/question";
 
 export default {
   components: {
@@ -85,31 +84,22 @@ export default {
   data: function () {
     return {
       content: "",
-      response: null,
       history: [],
       isLoading: false,
     };
   },
   computed: {
-    ...mapState(useSeedStore, ["seed"]),
+    ...mapState(useQuestionStore, ["latestResponse"]),
     showInfo: function () {
       return this.content.length > 50;
     },
   },
   methods: {
-    chat: async function () {
+    ...mapActions(useQuestionStore, ["chat"]),
+    onChat: function () {
       this.isLoading = true;
-      this.history.push({ from: "user", content: this.content });
-      let api = send("POST", "play", "chat", {
-        action: "chat",
-        question_id: this.questionId,
-        content: this.content,
-        seed: this.seed,
-      });
-      let [_, json] = await Promise.all([sleep(3), api]);
+      this.chat('vem?');
       this.isLoading = false;
-      this.history.push({ from: "ai", content: json.content });
-      this.response = json.content;
     },
     clear: function () {
       this.content = "";
@@ -119,11 +109,14 @@ export default {
 </script>
 
 <style scoped>
+.first {
+  margin-right: 10px;
+}
 .flexContainer {
   display: flex;
   width: 100%;
 }
-.flexItem {
+.largeFlexItem {
   flex: 1;
 }
 input {

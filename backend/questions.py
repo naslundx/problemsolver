@@ -1,6 +1,7 @@
 import json
 import re
 import random
+import uuid
 from datetime import datetime
 
 GENERAL_OPENAI_PROMPT = (
@@ -42,11 +43,12 @@ def get_count():
     return len(QUESTIONS)
 
 
-def get_seed():
+def get_game():
     date = datetime.utcnow() - datetime(1970, 1, 1)
     seconds = date.total_seconds()
-    milliseconds = round(seconds * 1000)
-    return milliseconds
+    seed = round(seconds * 1000)
+    game_uuid = uuid.uuid4()
+    return game_uuid, seed
 
 
 def get_question(index, seed=None):

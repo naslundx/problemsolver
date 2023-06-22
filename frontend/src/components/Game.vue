@@ -56,8 +56,9 @@ import QuestionItem from "./QuestionItem.vue";
 
 import { send } from "../assets/utils.js";
 
-import { mapActions } from "pinia";
-import { useSeedStore } from "@/stores/counter";
+import { mapActions, mapState } from "pinia";
+import { useUserStore } from "@/stores/user";
+import { useQuestionStore } from "@/stores/question";
 
 export default {
   components: {
@@ -78,10 +79,10 @@ export default {
       answer_unit: null,
       question_id: 0,
       question_count: 0,
-      seed: 0,
     };
   },
   computed: {
+    ...mapState(useUserStore, ["game_uuid", "seed"]),
     showAllItems: function () {
       return this.question_id !== 0;
     },
@@ -91,11 +92,13 @@ export default {
   },
   async mounted() {
     let info = await send("GET", "info");
+    await this.fetchGame();
     this.question_count = info.question_count;
-    this.changeQuestion(0);
+    await this.start(0);
   },
   methods: {
-    ...mapActions(useSeedStore, ["change"]),
+    ...mapActions(useUserStore, ["fetchGame"]),
+    ...mapActions(useQuestionStore, ["start"]),
     OKExplanation: function () {
       this.item_show_index += 1;
       this.$nextTick(function () {
@@ -104,16 +107,6 @@ export default {
           behavior: "smooth",
         });
       });
-    },
-    changeQuestion: async function (new_question_id) {
-      this.question_id = new_question_id;
-      let json = await send("POST", "start", null, {
-        question_id: this.question_id,
-      });
-      this.prompt = json.prompt;
-      this.answer_unit = json.unit;
-      this.image_url = json.image_url;
-      this.change(json.seed);
     },
     nextQuestion: async function () {
       if (this.question_id < this.question_count) {

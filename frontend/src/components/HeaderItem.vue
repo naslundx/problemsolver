@@ -9,8 +9,8 @@
     {{ prompt }}
     <div class="imageContainer">
       <img
-        v-if="imageUrl"
-        :src="imageUrl"
+        v-if="image_url"
+        :src="image_url"
       >
     </div>
     <template #explanation>
@@ -21,29 +21,22 @@
 
 <script>
 import PresentationItem from "./PresentationItem.vue";
+import { mapActions, mapState } from "pinia";
+import { useQuestionStore } from "../stores/question";
 
 export default {
   components: {
     PresentationItem,
   },
   props: {
-    questionId: {
-      type: Number,
-      required: true,
-    },
-    prompt: {
-      type: String,
-      required: true,
-    },
-    imageUrl: {
-      type: String,
-      default: "",
-    },
     showExplanation: {
       type: Boolean,
       default: true,
     },
   },
+  computed: {
+    ...mapState(useQuestionStore, ["prompt", "image_url"]),
+  }
 };
 </script>
 

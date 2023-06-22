@@ -10,11 +10,11 @@ from .questions import (
     get_count,
     get_image,
     get_clue,
-    get_seed,
+    get_game,
 )
 
 
-app = Flask(__name__, static_folder="../frontend/dist/", static_url_path="/")
+app = Flask(__name__) #, static_folder="../frontend/dist/", static_url_path="/")
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
@@ -27,15 +27,25 @@ def info():
     }
 
 
+@app.post("/api/create")
+@cross_origin()
+def create():
+    game_uuid, seed = get_game()
+    return {
+        "game_uuid": game_uuid, 
+        "seed": seed
+    }
+
+
 @app.post("/api/start")
 @cross_origin()
 def start():
     data = json.loads(request.data)
-    question_id = data["question_id"]
-    seed = get_seed()
+    question_id = data.get("question_id")
+    seed = data.get("seed")
     prompt, _, unit = get_question(question_id, seed)
     image = get_image(question_id)
-    return {"prompt": prompt, "unit": unit, "image_url": image, "seed": seed}
+    return {"prompt": prompt, "unit": unit, "image_url": image}
 
 
 @app.post("/api/play")
@@ -45,13 +55,15 @@ def play():
     action = data["action"]
     question_id = data["question_id"]
     seed = data["seed"]
+    print('data', data)
 
     if action == "chat":
-        original_content = data["content"]
+        question = data["question"]
+        print('q', question)
         _, openapi_prompt, _ = get_question(question_id, seed)
-        content = get_response(openapi_prompt, original_content)
+        response = get_response(openapi_prompt, question)
 
-        return {"content": content}
+        return {"response": response}
 
     if action == "answer":
         answer = data["answer"]
@@ -66,9 +78,9 @@ def play():
     return {}, 400
 
 
-@app.get("/")
-def index():
-    return app.send_static_file("index.html")
+# @app.get("/")
+# def index():
+#     return app.send_static_file("index.html")
 
 
 if __name__ == "__main__":

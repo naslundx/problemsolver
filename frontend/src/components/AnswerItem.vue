@@ -67,7 +67,7 @@ import LoadingAnimation from "./LoadingAnimation.vue";
 
 import { mapState } from "pinia";
 import { send, sleep } from "../assets/utils.js";
-import { useSeedStore } from "@/stores/counter";
+import { useUserStore } from "@/stores/user";
 
 export default {
   components: {
@@ -101,7 +101,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useSeedStore, ["seed"]),
+    ...mapState(useUserStore, ["seed"]),
     showAnswerButton: function () {
       return this.answer_content !== "" && this.answer_status !== true;
     },
