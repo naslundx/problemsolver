@@ -3,29 +3,28 @@ import { sleep, send } from "../assets/utils.js";
 
 import { useUserStore } from "@/stores/user";
 
-
 export const useQuestionStore = defineStore("question", {
-  state: () => ({ 
+  state: () => ({
     question_id: 0,
-    prompt: '', 
-    unit: '',
-    image_url: '',
+    prompt: "",
+    unit: "",
+    image_url: "",
     history: [],
   }),
   getters: {
     latestResponse() {
       if (this.history.length === 0) {
-        return '';
+        return "";
       }
-      return this.history[this.history - 1]?.content || '';
-    }
+      return this.history[this.history - 1]?.content || "";
+    },
   },
   actions: {
     async start(id) {
-      console.log('start', id)
+      console.log("start", id);
       let userStore = useUserStore();
       const seed = userStore.seed;
-      
+
       let json = await send("POST", "start", null, {
         question_id: id,
         seed,

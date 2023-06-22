@@ -22,37 +22,33 @@
 
 <script>
 import PresentationItem from "./PresentationItem.vue";
+import { mapActions, mapState } from "pinia";
+import { useInfoStore } from "@/stores/info";
+import { useQuestionStore } from "@/stores/question";
 
 export default {
   components: {
     PresentationItem,
   },
-  props: {
-    questionId: {
-      type: Number,
-      required: true,
-    },
-    questionCount: {
-      type: Number,
-      required: true,
-    },
-  },
+  props: {},
   computed: {
+    ...mapState(useInfoStore, ["question_count"]),
+    ...mapState(useQuestionStore, ["question_id"]),
     numbersUpTo: function () {
       const arr = Array.from(
-        { length: this.questionId + 1 },
+        { length: this.question_id + 1 },
         (_, index) => index + 1
       );
       return arr;
     },
     numbersAfter: function () {
-      if (this.questionId >= this.questionCount) {
+      if (this.question_id >= this.questionCount) {
         return [];
       }
       const arr = Array.from(
-        { length: this.questionCount - this.questionId - 1 },
+        { length: this.questionCount - this.question_id - 1 },
         (_, index) => index + 1
-      ).map((x) => x + this.questionId + 1);
+      ).map((x) => x + this.question_id + 1);
       return arr;
     },
   },

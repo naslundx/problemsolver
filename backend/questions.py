@@ -59,6 +59,7 @@ def get_question(index, seed=None):
         _process_text(question["prompt"], variables),
         _process_text(question["openapi_prompt"] + GENERAL_OPENAI_PROMPT, variables),
         question["unit"],
+        question["image"],
     )
 
 
@@ -92,9 +93,3 @@ def get_clue(index):
     question = QUESTIONS[index]
 
     return random.choice(question["clues"])
-
-
-def get_image(index):
-    question = QUESTIONS[index]
-
-    return question["image"]

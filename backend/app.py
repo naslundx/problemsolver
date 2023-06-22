@@ -4,6 +4,7 @@ import json
 import os
 
 from .chat import get_response
+from .database import create_game, update_game_progress, get_game_progress
 from .questions import (
     get_question,
     get_answer,
@@ -14,7 +15,7 @@ from .questions import (
 )
 
 
-app = Flask(__name__) #, static_folder="../frontend/dist/", static_url_path="/")
+app = Flask(__name__)  # , static_folder="../frontend/dist/", static_url_path="/")
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
@@ -31,10 +32,8 @@ def info():
 @cross_origin()
 def create():
     game_uuid, seed = get_game()
-    return {
-        "game_uuid": game_uuid, 
-        "seed": seed
-    }
+    create_game(game_uuid, seed)
+    return {"game_uuid": game_uuid, "seed": seed}
 
 
 @app.post("/api/start")
@@ -42,9 +41,14 @@ def create():
 def start():
     data = json.loads(request.data)
     question_id = data.get("question_id")
+    game_uuid = data["game_uuid"]
     seed = data.get("seed")
-    prompt, _, unit = get_question(question_id, seed)
-    image = get_image(question_id)
+
+    progress = get_game_progress(game_uuid)
+    if progress < question_id:
+        return {}, 403
+
+    prompt, _, unit, image = get_question(question_id, seed)
     return {"prompt": prompt, "unit": unit, "image_url": image}
 
 
@@ -53,14 +57,17 @@ def start():
 def play():
     data = json.loads(request.data)
     action = data["action"]
+    game_uuid = data["game_uuid"]
     question_id = data["question_id"]
     seed = data["seed"]
-    print('data', data)
+
+    progress = get_game_progress(game_uuid)
+    if progress < question_id:
+        return {}, 403
 
     if action == "chat":
         question = data["question"]
-        print('q', question)
-        _, openapi_prompt, _ = get_question(question_id, seed)
+        _, openapi_prompt, _, _ = get_question(question_id, seed)
         response = get_response(openapi_prompt, question)
 
         return {"response": response}
@@ -70,7 +77,10 @@ def play():
         correct = get_answer(question_id, seed)
         is_correct = str(answer) == str(correct)
         clue = ""
-        if not is_correct:
+
+        if is_correct:
+            update_game_progress(game_uuid, question_id + 1)
+        else:
             clue = get_clue(question_id)
 
         return {"is_correct": is_correct, "clue": clue}

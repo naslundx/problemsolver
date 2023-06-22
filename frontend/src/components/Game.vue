@@ -1,8 +1,6 @@
 <template>
   <OverviewItem
     ref="top"
-    :question-id="question_id"
-    :question-count="question_count"
     :full-width="true"
   />
 
@@ -11,16 +9,12 @@
   </p>
 
   <HeaderItem
-    :question-id="question_id"
-    :prompt="prompt"
-    :image-url="image_url"
     :show-explanation="showExplanation"
     @okexplanation="OKExplanation"
   />
 
   <QuestionItem
     v-if="showAllItems || item_show_index > 0"
-    :question-id="question_id"
     :show-explanation="showExplanation"
     @okexplanation="OKExplanation"
   />
@@ -33,8 +27,6 @@
 
   <AnswerItem
     v-if="showAllItems || item_show_index > 2"
-    :question-id="question_id"
-    :answer-unit="answer_unit"
     :show-explanation="showExplanation"
     @next-question="nextQuestion"
     @okexplanation="OKExplanation"
@@ -57,6 +49,7 @@ import QuestionItem from "./QuestionItem.vue";
 import { send } from "../assets/utils.js";
 
 import { mapActions, mapState } from "pinia";
+import { useInfoStore } from "@/stores/info";
 import { useUserStore } from "@/stores/user";
 import { useQuestionStore } from "@/stores/question";
 
@@ -72,17 +65,11 @@ export default {
   data: function () {
     return {
       item_show_index: 0,
-      content: null,
-      response: null,
-      prompt: "",
-      image_url: "",
-      answer_unit: null,
-      question_id: 0,
-      question_count: 0,
     };
   },
   computed: {
-    ...mapState(useUserStore, ["game_uuid", "seed"]),
+    ...mapState(useInfoStore, ["question_count"]),
+    ...mapState(useQuestionStore, ["question_id"]),
     showAllItems: function () {
       return this.question_id !== 0;
     },
@@ -91,12 +78,11 @@ export default {
     },
   },
   async mounted() {
-    let info = await send("GET", "info");
-    await this.fetchGame();
-    this.question_count = info.question_count;
+    await Promise.all([this.fetchGame(), this.fetchInfo()]);
     await this.start(0);
   },
   methods: {
+    ...mapActions(useInfoStore, ["fetchInfo"]),
     ...mapActions(useUserStore, ["fetchGame"]),
     ...mapActions(useQuestionStore, ["start"]),
     OKExplanation: function () {

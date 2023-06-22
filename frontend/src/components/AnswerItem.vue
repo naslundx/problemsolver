@@ -20,7 +20,7 @@
           @keyup.enter="answer"
         >
         <span class="units">
-          {{ answerUnit }}
+          {{ unit }}
         </span>
       </div>
       <my-button
@@ -68,6 +68,7 @@ import LoadingAnimation from "./LoadingAnimation.vue";
 import { mapState } from "pinia";
 import { send, sleep } from "../assets/utils.js";
 import { useUserStore } from "@/stores/user";
+import { useQuestionStore } from "@/stores/question";
 
 export default {
   components: {
@@ -76,14 +77,6 @@ export default {
     PresentationItem,
   },
   props: {
-    questionId: {
-      type: Number,
-      required: true,
-    },
-    answerUnit: {
-      type: String,
-      default: "",
-    },
     showExplanation: {
       type: Boolean,
       default: true,
@@ -92,16 +85,15 @@ export default {
   emits: ["nextQuestion"],
   data: function () {
     return {
-      show: false,
       answer_content: "",
       answer_status: null,
-      show_answer_button: false,
       isLoading: false,
       clue: "",
     };
   },
   computed: {
-    ...mapState(useUserStore, ["seed"]),
+    ...mapState(useQuestionStore, ["question_id", "unit"]),
+    ...mapState(useUserStore, ["game_uuid", "seed"]),
     showAnswerButton: function () {
       return this.answer_content !== "" && this.answer_status !== true;
     },
@@ -130,8 +122,9 @@ export default {
 
       let api = send("POST", "play", "chat", {
         action: "answer",
-        question_id: this.questionId,
+        question_id: this.question_id,
         answer: this.answer_content,
+        game_uuid: this.game_uuid,
         seed: this.seed,
       });
 

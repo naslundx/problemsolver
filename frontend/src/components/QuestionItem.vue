@@ -72,10 +72,6 @@ export default {
     PresentationItem,
   },
   props: {
-    questionId: {
-      type: Number,
-      required: true,
-    },
     showExplanation: {
       type: Boolean,
       default: true,
@@ -96,9 +92,9 @@ export default {
   },
   methods: {
     ...mapActions(useQuestionStore, ["chat"]),
-    onChat: function () {
+    onChat: async function () {
       this.isLoading = true;
-      this.chat('vem?');
+      await this.chat(this.content);
       this.isLoading = false;
     },
     clear: function () {

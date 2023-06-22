@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     ...mapState(useQuestionStore, ["prompt", "image_url"]),
-  }
+  },
 };
 </script>
 
