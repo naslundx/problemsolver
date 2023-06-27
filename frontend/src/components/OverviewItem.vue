@@ -42,11 +42,11 @@ export default {
       return arr;
     },
     numbersAfter: function () {
-      if (this.question_id >= this.questionCount) {
+      if (this.question_id >= this.question_count) {
         return [];
       }
       const arr = Array.from(
-        { length: this.questionCount - this.question_id - 1 },
+        { length: this.question_count - this.question_id - 1 },
         (_, index) => index + 1
       ).map((x) => x + this.question_id + 1);
       return arr;

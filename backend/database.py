@@ -3,6 +3,10 @@ import psycopg2
 import os
 from functools import lru_cache
 from .helpers import get_ttl_hash
+import psycopg2.extras
+
+
+psycopg2.extras.register_uuid()
 
 
 DB_CONN = None
@@ -13,30 +17,36 @@ if DATABASE_URL:
 # ---
 
 def _db_exec(query, get_value=False, params=None):
+    # print( query, params)
     if not DB_CONN:
         return None
     
-    with cursor := DB_CONN.cursor():
+    with (cursor := DB_CONN.cursor()):
         try:
             cursor.execute(query, params)
             DB_CONN.commit()
+            # print('exec done')
             if get_value:
                 id_of_new_row = cursor.fetchone()[0]
                 return id_of_new_row
         except:
             return None
+        
 
 def _db_query(query, single=False, params=None):
+    # print(query, params)
     if not DB_CONN:
         return None
     
-    with cursor := DB_CONN.cursor():
+    with (cursor := DB_CONN.cursor()):
         try:
             cursor.execute(query, params)
+            # print('query done')
             if single:
                 record = cursor.fetchone()[0]
             else:
                 record = cursor.fetchall()
+            # print('Result:', record)
             return record
         except:
             return None
@@ -44,46 +54,38 @@ def _db_query(query, single=False, params=None):
 # ---
 
 def reset_database():
-    query = '''
+    _db_exec('''
         DROP TABLE IF EXISTS games;
-        CREATE TABLE IF NOT EXISTS games (
+    ''')
+    _db_exec('''
+        CREATE TABLE games (
             id SERIAL PRIMARY KEY,
             game_uuid UUID UNIQUE NOT NULL,
             seed INTEGER NOT NULL,
             question_id INTEGER DEFAULT 0
         );
+    ''')
+    _db_exec('''
         DROP TABLE IF EXISTS questions;
-        CREATE TABLE IF NOT EXISTS questions (
-            id SERIAL PRIMARY KEY,
-            prompt VARCHAR(1000) NOT NULL,
-            openapi_prompt VARCHAR(1000) NOT NULL,
-            correct VARCHAR(100) NOT NULL,
-            unit VARCHAR(100) NOT NULL,
-            image VARCHAR(1000),
-            clues TEXT[],
-            variables JSON
+    ''')
+    _db_exec('''
+        CREATE TABLE questions (
+            id INTEGER PRIMARY KEY,
+            content text NOT NULL
         );
-    '''
+    ''')
+    
 
-def load_questions(filename):
-    # TODO change this, just store the entire json as a serialized blob
+def upload_questions(filename):
     with open(filename) as f:
         questions = json.loads(f.read())
     query = '''
-        INSERT INTO questions(prompt, openapi_prompt, correct, unit, image, clues, variables)
+        INSERT INTO questions(id, content)
         VALUES
-            (%s, %s, %s, %s, %s, %s, %s);
+            (%s, %s);
     '''
     for question in questions:
-        prompt = question['prompt']
-        openapi_prompt = question['openapi_prompt']
-        correct = question['correct']
-        unit = question['unit']
-        image = question['image']
-        clues = []  # TODO
-        variables = {}  # TODO
-        params = (prompt, openapi_prompt, correct, unit, image, clues, variables)
-        _db_exec(query, params=params)
+        _db_exec(query, params=(question['id'], json.dumps(question)))
 
 # ---
 
@@ -93,7 +95,7 @@ def create_game(game_uuid, seed, question_id=1):
         (game_uuid, seed, question_id)
         VALUES (%s, %s, %s);
     '''
-    _db_exec(query, params=(game_uuid, seed, question_id))
+    _db_exec(query, params=(str(game_uuid), seed, question_id))
 
 def update_game_progress(game_uuid, question_id):
     query = '''
@@ -101,7 +103,7 @@ def update_game_progress(game_uuid, question_id):
         SET question_id = %s
         WHERE game_uuid = %s;
     '''
-    _db_exec(query, params=(question_id, game_uuid))
+    _db_exec(query, params=(question_id, str(game_uuid)))
 
 def fetch_game_progress(game_uuid):
     query = '''
@@ -109,18 +111,21 @@ def fetch_game_progress(game_uuid):
         FROM games
         WHERE game_uuid = %s;
     '''
-    return _db_query(query, single=True, params=(game_uuid,))
+    return _db_query(query, single=True, params=(str(game_uuid),))
 
 @lru_cache()  # or use cachetools https://stackoverflow.com/a/54357155
 def _fetch_question(question_id, ttl_hash=None):
     del ttl_hash
 
     query = '''
-        SELECT *
+        SELECT content
         FROM questions
-        WHERE id = %s;
+        WHERE id = %s; -- AND active = '1';
     '''
-    return _db_query(query, single=True, params=(question_id, ))
+    print('fetching...')
+    content = _db_query(query, single=True, params=(question_id, ))
+    print('content:', content)
+    return json.loads(content)
 
 def fetch_question(question_id):
     return _fetch_question(question_id, ttl_hash=get_ttl_hash())

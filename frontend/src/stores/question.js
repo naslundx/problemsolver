@@ -21,12 +21,14 @@ export const useQuestionStore = defineStore("question", {
   },
   actions: {
     async start(id) {
-      console.log("start", id);
       let userStore = useUserStore();
+
+      const game_uuid = userStore.game_uuid;
       const seed = userStore.seed;
 
       let json = await send("POST", "start", null, {
         question_id: id,
+        game_uuid,
         seed,
       });
 

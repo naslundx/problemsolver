@@ -4,15 +4,15 @@ import re
 import random
 import uuid
 from datetime import datetime
-from .database import fetch_question
+from .database import fetch_question, fetch_question_count
 
 
 GENERAL_OPENAI_PROMPT = (
     "Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar."
 )
 
-with open("backend/questions.json") as f:
-    QUESTIONS = json.loads(f.read())
+# with open("backend/questions.json") as f:
+#     QUESTIONS = json.loads(f.read())
 
 SPECIAL_VARS = {"F_NAME": ["Vida", "Matilda", "Julia", "Cecilia"]}
 
@@ -43,26 +43,22 @@ def _process_text(text, variables):
 
 
 def get_count():
-    # TODO deprecate for db
-    return len(QUESTIONS)
+    return fetch_question_count()
 
 
 def get_question(index, seed=None):
-    # question = fetch_question(index)
-    question = QUESTIONS[index]
+    question = fetch_question(index)
     variables = get_variables(index, seed)
 
     return (
         _process_text(question["prompt"], variables),
-        _process_text(question["openapi_prompt"] + GENERAL_OPENAI_PROMPT, variables),
         question["unit"],
         question["image"],
     )
 
 
 def get_prompt(index, seed=None):
-    # question = fetch_question(index)
-    question = QUESTIONS[index]
+    question = fetch_question(index)
     variables = get_variables(index, seed)
     return _process_text(question["openapi_prompt"] + GENERAL_OPENAI_PROMPT, variables)
 
@@ -73,8 +69,7 @@ def get_variables(index, seed=None):
         random.seed(seed)
 
     result = {}
-    # question = fetch_question(index)
-    question = QUESTIONS[index]
+    question = fetch_question(index)
 
     if "variables" in question:
         for key, values in question["variables"].items():
@@ -89,24 +84,16 @@ def get_variables(index, seed=None):
 
 
 def get_answer(index, seed=None):
-    # question = fetch_question(index)
-    question = QUESTIONS[index]
+    question = fetch_question(index)
     variables = get_variables(index, seed)
 
     return _process_text(question["correct"], variables)
 
 
 def get_clue(index):
-    # question = fetch_question(index)
-    question = QUESTIONS[index]
+    question = fetch_question(index)
 
     return random.choice(question["clues"])
 
-
-# TODO write sync method from json to db (to help)
-
-# TODO setup local db environment
-
-# TODO create db on heroku and set env variable there
 
 # TODO store stats

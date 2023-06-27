@@ -52,7 +52,7 @@ def start():
     seed = data.get("seed")
 
     progress = fetch_game_progress(game_uuid)
-    if progress < question_id:
+    if not progress or progress < question_id:
         return {}, 403
 
     prompt, unit, image = get_question(question_id, seed)
