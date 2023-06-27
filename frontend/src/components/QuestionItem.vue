@@ -4,31 +4,27 @@
       Ställ frågor
     </template>
 
-    <div
-      v-if="!isLoading"
-      class="first"
-    >
+    <div v-if="!isLoading">
       <div class="flexContainer">
         <my-button
-          class="flexItem clearBtn"
           :disabled="content.length === 0"
           icon="eraser"
           @click="clear"
         />
-        <input
-          v-model="content"
-          class="largeFlexItem"
-          @keyup.enter="onChat"
-        >
+        <div class="flexItem">
+          <input
+            v-model="content"
+            @keyup.enter="onChat"
+          >
+        </div>
         <my-button
-          class="flexItem questionBtn"
           :disabled="showInfo"
           icon="comments"
           @click="onChat"
         />
       </div>
       <p
-        v-if="showInfo"
+        v-show="showInfo"
         class="info"
       >
         Frågor får max vara 50 tecken långa
@@ -105,27 +101,24 @@ export default {
 </script>
 
 <style scoped>
-.first {
-  margin-right: 10px;
-}
 .flexContainer {
   display: flex;
-  width: 100%;
+  flex-flow: center;
+  gap: 5px;
+  align-items: flex-start;
 }
-.largeFlexItem {
+.flexItem {
   flex: 1;
 }
+.largeFlexItem {
+  /* flex: 1; */
+}
 input {
+  width: 100%;
   font-size: x-large;
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-}
-.clearBtn {
-  margin-right: 5px;
-}
-.questionBtn {
-  margin-left: 5px;
 }
 b {
   font-weight: bold;

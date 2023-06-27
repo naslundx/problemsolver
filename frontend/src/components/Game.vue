@@ -46,8 +46,6 @@ import NotesItem from "./NotesItem.vue";
 import OverviewItem from "./OverviewItem.vue";
 import QuestionItem from "./QuestionItem.vue";
 
-import { send } from "../assets/utils.js";
-
 import { mapActions, mapState } from "pinia";
 import { useInfoStore } from "@/stores/info";
 import { useUserStore } from "@/stores/user";

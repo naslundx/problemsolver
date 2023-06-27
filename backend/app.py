@@ -5,8 +5,8 @@ import os
 
 from .chat import get_response
 from .database import (
-    create_game, 
-    update_game_progress, 
+    create_game,
+    update_game_progress,
     fetch_game_progress,
     fetch_question_count,
 )
@@ -55,8 +55,8 @@ def start():
     if not progress or progress < question_id:
         return {}, 403
 
-    prompt, unit, image = get_question(question_id, seed)
-    return {"prompt": prompt, "unit": unit, "image_url": image}
+    prompt, question, unit, image = get_question(question_id, seed)
+    return {"prompt": prompt, "question": question, "unit": unit, "image_url": image}
 
 
 @app.post("/api/play")

@@ -11,10 +11,10 @@ GENERAL_OPENAI_PROMPT = (
     "Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar."
 )
 
-# with open("backend/questions.json") as f:
-#     QUESTIONS = json.loads(f.read())
-
-SPECIAL_VARS = {"F_NAME": ["Vida", "Matilda", "Julia", "Cecilia"]}
+SPECIAL_VARS = {
+    "F_NAME": ["Astrid", "Julia", "Cecilia", "Alice"],
+    "M_NAME": ["Marcus", "Quention", "Lars", "David"],
+}
 
 
 def _process_text(text, variables):
@@ -52,6 +52,7 @@ def get_question(index, seed=None):
 
     return (
         _process_text(question["prompt"], variables),
+        question["question"],
         question["unit"],
         question["image"],
     )

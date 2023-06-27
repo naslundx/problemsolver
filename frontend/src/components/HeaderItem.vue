@@ -6,7 +6,10 @@
     <template #heading>
       Beskrivning
     </template>
-    {{ prompt }}
+    <p class="intro">
+      {{ prompt }} <span class="question">{{ question }}</span>
+    </p>
+
     <div class="imageContainer">
       <img
         v-if="image_url"
@@ -35,7 +38,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useQuestionStore, ["prompt", "image_url"]),
+    ...mapState(useQuestionStore, ["prompt", "question", "image_url"]),
   },
 };
 </script>
@@ -55,5 +58,10 @@ button {
 .imageContainer img {
   width: 100%;
   border-radius: 10px;
+}
+.intro {
+}
+.question {
+  font-weight: bold;
 }
 </style>

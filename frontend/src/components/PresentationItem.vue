@@ -105,19 +105,17 @@ export default {
   border-bottom: 3px solid #ccc;
   max-width: 900px;
   margin: 15px auto;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
   background-color: rgba(255, 255, 255, 0.75);
 }
 
 .mainflexContainer {
   display: flex;
-  margin-left: 10px;
-  margin-right: 10px;
+  gap: 10px;
 }
 
 .fullWidth {
-  max-width: 95%;
+  max-width: 100%;
 }
 
 .explanation {

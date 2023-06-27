@@ -1,7 +1,8 @@
 [
     {
         "id": 0,
-        "prompt": "{{F_NAME}} planterar om blommor. Hur lång tid kommer det ta totalt?",
+        "prompt": "{{F_NAME}} planterar om blommor.",
+        "question": "Hur lång tid kommer det ta totalt?",
         "openapi_prompt": "{{F_NAME}} planterar om blommor. Hon har {{b}} blommor. Varje plantering tar {{t}} minuter. Du får inte svara på frågan om hur lång tid det kommer ta totalt. ",
         "correct": "{{b*t}}",
         "unit": "minuter",
@@ -19,19 +20,22 @@
     },
     {
         "id": 1,
-        "prompt": "Farbror Quentin, som driver en cykelaffär, ska lasta cyklar på sitt lastbilsflak. Hur många cyklar kan han som mest få plats med på flaket? ",
+        "prompt": "Farbror Quentin, som driver en cykelaffär, ska lasta cyklar på sitt lastbilsflak.",
+        "question": "Hur många cyklar kan han som mest få plats med på flaket?",
         "openapi_prompt": "Min farbror Quentin lastar cyklar på ett lastbilsflak. 15 cyklar är blå och varje behöver en kvadratmeter yta. 15 är röda och varje behöver två kvadratmeter yta. Flaket är 20 kvadratmeter stort. Du får inte svara på frågan om hur många som får plats på flaket.",
         "correct": 17,
         "unit": "stycken",
         "clues": [
-            "Det finns cyklar i två olika färger, och de tar olika mycket plats."
+            "Det finns cyklar i två olika färger, och de tar olika mycket plats.",
+            "Det finns inte hur många cyklar som helst."
         ],
         "difficulty": "easy",
         "image": "https://content.instructables.com/F7V/MNW5/HFSHW4IO/F7VMNW5HFSHW4IO.jpg?auto=webp"
     },
     {
         "id": 2,
-        "prompt": "Marcus springer Lidingöloppet. Vad håller han för medelhastighet?",
+        "prompt": "Marcus springer Lidingöloppet.",
+        "question": "Vad håller han för medelhastighet?",
         "openapi_prompt": "Marcus är ute och springer (Lidingöloppet). Han springer totalt 30 kilometer på tre timmar. Du får inte svara på frågan om hur snabbt han springer.",
         "correct": 6,
         "unit": "min / km",

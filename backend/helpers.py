@@ -8,7 +8,6 @@ def get_ttl_hash():
     return round(time.time() / SECONDS)
 
 
-
 def generate_uuid_and_seed():
     date = datetime.now() - datetime(1970, 1, 1)
     seconds = date.total_seconds()

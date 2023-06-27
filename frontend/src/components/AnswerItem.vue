@@ -120,7 +120,7 @@ export default {
       this.isLoading = true;
       this.answer_status = "";
 
-      let api = send("POST", "play", "chat", {
+      let api = send("POST", "play", {
         action: "answer",
         question_id: this.question_id,
         answer: this.answer_content,
@@ -130,7 +130,6 @@ export default {
 
       this.$nextTick(function () {
         const el = this.$refs.animation.$el;
-        console.log(el);
         el.scrollIntoView(true);
       });
 

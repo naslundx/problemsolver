@@ -4,7 +4,10 @@ import { send } from "../assets/utils.js";
 const LOCALSTORAGE_NAME = "naslundx_user";
 
 export const useUserStore = defineStore("user", {
-  state: () => ({ game_uuid: null, seed: null }),
+  state: () => ({
+    game_uuid: null,
+    seed: null,
+  }),
   actions: {
     async fetchGame() {
       const settings = localStorage.getItem(LOCALSTORAGE_NAME);
