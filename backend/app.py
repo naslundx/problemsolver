@@ -20,7 +20,7 @@ from .questions import (
 from .helpers import generate_uuid_and_seed
 
 
-app = Flask(__name__)  # , static_folder="../frontend/dist/", static_url_path="/")
+app = Flask(__name__, static_folder="../frontend/dist/", static_url_path="/")
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
