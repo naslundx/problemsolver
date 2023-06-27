@@ -1,8 +1,11 @@
+from functools import lru_cache
 import json
 import re
 import random
 import uuid
 from datetime import datetime
+from .database import fetch_question
+
 
 GENERAL_OPENAI_PROMPT = (
     "Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar."
@@ -40,18 +43,12 @@ def _process_text(text, variables):
 
 
 def get_count():
+    # TODO deprecate for db
     return len(QUESTIONS)
 
 
-def get_game():
-    date = datetime.utcnow() - datetime(1970, 1, 1)
-    seconds = date.total_seconds()
-    seed = round(seconds * 1000)
-    game_uuid = uuid.uuid4()
-    return game_uuid, seed
-
-
 def get_question(index, seed=None):
+    # question = fetch_question(index)
     question = QUESTIONS[index]
     variables = get_variables(index, seed)
 
@@ -63,11 +60,20 @@ def get_question(index, seed=None):
     )
 
 
+def get_prompt(index, seed=None):
+    # question = fetch_question(index)
+    question = QUESTIONS[index]
+    variables = get_variables(index, seed)
+    return _process_text(question["openapi_prompt"] + GENERAL_OPENAI_PROMPT, variables)
+
+
+@lru_cache()
 def get_variables(index, seed=None):
     if seed is not None:
         random.seed(seed)
 
     result = {}
+    # question = fetch_question(index)
     question = QUESTIONS[index]
 
     if "variables" in question:
@@ -83,6 +89,7 @@ def get_variables(index, seed=None):
 
 
 def get_answer(index, seed=None):
+    # question = fetch_question(index)
     question = QUESTIONS[index]
     variables = get_variables(index, seed)
 
@@ -90,6 +97,16 @@ def get_answer(index, seed=None):
 
 
 def get_clue(index):
+    # question = fetch_question(index)
     question = QUESTIONS[index]
 
     return random.choice(question["clues"])
+
+
+# TODO write sync method from json to db (to help)
+
+# TODO setup local db environment
+
+# TODO create db on heroku and set env variable there
+
+# TODO store stats

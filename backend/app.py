@@ -4,15 +4,20 @@ import json
 import os
 
 from .chat import get_response
-from .database import create_game, update_game_progress, get_game_progress
+from .database import (
+    create_game, 
+    update_game_progress, 
+    fetch_game_progress,
+    fetch_question_count,
+)
 from .questions import (
     get_question,
     get_answer,
     get_count,
-    get_image,
     get_clue,
-    get_game,
+    get_prompt,
 )
+from .helpers import generate_uuid_and_seed
 
 
 app = Flask(__name__)  # , static_folder="../frontend/dist/", static_url_path="/")
@@ -23,6 +28,8 @@ app.config["CORS_HEADERS"] = "Content-Type"
 @app.get("/api/info")
 @cross_origin()
 def info():
+    question_count = fetch_question_count()
+
     return {
         "question_count": get_count(),
     }
@@ -31,7 +38,7 @@ def info():
 @app.post("/api/create")
 @cross_origin()
 def create():
-    game_uuid, seed = get_game()
+    game_uuid, seed = generate_uuid_and_seed()
     create_game(game_uuid, seed)
     return {"game_uuid": game_uuid, "seed": seed}
 
@@ -44,11 +51,11 @@ def start():
     game_uuid = data["game_uuid"]
     seed = data.get("seed")
 
-    progress = get_game_progress(game_uuid)
+    progress = fetch_game_progress(game_uuid)
     if progress < question_id:
         return {}, 403
 
-    prompt, _, unit, image = get_question(question_id, seed)
+    prompt, unit, image = get_question(question_id, seed)
     return {"prompt": prompt, "unit": unit, "image_url": image}
 
 
@@ -61,15 +68,14 @@ def play():
     question_id = data["question_id"]
     seed = data["seed"]
 
-    progress = get_game_progress(game_uuid)
+    progress = fetch_game_progress(game_uuid)
     if progress < question_id:
         return {}, 403
 
     if action == "chat":
         question = data["question"]
-        _, openapi_prompt, _, _ = get_question(question_id, seed)
-        response = get_response(openapi_prompt, question)
-
+        prompt = get_prompt(question_id, seed)
+        response = get_response(prompt, question)
         return {"response": response}
 
     if action == "answer":
