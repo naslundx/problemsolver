@@ -46,22 +46,30 @@ def get_count():
     return fetch_question_count()
 
 
-def get_question(index, seed=None):
-    question = fetch_question(index)
-    variables = get_variables(index, seed)
+def get_question(question_id, seed=None):
+    question = fetch_question(question_id)
+    interview = question["interview"]
+    variables = get_variables(question_id, seed)
+    for option in interview:
+        option["name"] = _process_text(option["name"], variables)
+        option["prompt"] = _process_text(option["prompt"], variables)
 
     return (
         _process_text(question["prompt"], variables),
         question["question"],
         question["unit"],
         question["image"],
+        interview,
     )
 
 
-def get_prompt(index, seed=None):
+def get_prompt(index, interview_index, seed=None):
     question = fetch_question(index)
+    interview = question["interview"]
     variables = get_variables(index, seed)
-    return _process_text(question["openapi_prompt"] + GENERAL_OPENAI_PROMPT, variables)
+    prompt = interview[interview_index]["prompt"]
+
+    return _process_text(f"{prompt} {GENERAL_OPENAI_PROMPT}", variables)
 
 
 @lru_cache()

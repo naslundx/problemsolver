@@ -11,6 +11,7 @@ export const useQuestionStore = defineStore("question", {
     unit: "",
     image_url: "",
     history: [],
+    interview: {},
   }),
   getters: {
     latestResponse() {
@@ -38,11 +39,12 @@ export const useQuestionStore = defineStore("question", {
       this.prompt = json.prompt;
       this.unit = json.unit;
       this.image_url = json.image_url;
+      this.interview = json.interview;
     },
-    async next() {
+    async fetchNextQuestion() {
       await this.start(this.question_id + 1);
     },
-    async chat(message) {
+    async chat(message, interview_index = 0) {
       let userStore = useUserStore();
 
       const game_uuid = userStore.game_uuid;
@@ -54,13 +56,18 @@ export const useQuestionStore = defineStore("question", {
         action: "chat",
         question_id: this.question_id,
         question: message,
+        interview_index,
         seed,
         game_uuid,
       });
 
       let [_, json] = await Promise.all([sleep(3), api]);
 
-      this.history.push({ from: "ai", content: json.response });
+      this.history.push({
+        from: "ai",
+        interview_index,
+        content: json.response,
+      });
     },
   },
 });

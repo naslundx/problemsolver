@@ -55,8 +55,14 @@ def start():
     if not progress or progress < question_id:
         return {}, 403
 
-    prompt, question, unit, image = get_question(question_id, seed)
-    return {"prompt": prompt, "question": question, "unit": unit, "image_url": image}
+    prompt, question, unit, image, interview = get_question(question_id, seed)
+    return {
+        "prompt": prompt,
+        "question": question,
+        "unit": unit,
+        "image_url": image,
+        "interview": interview,
+    }
 
 
 @app.post("/api/play")
@@ -74,7 +80,8 @@ def play():
 
     if action == "chat":
         question = data["question"]
-        prompt = get_prompt(question_id, seed)
+        interview_index = data["interview_index"]
+        prompt = get_prompt(question_id, interview_index, seed)
         response = get_response(prompt, question)
         return {"response": response}
 

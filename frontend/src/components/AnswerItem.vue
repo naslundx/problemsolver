@@ -65,7 +65,7 @@ import MyButton from "./MyButton.vue";
 import PresentationItem from "./PresentationItem.vue";
 import LoadingAnimation from "./LoadingAnimation.vue";
 
-import { mapState } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { send, sleep } from "../assets/utils.js";
 import { useUserStore } from "@/stores/user";
 import { useQuestionStore } from "@/stores/question";
@@ -82,7 +82,6 @@ export default {
       default: true,
     },
   },
-  emits: ["nextQuestion"],
   data: function () {
     return {
       answer_content: "",
@@ -108,13 +107,14 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useQuestionStore, ["fetchNextQuestion"]),
     clear: function () {
       this.answer_content = "";
     },
-    nextQuestion: function () {
+    nextQuestion: async function () {
+      await this.fetchNextQuestion();
       this.answer_content = "";
       this.answer_status = null;
-      this.$emit("nextQuestion");
     },
     answer: async function () {
       this.isLoading = true;

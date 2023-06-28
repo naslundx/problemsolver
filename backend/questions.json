@@ -3,7 +3,6 @@
         "id": 0,
         "prompt": "{{F_NAME}} planterar om blommor.",
         "question": "Hur lång tid kommer det ta totalt?",
-        "openapi_prompt": "{{F_NAME}} planterar om blommor. Hon har {{b}} blommor. Varje plantering tar {{t}} minuter. Du får inte svara på frågan om hur lång tid det kommer ta totalt. ",
         "correct": "{{b*t}}",
         "unit": "minuter",
         "clues": [
@@ -16,13 +15,19 @@
             "b": [3, 7],
             "t": [5, 15],
             "other": ["F_NAME"]
-        }
+        },
+        "interview": [
+            {
+                "name": "{{F_NAME}}",
+                "prompt": "Låtsas att du heter {{F_NAME}} och planterar om blommor. Du har {{b}} blommor. Varje plantering tar {{t}} minuter. Du får inte svara på frågan om hur lång tid det kommer ta totalt.",
+                "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fvectorified.com%2Fimages%2Favatar-icon-png-26.jpg&f=1&nofb=1&ipt=3e7a94aaa621b0d94376c0c052d5907930a4665ecb512594dcb95df4046ac5f8&ipo=images"
+            }
+        ]
     },
     {
         "id": 1,
         "prompt": "Farbror Quentin, som driver en cykelaffär, ska lasta cyklar på sitt lastbilsflak.",
         "question": "Hur många cyklar kan han som mest få plats med på flaket?",
-        "openapi_prompt": "Min farbror Quentin lastar cyklar på ett lastbilsflak. 15 cyklar är blå och varje behöver en kvadratmeter yta. 15 är röda och varje behöver två kvadratmeter yta. Flaket är 20 kvadratmeter stort. Du får inte svara på frågan om hur många som får plats på flaket.",
         "correct": 17,
         "unit": "stycken",
         "clues": [
@@ -30,13 +35,19 @@
             "Det finns inte hur många cyklar som helst."
         ],
         "difficulty": "easy",
-        "image": "https://content.instructables.com/F7V/MNW5/HFSHW4IO/F7VMNW5HFSHW4IO.jpg?auto=webp"
+        "image": "https://content.instructables.com/F7V/MNW5/HFSHW4IO/F7VMNW5HFSHW4IO.jpg?auto=webp",
+        "interview": [
+            {
+                "name": "Quentin",
+                "prompt": "Låtsas att du är min farbror och heter Quention och lastar cyklar på ett lastbilsflak. 15 cyklar är blå och varje behöver en kvadratmeter yta. 15 är röda och varje behöver två kvadratmeter yta. Flaket är 20 kvadratmeter stort. Du får inte svara på frågan om hur många som får plats på flaket.",
+                "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Fprofile-icon-male-avatar-portrait-casual-person-vector-id530827853%3Fk%3D6%26m%3D530827853%26s%3D612x612%26w%3D0%26h%3DFYnhkmLYaHjYSyTva1A72eDj5yu3sU7TUXg_BsH1Dfw%3D&f=1&nofb=1&ipt=f1ac39ae8f28a59ad782e3b627b4bfd61c3cebf258d4f99066631e867a0a0c26&ipo=images"
+            }
+        ]
     },
     {
         "id": 2,
         "prompt": "Marcus springer Lidingöloppet.",
         "question": "Vad håller han för medelhastighet?",
-        "openapi_prompt": "Marcus är ute och springer (Lidingöloppet). Han springer totalt 30 kilometer på tre timmar. Du får inte svara på frågan om hur snabbt han springer.",
         "correct": 6,
         "unit": "min / km",
         "clues": [
@@ -44,6 +55,13 @@
             "Hur många minuter springer han?"
         ],
         "difficulty": "easy",
-        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJZLIT4aGSeOBWzcXY2MCsrwcuEZ-cu_nTkA&usqp=CAU"
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJZLIT4aGSeOBWzcXY2MCsrwcuEZ-cu_nTkA&usqp=CAU",
+        "interview": [
+            {
+                "name": "Marcus",
+                "prompt": "Marcus är ute och springer (Lidingöloppet). Han springer totalt 30 kilometer på tre timmar. Du får inte svara på frågan om hur snabbt han springer.",
+                "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Fprofile-icon-male-avatar-portrait-casual-person-vector-id530827853%3Fk%3D6%26m%3D530827853%26s%3D612x612%26w%3D0%26h%3DFYnhkmLYaHjYSyTva1A72eDj5yu3sU7TUXg_BsH1Dfw%3D&f=1&nofb=1&ipt=f1ac39ae8f28a59ad782e3b627b4bfd61c3cebf258d4f99066631e867a0a0c26&ipo=images"
+            }
+        ]
     }
 ]
