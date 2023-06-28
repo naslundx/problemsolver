@@ -110,9 +110,6 @@ export default {
 .flexItem {
   flex: 1;
 }
-.largeFlexItem {
-  /* flex: 1; */
-}
 input {
   width: 100%;
   font-size: x-large;
@@ -129,6 +126,7 @@ b {
   color: maroon;
 }
 .answer {
+  font-size: larger;
   margin-top: 1rem;
 }
 </style>
