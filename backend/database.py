@@ -60,11 +60,11 @@ def reset_database():
     _db_exec(
         """
         CREATE TABLE games (
-            id SERIAL PRIMARY KEY,
-            when TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             game_uuid UUID UNIQUE NOT NULL,
-            seed INTEGER NOT NULL,
-            question_id INTEGER DEFAULT 0
+            seed INT NOT NULL,
+            question_id INT DEFAULT 0
         );
     """
     )
@@ -76,14 +76,28 @@ def reset_database():
     _db_exec(
         """
         CREATE TABLE questions (
-            id INTEGER PRIMARY KEY,
+            id INT PRIMARY KEY,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             content text NOT NULL
         );
     """
     )
     _db_exec(
         """
-        DROP TABLE IF EXISTS stats;
+        DROP TABLE IF EXISTS chats;
+    """
+    )
+    _db_exec(
+        """
+        CREATE TABLE chats (
+            id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+            question_id INT,
+            question text,
+            answer text,
+            CONSTRAINT fk_question_id
+                FOREIGN KEY(question_id)
+                    REFERENCES questions(id)
+        );
     """
     )
 
@@ -167,3 +181,12 @@ def _fetch_question_count(ttl_hash=None):
 
 def fetch_question_count():
     return _fetch_question_count(ttl_hash=get_ttl_hash())
+
+
+def save_chat(question_id, question, answer):
+    query = """
+        INSERT INTO chats
+        (question_id, question, answer)
+        VALUES (%s, %s)
+    """
+    _db_exec(query, params=(question_id, question, answer))

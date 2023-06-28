@@ -77,7 +77,7 @@ export default {
     ...mapState(useUserStore, ["game_progress"]),
     ...mapState(useQuestionStore, ["question_id"]),
     showAllItems: function () {
-      this.question_id !== 0;
+      return this.question_id !== 0;
     },
     showExplanation: function () {
       return this.question_id === 0;
@@ -100,17 +100,6 @@ export default {
         });
       });
     },
-    // nextQuestion: async function () {
-    //   if (this.question_id < this.question_count) {
-    //     await this.changeQuestion(this.question_id + 1);
-    //     this.$nextTick(function () {
-    //       const el = this.$refs.top.$el;
-    //       el.scrollIntoView({
-    //         behavior: "smooth",
-    //       });
-    //     });
-    //   }
-    // },
   },
 };
 </script>

@@ -9,6 +9,7 @@ from .database import (
     increment_game_progress,
     fetch_game_progress,
     fetch_question_count,
+    save_chat,
 )
 from .questions import (
     get_question,
@@ -19,7 +20,7 @@ from .questions import (
 from .helpers import generate_uuid_and_seed
 
 
-app = Flask(__name__, static_folder="../frontend/dist/", static_url_path="/")
+app = Flask(__name__)  # , static_folder="../frontend/dist/", static_url_path="/")
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
@@ -62,6 +63,7 @@ def start():
     seed = data.get("seed")
 
     progress = fetch_game_progress(game_uuid)
+    print(question_id, game_uuid, seed, progress)
     if progress is None or progress < question_id:
         return {}, 403
 
@@ -93,6 +95,7 @@ def play():
         interview_index = data["interview_index"]
         prompt = get_prompt(question_id, interview_index, seed)
         response = get_response(prompt, question)
+        save_chat(question_id, question, response)
         return {"response": response}
 
     if action == "answer":
@@ -111,9 +114,9 @@ def play():
     return {}, 400
 
 
-@app.get("/")
-def index():
-    return app.send_static_file("index.html")
+# @app.get("/")
+# def index():
+#     return app.send_static_file("index.html")
 
 
 if __name__ == "__main__":
