@@ -86,13 +86,6 @@ def reset_database():
         DROP TABLE IF EXISTS stats;
     """
     )
-    # TODO lagra statistik
-    # _db_exec('''
-    #     CREATE TABLE stats (
-    #         id INTEGER PRIMARY KEY,
-    #         content text NOT NULL
-    #     );
-    # ''')
 
 
 def upload_questions(filename):
@@ -115,7 +108,7 @@ def upload_questions(filename):
 # ---
 
 
-def create_game(game_uuid, seed, question_id=1):
+def create_game(game_uuid, seed, question_id):
     query = """
         INSERT INTO games
         (game_uuid, seed, question_id)
@@ -124,13 +117,14 @@ def create_game(game_uuid, seed, question_id=1):
     _db_exec(query, params=(str(game_uuid), seed, question_id))
 
 
-def update_game_progress(game_uuid, question_id):
+def increment_game_progress(game_uuid, question_id):
     query = """
         UPDATE games
-        SET question_id = %s
-        WHERE game_uuid = %s;
+        SET question_id = question_id + 1
+        WHERE game_uuid = %s
+        AND question_id = %s;
     """
-    _db_exec(query, params=(question_id, str(game_uuid)))
+    _db_exec(query, params=(str(game_uuid), question_id))
 
 
 def fetch_game_progress(game_uuid):

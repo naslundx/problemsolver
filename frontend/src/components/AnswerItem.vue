@@ -107,11 +107,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useUserStore, ["fetchProgress"]),
     ...mapActions(useQuestionStore, ["fetchNextQuestion"]),
     clear: function () {
       this.answer_content = "";
     },
     nextQuestion: async function () {
+      await this.fetchProgress();
       await this.fetchNextQuestion();
       this.answer_content = "";
       this.answer_status = null;

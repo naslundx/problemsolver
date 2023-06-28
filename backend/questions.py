@@ -42,10 +42,6 @@ def _process_text(text, variables):
     return text
 
 
-def get_count():
-    return fetch_question_count()
-
-
 def get_question(question_id, seed=None):
     question = fetch_question(question_id)
     interview = question["interview"]

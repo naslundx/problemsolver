@@ -25,8 +25,14 @@
     @okexplanation="OKExplanation"
   />
 
-  <AnswerItem
+  <CalculatorItem
     v-if="showAllItems || item_show_index > 2"
+    :show-explanation="showExplanation"
+    @okexplanation="OKExplanation"
+  />
+
+  <AnswerItem
+    v-if="showAllItems || item_show_index > 3"
     :show-explanation="showExplanation"
     @okexplanation="OKExplanation"
   />
@@ -39,6 +45,7 @@
 
 <script>
 import AnswerItem from "./AnswerItem.vue";
+import CalculatorItem from "./CalculatorItem.vue";
 import FooterItem from "./FooterItem.vue";
 import HeaderItem from "./HeaderItem.vue";
 import NotesItem from "./NotesItem.vue";
@@ -53,6 +60,7 @@ import { useQuestionStore } from "@/stores/question";
 export default {
   components: {
     AnswerItem,
+    CalculatorItem,
     FooterItem,
     HeaderItem,
     NotesItem,
@@ -66,6 +74,7 @@ export default {
   },
   computed: {
     ...mapState(useInfoStore, ["question_count"]),
+    ...mapState(useUserStore, ["game_progress"]),
     ...mapState(useQuestionStore, ["question_id"]),
     showAllItems: function () {
       return true;
@@ -77,7 +86,7 @@ export default {
   },
   async mounted() {
     await Promise.all([this.fetchGame(), this.fetchInfo()]);
-    await this.start(0);
+    await this.start(this.game_progress);
   },
   methods: {
     ...mapActions(useInfoStore, ["fetchInfo"]),

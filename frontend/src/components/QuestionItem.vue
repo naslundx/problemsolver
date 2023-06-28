@@ -49,7 +49,7 @@
       v-show="showInfo"
       class="info"
     >
-      Frågor får max vara 50 tecken långa
+      Frågor får max vara 75 tecken långa
     </p>
     <div
       v-if="!isLoading"
@@ -100,7 +100,7 @@ export default {
   computed: {
     ...mapState(useQuestionStore, ["latestResponse", "interview"]),
     showInfo: function () {
-      return this.content.length > 50;
+      return this.content.length > 75;
     },
   },
   methods: {

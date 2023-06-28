@@ -6,14 +6,13 @@ import os
 from .chat import get_response
 from .database import (
     create_game,
-    update_game_progress,
+    increment_game_progress,
     fetch_game_progress,
     fetch_question_count,
 )
 from .questions import (
     get_question,
     get_answer,
-    get_count,
     get_clue,
     get_prompt,
 )
@@ -28,10 +27,8 @@ app.config["CORS_HEADERS"] = "Content-Type"
 @app.get("/api/info")
 @cross_origin()
 def info():
-    question_count = fetch_question_count()
-
     return {
-        "question_count": get_count(),
+        "question_count": fetch_question_count(),
     }
 
 
@@ -39,8 +36,21 @@ def info():
 @cross_origin()
 def create():
     game_uuid, seed = generate_uuid_and_seed()
-    create_game(game_uuid, seed)
-    return {"game_uuid": game_uuid, "seed": seed}
+    question_id = 0
+    create_game(game_uuid, seed, question_id)
+    return {
+        "game_uuid": game_uuid,
+        "seed": seed,
+        "game_progress": question_id,
+    }
+
+
+@app.get("/api/progress")
+@cross_origin()
+def progress():
+    game_uuid = request.args.get("game_uuid")
+    progress = fetch_game_progress(game_uuid) or 0
+    return {"game_progress": progress}
 
 
 @app.post("/api/start")
@@ -52,7 +62,7 @@ def start():
     seed = data.get("seed")
 
     progress = fetch_game_progress(game_uuid)
-    if not progress or progress < question_id:
+    if progress is None or progress < question_id:
         return {}, 403
 
     prompt, question, unit, image, interview = get_question(question_id, seed)
@@ -79,7 +89,7 @@ def play():
         return {}, 403
 
     if action == "chat":
-        question = data["question"]
+        question = data["question"][:75]
         interview_index = data["interview_index"]
         prompt = get_prompt(question_id, interview_index, seed)
         response = get_response(prompt, question)
@@ -92,7 +102,7 @@ def play():
         clue = ""
 
         if is_correct:
-            update_game_progress(game_uuid, question_id + 1)
+            increment_game_progress(game_uuid, question_id)
         else:
             clue = get_clue(question_id)
 
@@ -107,6 +117,5 @@ def index():
 
 
 if __name__ == "__main__":
-    # Threaded option to enable multiple instances for multiple user access support
     PORT = os.environ.get("PORT", 5000)
     app.run(threaded=True, host="0.0.0.0", port=PORT)
