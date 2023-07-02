@@ -1,9 +1,9 @@
 <template>
-  <PresentationItem :show-explanation="showExplanation">
-    <template #heading>
-      Svara
-    </template>
-
+  <PresentationItem
+    icon="check"
+    heading="Svara"
+    :show-explanation="showExplanation"
+  >
     <div
       v-if="!isLoading"
       class="flexContainer"

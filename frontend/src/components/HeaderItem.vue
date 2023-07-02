@@ -1,11 +1,10 @@
 <template>
   <PresentationItem
+    icon="circle-question"
     class="main"
+    heading="Beskrivning"
     :show-explanation="showExplanation"
   >
-    <template #heading>
-      Beskrivning
-    </template>
     <p class="intro">
       {{ prompt }} <span class="question">{{ question }}</span>
     </p>

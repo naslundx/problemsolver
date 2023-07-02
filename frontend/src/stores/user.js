@@ -39,7 +39,6 @@ export const useUserStore = defineStore("user", {
     },
     async fetchProgress() {
       const json = await send("GET", `progress?game_uuid=${this.game_uuid}`);
-      console.log(json);
       this.game_progress = json.game_progress;
       this.saveToLocalStorage();
     },

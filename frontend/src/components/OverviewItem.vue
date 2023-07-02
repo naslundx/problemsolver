@@ -39,7 +39,6 @@ export default {
     ...mapState(useUserStore, ["game_progress"]),
     ...mapState(useQuestionStore, ["question_id"]),
     numbersUpTo: function () {
-      console.log(this.question_id, this.game_progress);
       const arr = Array.from(
         { length: this.game_progress + 1 },
         (_, index) => index + 1

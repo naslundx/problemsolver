@@ -1,20 +1,17 @@
 <template>
   <PresentationItem
-    :toggleable="true"
+    icon="calculator"
+    heading="Miniräknare"
     :show-explanation="showExplanation"
   >
-    <template #heading>
-      Miniräknare
-    </template>
-
     <div class="flexContainer">
-      <div class="flexItem">
-        <input
-          v-model="content"
-          type="text"
-          placeholder="1+1"
-        >
-      </div>
+      <input
+        v-model="content"
+        class="flexItem"
+        type="text"
+        placeholder="1+1"
+      >
+      <span>=</span>
       <span id="output">
         {{ output }}
       </span>
@@ -51,7 +48,7 @@ export default {
         return "";
       }
       try {
-        const result = eval(this.content);
+        const result = eval(input);
         return Math.round(result * 100) / 100;
       } catch {
         return "";
@@ -64,11 +61,22 @@ export default {
 <style scoped>
 .flexContainer {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: flex-start;
   font-size: larger;
+  gap: 3px;
 }
 
 .flexItem {
   flex: 1;
+  max-width: 67%;
+}
+
+#output {
+  font-weight: bold;
+}
+
+input {
+  font-size: larger;
 }
 </style>

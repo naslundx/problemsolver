@@ -5,20 +5,19 @@ import { useUserStore } from "@/stores/user";
 
 export const useQuestionStore = defineStore("question", {
   state: () => ({
+    index: 0,
     question_id: 0,
     question: "",
     prompt: "",
     unit: "",
     image_url: "",
-    history: [],
+    history: {},
     interview: {},
+    latest_interview_id: 0,
   }),
   getters: {
-    latestResponse() {
-      if (this.history.length === 0) {
-        return "";
-      }
-      return this.history[this.history.length - 1].content || "";
+    currentHistory() {
+      return this.history[this.latest_interview_id] || [];
     },
   },
   actions: {
@@ -44,13 +43,29 @@ export const useQuestionStore = defineStore("question", {
     async fetchNextQuestion() {
       await this.start(this.question_id + 1);
     },
+    addToHistory(element) {
+      this.index += 1;
+
+      element.index = index;
+      let history_key = element.interview_index;
+      if (!(history_key in this.history)) {
+        this.history[history_key] = [];
+      }
+
+      this.history[history_key].push(element);
+    },
     async chat(message, interview_index = 0) {
+      this.latest_interview_id = index;
+      this.addToHistory({
+        from: "user",
+        interview_index,
+        content: message,
+      });
+
       let userStore = useUserStore();
 
       const game_uuid = userStore.game_uuid;
       const seed = userStore.seed;
-
-      this.history.push({ from: "user", content: message });
 
       let api = send("POST", "play", {
         action: "chat",
@@ -63,7 +78,7 @@ export const useQuestionStore = defineStore("question", {
 
       let [_, json] = await Promise.all([sleep(3), api]);
 
-      this.history.push({
+      this.addToHistory({
         from: "ai",
         interview_index,
         content: json.response,

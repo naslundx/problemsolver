@@ -6,11 +6,17 @@
     <div class="mainflexContainer">
       <div class="item">
         <h2>
-          <slot name="heading" />
+          <font-awesome-icon
+            v-if="!!icon"
+            class="icon"
+            :icon="`fa-solid fa-${icon}`"
+          />
+          {{ heading }}
           <toggle-button
             v-if="toggleable"
             @toggle="toggleShow"
           />
+          <hr v-if="!!heading">
         </h2>
 
         <Transition>
@@ -59,6 +65,14 @@ export default {
     ToggleButton,
   },
   props: {
+    icon: {
+      type: String,
+      default: "",
+    },
+    heading: {
+      type: String,
+      default: "",
+    },
     showExplanation: {
       type: Boolean,
       default: false,
@@ -100,6 +114,9 @@ export default {
 </script>
 
 <style scoped>
+.icon {
+  margin-right: 5px;
+}
 .container {
   border-top: 3px solid #ccc;
   border-bottom: 3px solid #ccc;
@@ -153,6 +170,17 @@ h2 {
 .v-enter-from,
 .v-leave-to {
   opacity: 0;
+}
+
+hr {
+  margin-bottom: 5px;
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
 }
 
 .okexplanation {

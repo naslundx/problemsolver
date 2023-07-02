@@ -1,18 +1,10 @@
 <template>
   <PresentationItem
+    icon="note-sticky"
+    heading="Anteckningar"
     :toggleable="true"
     :show-explanation="showExplanation"
   >
-    <template #heading>
-      Anteckningar
-    </template>
-
-    <!-- <p><i>Valfria anteckningar</i></p> -->
-
-    <!-- <button :disabled="true">
-      Kopiera fråga & svar
-    </button> -->
-
     <textarea placeholder="Valfria anteckningar" />
 
     <template #explanation>
@@ -43,5 +35,8 @@ textarea {
   min-height: 30px;
   height: 100px;
   font-size: larger;
+  background: rgba(0, 0, 0, 0);
+  border: 0;
+  resize: none;
 }
 </style>
