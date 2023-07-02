@@ -117,6 +117,7 @@ export default {
       await this.fetchNextQuestion();
       this.answer_content = "";
       this.answer_status = null;
+      window.scrollTo(0,0);
     },
     answer: async function () {
       this.isLoading = true;
