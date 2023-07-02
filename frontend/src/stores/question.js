@@ -39,6 +39,8 @@ export const useQuestionStore = defineStore("question", {
       this.unit = json.unit;
       this.image_url = json.image_url;
       this.interview = json.interview;
+      this.history = {};
+      this.latest_interview_id = 0;
     },
     async fetchNextQuestion() {
       await this.start(this.question_id + 1);
@@ -46,7 +48,7 @@ export const useQuestionStore = defineStore("question", {
     addToHistory(element) {
       this.index += 1;
 
-      element.index = index;
+      element.index = this.index;
       let history_key = element.interview_index;
       if (!(history_key in this.history)) {
         this.history[history_key] = [];
@@ -55,7 +57,7 @@ export const useQuestionStore = defineStore("question", {
       this.history[history_key].push(element);
     },
     async chat(message, interview_index = 0) {
-      this.latest_interview_id = index;
+      this.latest_interview_id = interview_index;
       this.addToHistory({
         from: "user",
         interview_index,

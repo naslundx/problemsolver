@@ -169,7 +169,7 @@ body {
     bottom: 0;
     border-left: em($radius) solid $color;
     border-bottom-left-radius: 100%;
-    z-index: -1;
+    // z-index: -1;
   }
 }
 
@@ -204,7 +204,7 @@ body {
     bottom: 0;
     border-left: em($radius) solid $color;
     border-bottom-left-radius: 100%;
-    z-index: -1;
+    // z-index: -1;
     transform: scaleX(-1);
   }
 }

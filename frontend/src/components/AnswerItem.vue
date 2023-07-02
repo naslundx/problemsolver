@@ -101,7 +101,7 @@ export default {
         return "Rätt svar!";
       }
       if (this.answer_status === false) {
-        return "Tyvärr, fel svar. Svara igen. Ställ fler frågor vid behov.";
+        return "Inte rätt. Ställ fler frågor vid behov.";
       }
       return "";
     },
@@ -132,7 +132,9 @@ export default {
 
       this.$nextTick(function () {
         const el = this.$refs.animation.$el;
-        el.scrollIntoView(true);
+        if (el) {
+          el.scrollIntoView(true);
+        }
       });
 
       let [_, json] = await Promise.all([sleep(3000), api]);
