@@ -84,13 +84,20 @@ export default {
     },
   },
   async mounted() {
-    await Promise.all([this.fetchGame(), this.fetchInfo()]);
-    await this.start(this.game_progress);
+    let result = await this.load();
+    if (!result) {
+      this.clearLocalStorage();
+      this.load();
+    }
   },
   methods: {
     ...mapActions(useInfoStore, ["fetchInfo"]),
-    ...mapActions(useUserStore, ["fetchGame"]),
+    ...mapActions(useUserStore, ["clearLocalStorage", "fetchGame", "clear"]),
     ...mapActions(useQuestionStore, ["start"]),
+    async load() {
+      await Promise.all([this.fetchGame(), this.fetchInfo()]);
+      return await this.start(this.game_progress);
+    },
     OKExplanation: function () {
       this.item_show_index += 1;
       this.$nextTick(function () {

@@ -8,6 +8,12 @@ import psycopg2.extras
 
 psycopg2.extras.register_uuid()
 
+# ---
+
+DEBUG = '_test' if bool(os.environ.get('DEBUG', '0')) else ''
+GAMES_TABLE = f'games{DEBUG}'
+QUESTIONS_TABLE = f'questions{DEBUG}'
+CHATS_TABLE = f'chats{DEBUG}'
 
 DB_CONN = None
 DATABASE_URL = os.environ.get("DATABASE_URL", None)
@@ -53,13 +59,13 @@ def _db_query(query, single=False, params=None):
 
 def reset_database():
     _db_exec(
-        """
-        DROP TABLE IF EXISTS games;
+        f"""
+        DROP TABLE IF EXISTS {GAMES_TABLE};
     """
     )
     _db_exec(
-        """
-        CREATE TABLE games (
+        f"""
+        CREATE TABLE {GAMES_TABLE} (
             id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             game_uuid UUID UNIQUE NOT NULL,
@@ -69,13 +75,13 @@ def reset_database():
     """
     )
     _db_exec(
-        """
-        DROP TABLE IF EXISTS questions;
+        f"""
+        DROP TABLE IF EXISTS {QUESTIONS_TABLE};
     """
     )
     _db_exec(
-        """
-        CREATE TABLE questions (
+        f"""
+        CREATE TABLE {QUESTIONS_TABLE} (
             id INT PRIMARY KEY,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             content text NOT NULL
@@ -83,20 +89,20 @@ def reset_database():
     """
     )
     _db_exec(
-        """
-        DROP TABLE IF EXISTS chats;
+        f"""
+        DROP TABLE IF EXISTS {CHATS_TABLE};
     """
     )
     _db_exec(
-        """
-        CREATE TABLE chats (
+        f"""
+        CREATE TABLE {CHATS_TABLE} (
             id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
             question_id INT,
             question text,
             answer text,
             CONSTRAINT fk_question_id
                 FOREIGN KEY(question_id)
-                    REFERENCES questions(id)
+                    REFERENCES {QUESTIONS_TABLE}(id)
         );
     """
     )
@@ -106,12 +112,12 @@ def upload_questions(filename):
     with open(filename) as f:
         questions = json.loads(f.read())
     _db_exec(
-        """
-        DELETE FROM questions;
+        f"""
+        DELETE FROM {QUESTIONS_TABLE};
     """
     )
-    query = """
-        INSERT INTO questions(id, content)
+    query = f"""
+        INSERT INTO {QUESTIONS_TABLE}(id, content)
         VALUES
             (%s, %s);
     """
@@ -123,8 +129,8 @@ def upload_questions(filename):
 
 
 def create_game(game_uuid, seed, question_id):
-    query = """
-        INSERT INTO games
+    query = f"""
+        INSERT INTO {GAMES_TABLE}
         (game_uuid, seed, question_id)
         VALUES (%s, %s, %s);
     """
@@ -132,8 +138,8 @@ def create_game(game_uuid, seed, question_id):
 
 
 def increment_game_progress(game_uuid, question_id):
-    query = """
-        UPDATE games
+    query = f"""
+        UPDATE {GAMES_TABLE}
         SET question_id = question_id + 1
         WHERE game_uuid = %s
         AND question_id = %s;
@@ -142,9 +148,9 @@ def increment_game_progress(game_uuid, question_id):
 
 
 def fetch_game_progress(game_uuid):
-    query = """
+    query = f"""
         SELECT question_id
-        FROM games
+        FROM {GAMES_TABLE}
         WHERE game_uuid = %s;
     """
     return _db_query(query, single=True, params=(str(game_uuid),))
@@ -154,9 +160,9 @@ def fetch_game_progress(game_uuid):
 def _fetch_question(question_id, ttl_hash=None):
     del ttl_hash
 
-    query = """
+    query = f"""
         SELECT content
-        FROM questions
+        FROM {QUESTIONS_TABLE}
         WHERE id = %s; -- AND active = '1';
     """
     content = _db_query(query, single=True, params=(question_id,))
@@ -171,9 +177,9 @@ def fetch_question(question_id):
 def _fetch_question_count(ttl_hash=None):
     del ttl_hash
 
-    query = """
+    query = f"""
         SELECT COUNT(*)
-        FROM questions;
+        FROM {QUESTIONS_TABLE};
     """
 
     return _db_query(query, single=True)
@@ -184,9 +190,9 @@ def fetch_question_count():
 
 
 def save_chat(question_id, question, answer):
-    query = """
-        INSERT INTO chats
+    query = f"""
+        INSERT INTO {CHATS_TABLE}
         (question_id, question, answer)
-        VALUES (%s, %s)
+        VALUES (%s, %s, %s)
     """
     _db_exec(query, params=(question_id, question, answer))

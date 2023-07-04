@@ -12,4 +12,14 @@ const send = async (method, url, data = null) => {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-export { send, sleep };
+function isEmpty(obj) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export { send, sleep, isEmpty };

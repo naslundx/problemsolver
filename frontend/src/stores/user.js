@@ -10,6 +10,9 @@ export const useUserStore = defineStore("user", {
     game_progress: null,
   }),
   actions: {
+    clearLocalStorage() {
+      localStorage.clear(LOCALSTORAGE_NAME);
+    },
     saveToLocalStorage() {
       localStorage.setItem(
         LOCALSTORAGE_NAME,

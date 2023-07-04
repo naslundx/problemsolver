@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { sleep, send } from "../assets/utils.js";
+import { sleep, send, isEmpty } from "../assets/utils.js";
 
 import { useUserStore } from "@/stores/user";
 
@@ -27,11 +27,14 @@ export const useQuestionStore = defineStore("question", {
       const game_uuid = userStore.game_uuid;
       const seed = userStore.seed;
 
-      let json = await send("POST", "start", {
+      const json = await send("POST", "start", {
         question_id: id,
         game_uuid,
         seed,
       });
+      if (isEmpty(json)) {
+        return false;
+      }
 
       this.question_id = id;
       this.question = json.question;
@@ -41,6 +44,7 @@ export const useQuestionStore = defineStore("question", {
       this.interview = json.interview;
       this.history = {};
       this.latest_interview_id = 0;
+      return true;
     },
     async fetchNextQuestion() {
       await this.start(this.question_id + 1);
