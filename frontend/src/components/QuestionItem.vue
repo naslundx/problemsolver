@@ -35,7 +35,7 @@
     </div>
     <template #explanation>
       <i>Beskrivningen innehåller inte allt du behöver veta och här kan du
-        ställa klargörande frågor till någopn, till exempel "Hur många blommor
+        ställa klargörande frågor till någon, till exempel "Hur många blommor
         har du?".</i>
     </template>
   </PresentationItem>

@@ -17,6 +17,7 @@
       <div class="answer">
         <input
           v-model="answer_content"
+          type="number"
           @keyup.enter="answer"
         >
         <span class="units">
@@ -117,16 +118,17 @@ export default {
       await this.fetchNextQuestion();
       this.answer_content = "";
       this.answer_status = null;
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     },
     answer: async function () {
+      const cleanAnswer = this.answer_content.trim();
       this.isLoading = true;
       this.answer_status = "";
 
       let api = send("POST", "play", {
         action: "answer",
         question_id: this.question_id,
-        answer: this.answer_content,
+        answer: cleanAnswer,
         game_uuid: this.game_uuid,
         seed: this.seed,
       });

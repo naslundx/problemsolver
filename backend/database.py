@@ -10,10 +10,10 @@ psycopg2.extras.register_uuid()
 
 # ---
 
-DEBUG = '_test' if bool(os.environ.get('DEBUG', '0')) else ''
-GAMES_TABLE = f'games{DEBUG}'
-QUESTIONS_TABLE = f'questions{DEBUG}'
-CHATS_TABLE = f'chats{DEBUG}'
+DEBUG = "_test" if bool(os.environ.get("DEBUG", "0")) else ""
+GAMES_TABLE = f"games{DEBUG}"
+QUESTIONS_TABLE = f"questions{DEBUG}"
+CHATS_TABLE = f"chats{DEBUG}"
 
 DB_CONN = None
 DATABASE_URL = os.environ.get("DATABASE_URL", None)

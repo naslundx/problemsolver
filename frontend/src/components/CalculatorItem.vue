@@ -43,13 +43,23 @@ export default {
   },
   computed: {
     output: function () {
-      const input = this.content.trim().replace(/[a-z\s]+/g, "");
+      const input = this.content
+        .trim()
+        .replaceAll(/\s+/g, "")
+        .replaceAll(/÷/g, "/")
+        .replaceAll(/(\d)\s*x\s*(\d)/g, "$1*$2")
+        .replaceAll(/[a-zA-Z]+/g, "");
       if (input.length === 0) {
         return "";
       }
       try {
         const result = eval(input);
-        return Math.round(result * 100) / 100;
+        if (!isFinite(result)) {
+          return `${result < 0 ? "-" : ""}∞`;
+        }
+
+        const roundedResult = Math.round(result * 100) / 100;
+        return roundedResult;
       } catch {
         return "";
       }
