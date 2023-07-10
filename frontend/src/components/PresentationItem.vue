@@ -29,14 +29,6 @@
         v-if="showExplanation && shouldShowExplanation && (!toggleable || show)"
         class="explanation"
       >
-        <div class="dismisscontainer">
-          <button
-            class="dismiss"
-            @click="dismissexplanation"
-          >
-            X
-          </button>
-        </div>
         <div class="flexcontainer">
           <span>
             <font-awesome-icon icon="fa-solid fa-circle-info" />
@@ -99,10 +91,6 @@ export default {
       this.show = !this.show;
       this.OKExplanation();
     },
-    dismissexplanation: function () {
-      this.shouldShowExplanation = false;
-      this.OKExplanation();
-    },
     OKExplanation: function () {
       if (this.showOKExplanation) {
         this.showOKExplanation = false;
@@ -145,7 +133,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   height: 100%;
   font-size: small;
   padding-bottom: 20px;
@@ -222,26 +210,6 @@ hr {
   animation: none;
 }
 
-.dismisscontainer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.dismisscontainer button {
-  font-size: x-large;
-  width: 32px;
-  height: 32px;
-  opacity: 0.3;
-  background-color: transparent;
-  line-height: 1.15;
-  font-family: sans-serif;
-  border: 0;
-}
-
-.dismisscontainer button:hover {
-  opacity: 1;
-  cursor: pointer;
-}
 
 @media only screen and (max-width: 800px) {
   .mainflexContainer {
