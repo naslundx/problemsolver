@@ -121,7 +121,11 @@ export default {
       window.scrollTo(0, 0);
     },
     answer: async function () {
-      const cleanAnswer = this.answer_content.trim();
+      if (!this.answer_content) {
+        return;
+      }
+
+      const cleanAnswer = this.answer_content.toString().trim();
       this.isLoading = true;
       this.answer_status = "";
 
