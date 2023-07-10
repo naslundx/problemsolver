@@ -136,7 +136,6 @@ export default {
   justify-content: center;
   height: 100%;
   font-size: small;
-  padding-bottom: 20px;
   margin-top: 0;
 }
 
