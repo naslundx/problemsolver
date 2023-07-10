@@ -7,9 +7,7 @@ from datetime import datetime
 from .database import fetch_question, fetch_question_count
 
 
-GENERAL_OPENAI_PROMPT = (
-    "Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar."
-)
+
 
 SPECIAL_VARS = {
     "F_NAME": ["Astrid", "Julia", "Cecilia", "Alice"],
@@ -65,7 +63,7 @@ def get_prompt(index, interview_index, seed=None):
     variables = get_variables(index, seed)
     prompt = interview[interview_index]["prompt"]
 
-    return _process_text(f"{prompt} {GENERAL_OPENAI_PROMPT}", variables)
+    return _process_text(prompt, variables)
 
 
 @lru_cache()
