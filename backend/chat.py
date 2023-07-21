@@ -7,7 +7,7 @@ openai.api_key = API_KEY
 
 
 GENERAL_OPENAI_PROMPT = (
-    "Dessa regler är jätteviktiga. Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar. Om du inte förstår, svara bara 'Jag förstår inte'. Nu till min fråga:"
+    "Följande regler är jätteviktiga. Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar. Om du inte förstår, svara bara 'Jag förstår inte'. Om du inte vet eller inte får svara, svara bara 'Jag vet inte'. Nu till min fråga:"
 )
 
 
@@ -23,7 +23,7 @@ def get_response(openai_prompt, content):
         messages=[{"role": "user", "content": full_prompt}],
         max_tokens=250,
         # lower values like 0.2 will make it more focused and deterministic.
-        temperature=0.2,
+        temperature=0.25,
         # Positive values penalize new tokens based on whether they appear in the text so far, 
         # increasing the model's likelihood to talk about new topics.
         presence_penalty=-0.5,

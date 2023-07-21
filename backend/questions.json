@@ -1,6 +1,32 @@
 [
     {
         "id": 0,
+        "prompt": "{{F_NAME}} köper {{g}} glassar.",
+        "question": "Hur mycket måste hon betala?",
+        "correct": "{{g*n}}",
+        "unit": "kronor",
+        "clues": [
+            "Du måste ta reda på vad varje glass kostar.",
+            "Varje glass kostar lika mycket.",
+            "Multiplicera antalet glassar med priset per glass."
+        ],
+        "difficulty": "easy",
+        "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.turbosquid.com%2FPreview%2F2017%2F02%2F15__11_06_03%2F2.pngEE1C23C6-2483-409B-AD17-4A772BE5BC9AOriginal.jpg&f=1&nofb=1&ipt=2c0ccc6fcb091c68ef64030124f3b63f06009d9b6a49c6f0dd4f0e1b8bbae6f6&ipo=images",
+        "variables": {
+            "g": [2, 4],
+            "n": [21, 24],
+            "other": ["F_NAME"]
+        },
+        "interview": [
+            {
+                "name": "{{F_NAME}}",
+                "prompt": "Låtsas att du heter {{F_NAME}} och köper {{g}} glassar. Varje glass kostar {{n}} kronor. Varje glass kostar lika mycket. Du får inte svara på någon fråga om hur mycket den totala kostnaden är.",
+                "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fvectorified.com%2Fimages%2Favatar-icon-png-26.jpg&f=1&nofb=1&ipt=3e7a94aaa621b0d94376c0c052d5907930a4665ecb512594dcb95df4046ac5f8&ipo=images"
+            }
+        ]
+    },
+    {
+        "id": 1,
         "prompt": "{{F_NAME}} planterar om blommor.",
         "question": "Hur lång tid kommer det ta totalt?",
         "correct": "{{b*t}}",
@@ -19,13 +45,13 @@
         "interview": [
             {
                 "name": "{{F_NAME}}",
-                "prompt": "Låtsas att du heter {{F_NAME}} och planterar om blommor. Du har {{b}} blommor. Varje plantering tar {{t}} minuter. Du får inte svara på frågan om hur lång tid det kommer ta totalt.",
+                "prompt": "Låtsas att du heter {{F_NAME}} och planterar om blommor. Du har {{b}} blommor. Varje plantering tar {{t}} minuter. Du får inte svara på någon fråga om hur lång tid det tar totalt.",
                 "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fvectorified.com%2Fimages%2Favatar-icon-png-26.jpg&f=1&nofb=1&ipt=3e7a94aaa621b0d94376c0c052d5907930a4665ecb512594dcb95df4046ac5f8&ipo=images"
             }
         ]
     },
     {
-        "id": 1,
+        "id": 2,
         "prompt": "Farbror {{M_NAME}}, som driver en cykelaffär, ska lasta cyklar på sitt lastbilsflak.",
         "question": "Hur många cyklar kan han som mest få plats med på flaket?",
         "correct": 17,
@@ -45,21 +71,22 @@
         ]
     },
     {
-        "id": 2,
+        "id": 3,
         "prompt": "{{M_NAME}} springer Lidingöloppet.",
-        "question": "Vad håller han för medelhastighet?",
+        "question": "Hur lång tid tog det att i genomsnitt springa en kilometer?",
         "correct": 6,
-        "unit": "min / km",
+        "unit": "minuter",
         "clues": [
-            "Hur många meter springer han?",
-            "Hur många minuter springer han?"
+            "Hur långt springer han?",
+            "Hur länge springer han?",
+            "Genomsnittet är tiden dividerat med sträckan."
         ],
         "difficulty": "easy",
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJZLIT4aGSeOBWzcXY2MCsrwcuEZ-cu_nTkA&usqp=CAU",
         "interview": [
             {
                 "name": "{{M_NAME}}",
-                "prompt": "{{M_NAME}} är ute och springer (Lidingöloppet). Han springer totalt 30 kilometer på tre timmar. Du får inte svara på frågan om hur snabbt han springer.",
+                "prompt": "{{M_NAME}} är ute och springer Lidingöloppet. Han springer totalt 30 kilometer på tre timmar. Du får inte svara på frågan om hur snabbt han springer eller medelhastighet.",
                 "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fvectors%2Fprofile-icon-male-avatar-portrait-casual-person-vector-id530827853%3Fk%3D6%26m%3D530827853%26s%3D612x612%26w%3D0%26h%3DFYnhkmLYaHjYSyTva1A72eDj5yu3sU7TUXg_BsH1Dfw%3D&f=1&nofb=1&ipt=f1ac39ae8f28a59ad782e3b627b4bfd61c3cebf258d4f99066631e867a0a0c26&ipo=images"
             }
         ]

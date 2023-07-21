@@ -108,7 +108,7 @@ def reset_database():
     )
 
 
-def upload_questions(filename):
+def upload_questions(filename='backend/questions.json'):
     with open(filename) as f:
         questions = json.loads(f.read())
     _db_exec(

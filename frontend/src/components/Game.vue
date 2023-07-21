@@ -77,7 +77,7 @@ export default {
     ...mapState(useUserStore, ["game_progress"]),
     ...mapState(useQuestionStore, ["question_id"]),
     showAllItems: function () {
-      return this.question_id !== 0;
+      return true; // this.question_id !== 0;
     },
     showExplanation: function () {
       return this.question_id === 0;
