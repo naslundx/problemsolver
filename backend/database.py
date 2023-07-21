@@ -10,7 +10,7 @@ psycopg2.extras.register_uuid()
 
 # ---
 
-DEBUG = "_test" if bool(os.environ.get("DEBUG", "0")) else ""
+DEBUG = "" # if bool(os.environ.get("DEBUG", "0")) else ""
 GAMES_TABLE = f"games{DEBUG}"
 QUESTIONS_TABLE = f"questions{DEBUG}"
 CHATS_TABLE = f"chats{DEBUG}"
@@ -29,12 +29,16 @@ def _db_exec(query, get_value=False, params=None):
 
     with (cursor := DB_CONN.cursor()):
         try:
+            # print(query)
             cursor.execute(query, params)
+            print('x')
             DB_CONN.commit()
+            print('done')
             if get_value:
                 id_of_new_row = cursor.fetchone()[0]
                 return id_of_new_row
-        except:
+        except Exception as e:
+            print(e)
             return None
 
 
@@ -60,6 +64,16 @@ def _db_query(query, single=False, params=None):
 def reset_database():
     _db_exec(
         f"""
+        DROP TABLE IF EXISTS {CHATS_TABLE};
+    """
+    )
+    _db_exec(
+        f"""
+        DROP TABLE IF EXISTS {QUESTIONS_TABLE};
+    """
+    )
+    _db_exec(
+        f"""
         DROP TABLE IF EXISTS {GAMES_TABLE};
     """
     )
@@ -76,21 +90,11 @@ def reset_database():
     )
     _db_exec(
         f"""
-        DROP TABLE IF EXISTS {QUESTIONS_TABLE};
-    """
-    )
-    _db_exec(
-        f"""
         CREATE TABLE {QUESTIONS_TABLE} (
             id INT PRIMARY KEY,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             content text NOT NULL
         );
-    """
-    )
-    _db_exec(
-        f"""
-        DROP TABLE IF EXISTS {CHATS_TABLE};
     """
     )
     _db_exec(
