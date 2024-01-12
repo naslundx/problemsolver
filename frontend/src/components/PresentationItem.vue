@@ -209,7 +209,6 @@ hr {
   animation: none;
 }
 
-
 @media only screen and (max-width: 800px) {
   .mainflexContainer {
     flex-direction: column;

@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "cd frontend && vite",
-    "build": "cd frontend && vite build",
+    "dev": "vite",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write frontend/src/"
@@ -16,6 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "pinia": "^2.0.36",
+    "vite": "^5.0.11",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },
@@ -29,7 +30,6 @@
     "node-sass": "^9.0.0",
     "prettier": "^2.8.8",
     "sass": "^1.63.6",
-    "sass-loader": "^13.3.2",
-    "vite": "^4.3.5"
+    "sass-loader": "^13.3.2"
   }
 }

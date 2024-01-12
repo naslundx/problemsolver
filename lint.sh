@@ -1,7 +1,5 @@
-cd frontend
-npm run format
-npm run lint
-cd ..
+yarn run format
+yarn run lint
 
 cd backend/
 black .

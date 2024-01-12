@@ -7,8 +7,6 @@ from datetime import datetime
 from .database import fetch_question, fetch_question_count
 
 
-
-
 SPECIAL_VARS = {
     "F_NAME": ["Astrid", "Julia", "Cecilia", "Alice"],
     "M_NAME": ["Marcus", "Quention", "Lars", "David"],

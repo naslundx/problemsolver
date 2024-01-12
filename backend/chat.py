@@ -6,9 +6,7 @@ API_KEY = os.getenv("OPENAI_API_KEY")
 openai.api_key = API_KEY
 
 
-GENERAL_OPENAI_PROMPT = (
-    "Följande regler är jätteviktiga. Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar. Om du inte förstår, svara bara 'Jag förstår inte'. Om du inte vet eller inte får svara, svara bara 'Jag vet inte'. Nu till min fråga:"
-)
+GENERAL_OPENAI_PROMPT = "Följande regler är jätteviktiga. Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar. Om du inte förstår, svara bara 'Jag förstår inte'. Om du inte vet eller inte får svara, svara bara 'Jag vet inte'. Nu till min fråga:"
 
 
 def get_response(openai_prompt, content):
@@ -24,7 +22,7 @@ def get_response(openai_prompt, content):
         max_tokens=250,
         # lower values like 0.2 will make it more focused and deterministic.
         temperature=0.25,
-        # Positive values penalize new tokens based on whether they appear in the text so far, 
+        # Positive values penalize new tokens based on whether they appear in the text so far,
         # increasing the model's likelihood to talk about new topics.
         presence_penalty=-0.5,
     )

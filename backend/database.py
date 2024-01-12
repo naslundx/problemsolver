@@ -10,7 +10,7 @@ psycopg2.extras.register_uuid()
 
 # ---
 
-DEBUG = "" # if bool(os.environ.get("DEBUG", "0")) else ""
+DEBUG = "1" if bool(os.environ.get("DEBUG", "0")) else ""
 GAMES_TABLE = f"games{DEBUG}"
 QUESTIONS_TABLE = f"questions{DEBUG}"
 CHATS_TABLE = f"chats{DEBUG}"
@@ -29,11 +29,8 @@ def _db_exec(query, get_value=False, params=None):
 
     with (cursor := DB_CONN.cursor()):
         try:
-            # print(query)
             cursor.execute(query, params)
-            print('x')
             DB_CONN.commit()
-            print('done')
             if get_value:
                 id_of_new_row = cursor.fetchone()[0]
                 return id_of_new_row
@@ -112,7 +109,7 @@ def reset_database():
     )
 
 
-def upload_questions(filename='backend/questions.json'):
+def upload_questions(filename="backend/questions.json"):
     with open(filename) as f:
         questions = json.loads(f.read())
     _db_exec(
