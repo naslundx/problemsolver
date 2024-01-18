@@ -1,5 +1,6 @@
 <template>
   <PresentationItem
+    class="wrapper answer"
     icon="check"
     heading="Svara"
     :show-explanation="showExplanation"
@@ -62,9 +63,9 @@
 </template>
 
 <script>
-import MyButton from "./MyButton.vue";
-import PresentationItem from "./PresentationItem.vue";
-import LoadingAnimation from "./LoadingAnimation.vue";
+import MyButton from "./helpers/MyButton.vue";
+import PresentationItem from "./helpers/PresentationItem.vue"
+import LoadingAnimation from "./helpers/LoadingAnimation.vue";
 
 import { mapActions, mapState } from "pinia";
 import { send, sleep } from "../assets/utils.js";
@@ -155,6 +156,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  flex: 1;
+}
+
 .actionBtn {
   margin-left: 10px;
 }

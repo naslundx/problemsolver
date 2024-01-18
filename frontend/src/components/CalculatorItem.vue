@@ -1,5 +1,6 @@
 <template>
   <PresentationItem
+    class="wrapper calculator"
     icon="calculator"
     heading="Miniräknare"
     :show-explanation="showExplanation"
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import PresentationItem from "./PresentationItem.vue";
+import PresentationItem from "./helpers/PresentationItem.vue"
 
 export default {
   components: {
@@ -69,6 +70,10 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  flex: 1;
+}
+
 .flexContainer {
   display: flex;
   align-items: center;

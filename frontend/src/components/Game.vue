@@ -8,34 +8,39 @@
     Öva problemlösning
   </p>
 
-  <HeaderItem
-    :show-explanation="showExplanation"
-    @okexplanation="OKExplanation"
-  />
+  <div class="sections">
+    <HeaderItem
+      :show-explanation="showExplanation"
+      @okexplanation="OKExplanation"
+    />
 
-  <QuestionItem
-    v-if="showAllItems || item_show_index > 0"
-    :show-explanation="showExplanation"
-    @okexplanation="OKExplanation"
-  />
+    <QuestionItem
+      v-if="showAllItems || item_show_index > 0"
+      :show-explanation="showExplanation"
+      @okexplanation="OKExplanation"
+    />
 
-  <NotesItem
-    v-if="showAllItems || item_show_index > 1"
-    :show-explanation="showExplanation"
-    @okexplanation="OKExplanation"
-  />
+    <NotesItem
+      v-if="showAllItems || item_show_index > 1"
+      :show-explanation="showExplanation"
+      @okexplanation="OKExplanation"
+    />
 
-  <CalculatorItem
-    v-if="showAllItems || item_show_index > 2"
-    :show-explanation="showExplanation"
-    @okexplanation="OKExplanation"
-  />
+    <CalculatorItem
+      v-if="showAllItems || item_show_index > 2"
+      :show-explanation="showExplanation"
+      @okexplanation="OKExplanation"
+    />
 
-  <AnswerItem
-    v-if="showAllItems || item_show_index > 3"
-    :show-explanation="showExplanation"
-    @okexplanation="OKExplanation"
-  />
+    <AnswerItem
+      v-if="showAllItems || item_show_index > 3"
+      :show-explanation="showExplanation"
+      @okexplanation="OKExplanation"
+    />
+  </div>
+
+
+  <Menu/>
 
   <FooterItem
     ref="bottom"
@@ -46,8 +51,9 @@
 <script>
 import AnswerItem from "./AnswerItem.vue";
 import CalculatorItem from "./CalculatorItem.vue";
-import FooterItem from "./FooterItem.vue";
+import FooterItem from "./helpers/FooterItem.vue";
 import HeaderItem from "./HeaderItem.vue";
+import Menu from "./helpers/Menu.vue";
 import NotesItem from "./NotesItem.vue";
 import OverviewItem from "./OverviewItem.vue";
 import QuestionItem from "./QuestionItem.vue";
@@ -63,6 +69,7 @@ export default {
     CalculatorItem,
     FooterItem,
     HeaderItem,
+    Menu,
     NotesItem,
     OverviewItem,
     QuestionItem,
@@ -77,10 +84,10 @@ export default {
     ...mapState(useUserStore, ["game_progress"]),
     ...mapState(useQuestionStore, ["question_id"]),
     showAllItems: function () {
-      return this.question_id !== 0;
+      return true; this.question_id !== 0;
     },
     showExplanation: function () {
-      return this.question_id === 0;
+      return false; this.question_id === 0;
     },
   },
   async mounted() {
@@ -124,4 +131,26 @@ p.title {
   text-transform: uppercase;
   letter-spacing: 3px;
 }
+.sections {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 20px;
+  margin: 0 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .sections {
+    flex-flow: row !important;    
+    margin: 0;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+  }
+
+  .sections > div {
+    min-width: 100%;
+    width: 100%;
+    scroll-snap-align: start;
+  }
+}
+
 </style>

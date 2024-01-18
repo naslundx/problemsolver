@@ -120,7 +120,7 @@ p.info {
 /* --- */
 
 @function em($value) {
-  @return ($value / 16) * 1em;
+  @return calc($value / 16) * 1em;
 }
 
 *,

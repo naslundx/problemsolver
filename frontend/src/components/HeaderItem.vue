@@ -1,7 +1,7 @@
 <template>
   <PresentationItem
     icon="circle-question"
-    class="main"
+    class="main wrapper header"
     heading="Beskrivning"
     :show-explanation="showExplanation"
   >
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import PresentationItem from "./PresentationItem.vue";
+import PresentationItem from "./helpers/PresentationItem.vue"
 import { mapActions, mapState } from "pinia";
 import { useQuestionStore } from "../stores/question";
 
@@ -43,8 +43,9 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  margin-top: 5px;
+.wrapper {
+  flex: 2;
+  min-width: 35%;
 }
 button {
   margin-left: 5px;

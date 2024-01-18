@@ -12,10 +12,10 @@
             :icon="`fa-solid fa-${icon}`"
           />
           {{ heading }}
-          <toggle-button
+          <!-- <toggle-button
             v-if="toggleable"
             @toggle="toggleShow"
-          />
+          /> -->
           <hr v-if="!!heading">
         </h2>
 

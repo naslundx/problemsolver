@@ -1,5 +1,6 @@
 <template>
   <PresentationItem
+    class="wrapper question"
     icon="comments"
     heading="Ställ frågor"
     :show-explanation="showExplanation"
@@ -42,9 +43,9 @@
 </template>
 
 <script>
-import ChatBubble from "./ChatBubble.vue";
-import LoadingAnimation from "./LoadingAnimation.vue";
-import PresentationItem from "./PresentationItem.vue";
+import ChatBubble from "./helpers/ChatBubble.vue";
+import LoadingAnimation from "./helpers/LoadingAnimation.vue";
+import PresentationItem from "./helpers/PresentationItem.vue";
 
 import { mapActions, mapState } from "pinia";
 import { useQuestionStore } from "@/stores/question";
@@ -85,6 +86,11 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  flex: 2;
+  min-width: 35%;
+}
+
 .mainContainer {
   display: flex;
   justify-content: space-between;

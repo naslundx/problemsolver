@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import PresentationItem from "./PresentationItem.vue";
+import PresentationItem from "./PresentationItem.vue"
 
 export default {
   components: {

@@ -2,11 +2,18 @@ import os
 import openai
 
 
-API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = API_KEY
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+openai.api_key = OPENAI_API_KEY
 
 
-GENERAL_OPENAI_PROMPT = "Följande regler är jätteviktiga. Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar. Om du inte förstår, svara bara 'Jag förstår inte'. Om du inte vet eller inte får svara, svara bara 'Jag vet inte'. Nu till min fråga:"
+GENERAL_OPENAI_PROMPT = """
+Följande regler är jätteviktiga. 
+Svara alltid så kortfattat som möjligt. 
+Svara inte på några uträkningar. 
+Om du inte förstår, svara bara 'Jag förstår inte'. 
+Om du inte vet eller inte får svara, svara bara 'Jag vet inte'. 
+Nu till min fråga:
+"""
 
 
 def get_response(openai_prompt, content):

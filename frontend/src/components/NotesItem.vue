@@ -1,5 +1,6 @@
 <template>
   <PresentationItem
+    class="wrapper notes"
     icon="note-sticky"
     heading="Anteckningar"
     :toggleable="true"
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-import PresentationItem from "./PresentationItem.vue";
+import PresentationItem from "./helpers/PresentationItem.vue"
 
 export default {
   components: {
@@ -30,6 +31,11 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+  flex: 1;
+  min-width: 30%;
+}
+
 textarea {
   width: 100%;
   min-height: 30px;

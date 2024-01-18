@@ -10,7 +10,7 @@ psycopg2.extras.register_uuid()
 
 # ---
 
-DEBUG = "1" if bool(os.environ.get("DEBUG", "0")) else ""
+DEBUG = "_debug" if "DEBUG" in os.environ else ""
 GAMES_TABLE = f"games{DEBUG}"
 QUESTIONS_TABLE = f"questions{DEBUG}"
 CHATS_TABLE = f"chats{DEBUG}"
