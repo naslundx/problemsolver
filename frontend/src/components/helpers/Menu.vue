@@ -45,6 +45,7 @@ export default {
 
 <style scoped>
 nav {
+  display: none !important;
   font-size: 12px;
   text-align: center;
 }
@@ -57,6 +58,12 @@ nav {
 .flexContainer div {
     flex: 1;
   font-size: xx-large;
+}
+
+@media only screen and (max-width: 800px) {
+  nav {
+    display: flex !important;
+  }
 }
 
 </style>

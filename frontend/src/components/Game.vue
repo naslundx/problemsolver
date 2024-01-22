@@ -26,14 +26,14 @@
       @okexplanation="OKExplanation"
     />
 
-    <CalculatorItem
+    <!-- <CalculatorItem
       v-if="showAllItems || item_show_index > 2"
       :show-explanation="showExplanation"
       @okexplanation="OKExplanation"
-    />
+    /> -->
 
     <AnswerItem
-      v-if="showAllItems || item_show_index > 3"
+      v-if="showAllItems || item_show_index > 2"
       :show-explanation="showExplanation"
       @okexplanation="OKExplanation"
     />
@@ -84,10 +84,10 @@ export default {
     ...mapState(useUserStore, ["game_progress"]),
     ...mapState(useQuestionStore, ["question_id"]),
     showAllItems: function () {
-      return true; this.question_id !== 0;
+      return this.question_id !== 0;
     },
     showExplanation: function () {
-      return false; this.question_id === 0;
+      return this.question_id === 0;
     },
   },
   async mounted() {
@@ -130,16 +130,20 @@ p.title {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 3px;
+  font-size: larger;
 }
 .sections {
   display: flex;
   flex-flow: row wrap;
-  gap: 20px;
-  margin: 0 20px;
+  column-gap: 20px;
+  row-gap: 10px;
+  max-width: 1000px;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 600px) {
   .sections {
+    flex-grow: 1;
     flex-flow: row !important;    
     margin: 0;
     overflow-x: scroll;

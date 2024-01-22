@@ -6,16 +6,7 @@
     :show-explanation="showExplanation"
   >
     <div class="flexContainer">
-      <input
-        v-model="content"
-        class="flexItem"
-        type="text"
-        placeholder="1+1"
-      >
-      <span>=</span>
-      <span id="output">
-        {{ output }}
-      </span>
+      
     </div>
 
     <template #explanation>
@@ -36,11 +27,6 @@ export default {
       type: Boolean,
       default: true,
     },
-  },
-  data: function () {
-    return {
-      content: "",
-    };
   },
   computed: {
     output: function () {
@@ -87,11 +73,5 @@ export default {
   max-width: 67%;
 }
 
-#output {
-  font-weight: bold;
-}
 
-input {
-  font-size: larger;
-}
 </style>

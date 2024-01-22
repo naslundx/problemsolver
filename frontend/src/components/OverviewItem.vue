@@ -69,8 +69,8 @@ export default {
 
 <style scoped>
 .wrapper {
-  flex: 2;
-  min-width: 35%;
+  margin-top: 0;
+  padding: 4px;
 }
 
 .container {

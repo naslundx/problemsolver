@@ -106,11 +106,9 @@ export default {
   margin-right: 5px;
 }
 .container {
-  border-top: 3px solid #ccc;
-  border-bottom: 3px solid #ccc;
   max-width: 900px;
-  margin: 15px auto;
-  padding: 1rem;
+  margin: 0px auto;
+  padding: 0.75rem;
   background-color: rgba(255, 255, 255, 0.75);
 }
 
@@ -120,6 +118,7 @@ export default {
 }
 
 .fullWidth {
+  width: 100%;
   max-width: 100%;
 }
 
@@ -212,6 +211,7 @@ hr {
 @media only screen and (max-width: 800px) {
   .mainflexContainer {
     flex-direction: column;
+    height: 100%;
   }
   .explanation {
     border-left: 0;
