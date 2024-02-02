@@ -27,21 +27,15 @@
       </div>
       <div
         v-if="showExplanation && shouldShowExplanation && (!toggleable || show)"
-        class="explanation"
+        class="explanation flexcontainer"
       >
-        <div class="flexcontainer">
-          <span>
-            <font-awesome-icon icon="fa-solid fa-circle-info" />
-          </span>
-          <slot name="explanation" />
-          <span v-show="showOKExplanation">
-            <my-button
-              class="okexplanation wiggle"
-              text="OK!"
-              @click="OKExplanation"
-            />
-          </span>
-        </div>
+        <slot name="explanation" />
+        <my-button
+          class="okexplanation wiggle"
+          :class="{ hidden: !showOKExplanation }"
+          text="OK!"
+          @click="OKExplanation"
+        />
       </div>
     </div>
   </div>
@@ -49,12 +43,10 @@
 
 <script>
 import MyButton from "./MyButton.vue";
-import ToggleButton from "./ToggleButton.vue";
 
 export default {
   components: {
     MyButton,
-    ToggleButton,
   },
   props: {
     icon: {
@@ -105,6 +97,11 @@ export default {
 .icon {
   margin-right: 5px;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
 .container {
   max-width: 900px;
   margin: 0px auto;
@@ -126,13 +123,14 @@ export default {
   border-left: 1px dashed black;
   padding-left: 10px;
   flex: 1;
+  text-align: center;
 }
 
-.explanation .flexcontainer {
+.explanation.flexcontainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   height: 100%;
   font-size: small;
   margin-top: 0;
@@ -140,7 +138,7 @@ export default {
 
 .item {
   width: 100%;
-  flex: 2;
+  flex: 4;
 }
 
 h2 {
@@ -186,12 +184,12 @@ hr {
     background-color: white;
   }
   80% {
-    transform: rotate(15deg);
-    background-color: orange;
+    transform: rotate(10deg);
+    background-color: aqua;
   }
   95% {
-    transform: rotate(-15deg);
-    background-color: orange;
+    transform: rotate(-10deg);
+    background-color: aqua;
   }
   100% {
     transform: rotate(0deg);
@@ -208,14 +206,20 @@ hr {
   animation: none;
 }
 
-@media only screen and (max-width: 800px) {
-  .mainflexContainer {
-    flex-direction: column;
-    height: 100%;
-  }
-  .explanation {
+.mainflexContainer {
+  flex-direction: column;
+  height: 100%;
+}
+ .explanation.flexcontainer {
     border-left: 0;
     border-top: 1px dashed black;
+  } *
+
+@media only screen and (max-width: 900px) {
+  
+  
+  .explanation.flexcontainer button {
+    display: none;
   }
 }
 </style>

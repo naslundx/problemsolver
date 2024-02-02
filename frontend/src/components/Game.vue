@@ -26,12 +26,6 @@
       @okexplanation="OKExplanation"
     />
 
-    <!-- <CalculatorItem
-      v-if="showAllItems || item_show_index > 2"
-      :show-explanation="showExplanation"
-      @okexplanation="OKExplanation"
-    /> -->
-
     <AnswerItem
       v-if="showAllItems || item_show_index > 2"
       :show-explanation="showExplanation"
@@ -39,8 +33,10 @@
     />
   </div>
 
-
-  <Menu/>
+  <MobileMenu 
+    :number-enabled-elements="item_show_index"
+    @reached="onReached"
+  />
 
   <FooterItem
     ref="bottom"
@@ -50,10 +46,9 @@
 
 <script>
 import AnswerItem from "./AnswerItem.vue";
-import CalculatorItem from "./CalculatorItem.vue";
 import FooterItem from "./helpers/FooterItem.vue";
 import HeaderItem from "./HeaderItem.vue";
-import Menu from "./helpers/Menu.vue";
+import MobileMenu from "./helpers/MobileMenu.vue";
 import NotesItem from "./NotesItem.vue";
 import OverviewItem from "./OverviewItem.vue";
 import QuestionItem from "./QuestionItem.vue";
@@ -66,10 +61,9 @@ import { useQuestionStore } from "@/stores/question";
 export default {
   components: {
     AnswerItem,
-    CalculatorItem,
     FooterItem,
     HeaderItem,
-    Menu,
+    MobileMenu,
     NotesItem,
     OverviewItem,
     QuestionItem,
@@ -78,6 +72,11 @@ export default {
     return {
       item_show_index: 0,
     };
+  },
+  created: function () {
+    if (window.innerWidth < 900) {
+      this.item_show_index = 1;
+    }
   },
   computed: {
     ...mapState(useInfoStore, ["question_count"]),
@@ -114,6 +113,9 @@ export default {
         });
       });
     },
+    onReached: function () {
+      this.OKExplanation();
+    },
   },
 };
 </script>
@@ -131,30 +133,39 @@ p.title {
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: larger;
-}
-.sections {
-  display: flex;
-  flex-flow: row wrap;
-  column-gap: 20px;
-  row-gap: 10px;
-  max-width: 1000px;
-  justify-content: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-@media only screen and (max-width: 600px) {
-  .sections {
+
+.sections > div {
+  min-width: 100%;
+  width: 100%;
+  scroll-snap-align: start;
+}
+
+.sections {
     flex-grow: 1;
-    flex-flow: row !important;    
+    flex-flow: row;
     margin: 0;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
+    column-gap: 10px;
+    display: flex;
   }
 
-  .sections > div {
-    min-width: 100%;
-    width: 100%;
-    scroll-snap-align: start;
+@media only screen and (min-width: 900px) {
+  div.sections {
+    flex-flow: row wrap;
+    row-gap: 10px;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-bottom: 10px;
   }
+
+  div.sections > div {
+    min-width: 40%;
+  }
+  
 }
-
 </style>

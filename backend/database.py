@@ -16,7 +16,7 @@ QUESTIONS_TABLE = f"questions{DEBUG}"
 CHATS_TABLE = f"chats{DEBUG}"
 
 DB_CONN = None
-DATABASE_URL = os.environ.get("DATABASE_URL", None)
+DATABASE_URL = os.environ.get("DATABASE_URL")
 if DATABASE_URL:
     DB_CONN = psycopg2.connect(DATABASE_URL, sslmode="require")
 

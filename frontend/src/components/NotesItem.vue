@@ -8,31 +8,38 @@
   >
     <textarea placeholder="Valfria anteckningar" />
 
+    <p class="center">
+      Använd miniräknaren här för att räkna:
+    </p>
     <div class="calculator">
-    <p>Räkna ut lite</p>
       <input
         v-model="content"
-        class="flexItem"
         type="text"
         placeholder="1+1"
       >
-      <span>=</span>
-      <span id="output">
+      <p id="output">
         {{ output }}
-      </span>
+      </p>
     </div>
+    <key-pad
+      class="keypad"
+      @click="onClick"
+    />
 
     <template #explanation>
-      <i>Här kan du spara anteckningar om du behöver.</i>
+      <i>Här kan du spara anteckningar, samt räkna ut det du behöver i en enkel
+        miniräknare.</i>
     </template>
   </PresentationItem>
 </template>
 
 <script>
-import PresentationItem from "./helpers/PresentationItem.vue"
+import KeyPad from "./helpers/KeyPad.vue";
+import PresentationItem from "./helpers/PresentationItem.vue";
 
 export default {
   components: {
+    KeyPad,
     PresentationItem,
   },
   props: {
@@ -60,14 +67,24 @@ export default {
       try {
         const result = eval(input);
         if (!isFinite(result)) {
-          return `${result < 0 ? "-" : ""}∞`;
+          return `= ${result < 0 ? "-" : ""}∞`;
         }
 
         const roundedResult = Math.round(result * 100) / 100;
-        return roundedResult;
+        return `= ${roundedResult}`;
       } catch {
         return "";
       }
+    },
+  },
+  methods: {
+    onClick(item) {
+      if (item === "C") {
+        this.content = "";
+      } else {
+        this.content += item;
+      }
+      document.querySelector(".calculator input").focus();
     },
   },
 };
@@ -82,18 +99,42 @@ export default {
 textarea {
   width: 100%;
   min-height: 30px;
-  height: 100px;
+  height: 200px;
   font-size: larger;
   background: rgba(0, 0, 0, 0);
   border: 0;
   resize: none;
+  border-bottom: 1px solid black;
 }
 
 #output {
   font-weight: bold;
+  font-size: 2em;
+  margin-left: 10px;
+  text-align: right;
+  min-height: 2em;
 }
 
 input {
-  font-size: larger;
+  font-size: xx-large;
+  width: 100%;
+  border: 0;
+  margin-top:5px;
+}
+
+.calculator {
+  width: 75%;
+  margin: 0 auto;
+  flex-direction: row;
+  overflow-x: visible;
+}
+
+.keypad {
+  width: 75%;
+  margin: 10px auto;
+}
+
+.center {
+  text-align: center;
 }
 </style>

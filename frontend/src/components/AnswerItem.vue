@@ -5,32 +5,40 @@
     heading="Svara"
     :show-explanation="showExplanation"
   >
-    <div
-      v-if="!isLoading"
-      class="flexContainer"
-    >
-      <my-button
-        class="clearBtn"
-        :disabled="answer_content.length === 0"
-        icon="eraser"
-        @click="clear"
-      />
-      <div class="answer">
-        <input
-          v-model="answer_content"
-          type="number"
-          @keyup.enter="answer"
-        >
-        <span class="units">
-          {{ unit }}
-        </span>
+    <div v-if="!isLoading">
+      <p class="">
+        <b>{{ question }}</b>
+      </p>
+      <p class="">
+        Lämna ditt svar här:
+      </p>
+      <div class="answerContainer">
+        <my-button
+          class="clearBtn"
+          :disabled="answer_content.length === 0"
+          icon="eraser"
+          @click="clear"
+        />
+        <div>
+          <input
+            v-model="answer_content"
+            type="number"
+            @keyup.enter="answer"
+          >
+          <span class="units">
+            {{ unit }}
+          </span>
+        </div>
       </div>
-      <my-button
-        v-if="showAnswerButton"
-        class="actionBtn"
-        text="Svara"
-        @click="answer"
-      />
+      <div class="answerContainer second">
+        <my-button
+          :disabled="!showAnswerButton"
+          text="Svara"
+          class="actionBtn"
+          icon="check"
+          @click="answer"
+        />
+      </div>
     </div>
     <div
       v-if="isLoading"
@@ -39,7 +47,7 @@
       <loading-animation />
     </div>
     <div
-      v-if="!isLoading"
+      v-else
       class="result"
     >
       <p>{{ resultMessage }}</p>
@@ -48,10 +56,23 @@
       </p>
       <my-button
         v-if="answer_status === true"
+        icon="chevron-right"
         class="actionBtn"
         text="Nästa fråga"
         @click="nextQuestion"
       />
+    </div>
+
+    <div
+      v-if="!isLoading && !answer_status"
+      class="flexContainer"
+    >
+      <p
+        v-for="item of previousAnswers"
+        :key="item"
+      >
+        {{ item }}
+      </p>
     </div>
 
     <template #explanation>
@@ -64,7 +85,7 @@
 
 <script>
 import MyButton from "./helpers/MyButton.vue";
-import PresentationItem from "./helpers/PresentationItem.vue"
+import PresentationItem from "./helpers/PresentationItem.vue";
 import LoadingAnimation from "./helpers/LoadingAnimation.vue";
 
 import { mapActions, mapState } from "pinia";
@@ -90,10 +111,14 @@ export default {
       answer_status: null,
       isLoading: false,
       clue: "",
+      previousAnswers: [],
     };
   },
   computed: {
-    ...mapState(useQuestionStore, ["question_id", "unit"]),
+    unit: function () {
+      return "st";
+    },
+    ...mapState(useQuestionStore, ["question_id", /*"unit",*/ "question"]),
     ...mapState(useUserStore, ["game_uuid", "seed"]),
     showAnswerButton: function () {
       return this.answer_content !== "" && this.answer_status !== true;
@@ -149,6 +174,9 @@ export default {
 
       this.answer_status = json.is_correct;
       this.clue = json.clue;
+      if (!this.answer_status) {
+        this.previousAnswers.push(cleanAnswer);
+      }
       this.isLoading = false;
     },
   },
@@ -156,43 +184,71 @@ export default {
 </script>
 
 <style scoped>
+p {
+  font-size: larger;
+}
+
+.units {
+  font-size: larger;
+  margin-left: 5px;
+}
 .wrapper {
   flex: 1;
 }
+.answerContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px;
+}
 
-.actionBtn {
-  margin-left: 10px;
+.answerContainer.second {
+  justify-content: center;
 }
 
 input {
-  width: 4rem;
+  width: 90%;
   font-size: x-large;
   text-align: right;
   border: 1px solid black;
-  margin-right: 6px;
 }
 
 b {
   font-weight: bold;
 }
 
-.flexContainer {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  align-content: flex-start;
-}
-.answer {
-  /* border: 1px solid gray; */
-  padding: 5px;
-}
-
 .result {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .result p {
   font-size: larger;
-  margin-left: 10px;
+}
+
+.result button {
+  margin-top: 20px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.clearBtn, .actionBtn {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 </style>

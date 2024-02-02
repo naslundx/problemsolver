@@ -1,1 +1,1 @@
-FLASK_APP=backend.app flask run --debug
+python -m flask --app backend.app run --debug

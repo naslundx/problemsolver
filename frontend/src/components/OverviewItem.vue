@@ -1,7 +1,5 @@
 <template>
-  <PresentationItem 
-    class="wrapper main"
-  >
+  <PresentationItem class="wrapper main">
     <div class="container">
       <span
         v-for="number in numbersUpTo"
@@ -25,7 +23,7 @@
 </template>
 
 <script>
-import PresentationItem from "./helpers/PresentationItem.vue"
+import PresentationItem from "./helpers/PresentationItem.vue";
 import { mapActions, mapState } from "pinia";
 import { useInfoStore } from "@/stores/info";
 import { useUserStore } from "@/stores/user";

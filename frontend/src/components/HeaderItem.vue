@@ -6,7 +6,10 @@
     :show-explanation="showExplanation"
   >
     <p class="intro">
-      {{ prompt }} <span class="question">{{ question }}</span>
+      {{ prompt }}
+    </p>
+    <p class="question">
+      {{ question }}
     </p>
 
     <div class="imageContainer">
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-import PresentationItem from "./helpers/PresentationItem.vue"
+import PresentationItem from "./helpers/PresentationItem.vue";
 import { mapActions, mapState } from "pinia";
 import { useQuestionStore } from "../stores/question";
 
@@ -52,12 +55,12 @@ button {
 }
 .imageContainer {
   padding: 3px;
-  margin: 3px;
-  max-width: 400px;
+  max-width: 70%;
+  margin: 30px auto;
 }
 .imageContainer img {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 .intro {
 }

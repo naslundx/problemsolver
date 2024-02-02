@@ -34,7 +34,7 @@ button {
   border: 2px solid #555555;
   transition-duration: 0.4s;
   font-size: large;
-  padding: 5px;
+  padding: 6px 10px;
 }
 @media (hover: hover) {
   button:hover:not(:disabled) {

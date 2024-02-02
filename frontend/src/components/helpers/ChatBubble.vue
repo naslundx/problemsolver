@@ -21,7 +21,8 @@
           @keyup.enter="onChat"
         >
         <my-button
-          :disabled="!showInfo && emptyInput"
+          :disabled="showInfo || emptyInput"
+          text="Skicka"
           icon="paper-plane"
           class="button"
           @click="onChat"
@@ -34,7 +35,7 @@
         v-show="showInfo"
         class="info"
       >
-        Frågor får max vara 75 tecken långa!
+        Meddelanden får vara max 75 tecken långa!
       </p>
     </div>
   </div>
@@ -93,14 +94,12 @@ export default {
   gap: 5px;
 }
 
-@media only screen and (max-width: 800px) {
-  .flexContainer {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-  .flexContainer .button {
-    order: 9;
-  }
+.flexContainer {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.flexContainer .button {
+  order: 9;
 }
 
 input {

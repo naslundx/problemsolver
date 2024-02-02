@@ -35,9 +35,8 @@
       </div>
     </div>
     <template #explanation>
-      <i>Beskrivningen innehåller inte allt du behöver veta och här kan du
-        ställa klargörande frågor till någon, till exempel "Vad kostar en
-        glass?".</i>
+      <i>Du behöver ta reda på mer information och här i chatten kan du ställa
+        frågor, till exempel "Vad kostar en glass?".</i>
     </template>
   </PresentationItem>
 </template>
@@ -103,7 +102,7 @@ export default {
   align-items: flex-start;
 }
 .chatContainer {
-  flex: 1;
+  flex-grow: 1;
   border-left: 1px solid black;
   overflow-y: scroll;
 }
@@ -140,13 +139,5 @@ b {
 }
 .interview img {
   max-width: 50px;
-}
-@media only screen and (max-width: 800px) {
-  .mainContainer {
-    flex-direction: column;
-  }
-  .chatContainer {
-    border-left: 0;
-  }
 }
 </style>
