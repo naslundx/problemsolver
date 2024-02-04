@@ -1,1 +1,1 @@
-web: yarn run build && python -m flask --app backend.app run
+web: yarn run build && gunicorn backend.app:app
