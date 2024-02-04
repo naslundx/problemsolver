@@ -98,8 +98,9 @@ export default {
   margin-right: 5px;
 }
 
-.hidden {
+.okexplanation.hidden {
   visibility: hidden;
+  animation: none;
 }
 
 .container {
@@ -211,15 +212,20 @@ hr {
   height: 100%;
 }
  .explanation.flexcontainer {
-    border-left: 0;
-    border-top: 1px dashed black;
-  } *
+  border-left: 0;
+  border-top: 1px dashed black;
+}
 
 @media only screen and (max-width: 900px) {
-  
-  
   .explanation.flexcontainer button {
     display: none;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .explanation.flexcontainer {
+    font-size: larger !important;
+    min-height: 160px;
   }
 }
 </style>

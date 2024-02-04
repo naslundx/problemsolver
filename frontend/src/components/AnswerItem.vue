@@ -29,8 +29,6 @@
             {{ unit }}
           </span>
         </div>
-      </div>
-      <div class="answerContainer second">
         <my-button
           :disabled="!showAnswerButton"
           text="Svara"

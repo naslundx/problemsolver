@@ -62,9 +62,13 @@ button {
   width: 100%;
   border-radius: 20px;
 }
-.intro {
-}
 .question {
   font-weight: bold;
+}
+
+@media only screen and (min-width: 900px) {
+  .intro, .question {
+    font-size: larger;
+  }
 }
 </style>

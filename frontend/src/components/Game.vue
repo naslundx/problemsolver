@@ -14,23 +14,29 @@
       @okexplanation="OKExplanation"
     />
 
-    <QuestionItem
-      v-if="showAllItems || item_show_index > 0"
-      :show-explanation="showExplanation"
-      @okexplanation="OKExplanation"
-    />
+    <Transition name="fade">
+      <QuestionItem
+        v-if="showAllItems || item_show_index > 0"
+        :show-explanation="showExplanation"
+        @okexplanation="OKExplanation"
+      />
+    </Transition>
 
-    <NotesItem
-      v-if="showAllItems || item_show_index > 1"
-      :show-explanation="showExplanation"
-      @okexplanation="OKExplanation"
-    />
+    <Transition name="fade">
+      <NotesItem
+        v-if="showAllItems || item_show_index > 1"
+        :show-explanation="showExplanation"
+        @okexplanation="OKExplanation"
+      />
+    </Transition>
 
-    <AnswerItem
-      v-if="showAllItems || item_show_index > 2"
-      :show-explanation="showExplanation"
-      @okexplanation="OKExplanation"
-    />
+    <Transition name="fade">
+      <AnswerItem
+        v-if="showAllItems || item_show_index > 2"
+        :show-explanation="showExplanation"
+        @okexplanation="OKExplanation"
+      />
+    </Transition>
   </div>
 
   <MobileMenu 
@@ -107,8 +113,9 @@ export default {
     OKExplanation: function () {
       this.item_show_index += 1;
       this.$nextTick(function () {
-        const el = this.$refs.bottom.$el;
-        el.scrollIntoView(false, {
+        const el = document.querySelector('.container.wrapper:last-child') 
+        console.log(el);
+        el.scrollIntoView(true, {
           behavior: "smooth",
         });
       });
@@ -157,7 +164,8 @@ p.title {
 @media only screen and (min-width: 900px) {
   div.sections {
     flex-flow: row wrap;
-    row-gap: 10px;
+    row-gap: 20px;
+    column-gap: 20px;
     max-width: 1400px;
     margin: 0 auto;
     margin-bottom: 10px;
@@ -165,6 +173,17 @@ p.title {
 
   div.sections > div {
     min-width: 40%;
+    border-radius: 10px;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 1.0s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
   }
   
 }

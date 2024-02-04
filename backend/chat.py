@@ -1,8 +1,9 @@
 import os
 import openai
+from .helpers import get_env_key
 
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = get_env_key("OPENAI_API_KEY")
 openai.api_key = OPENAI_API_KEY
 
 

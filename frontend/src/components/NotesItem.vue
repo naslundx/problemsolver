@@ -6,11 +6,11 @@
     :toggleable="true"
     :show-explanation="showExplanation"
   >
-    <textarea placeholder="Valfria anteckningar" />
+    <textarea 
+      v-model="notes"
+      placeholder="Valfria anteckningar"
+    />
 
-    <p class="center">
-      Använd miniräknaren här för att räkna:
-    </p>
     <div class="calculator">
       <input
         v-model="content"
@@ -36,6 +36,8 @@
 <script>
 import KeyPad from "./helpers/KeyPad.vue";
 import PresentationItem from "./helpers/PresentationItem.vue";
+import { mapState } from "pinia";
+import { useUserStore } from "@/stores/user";
 
 export default {
   components: {
@@ -48,12 +50,21 @@ export default {
       default: true,
     },
   },
+  watch: {
+    // whenever question changes, this function will run
+    game_progress() {
+      this.content = "";
+      this.notes = "";
+    },
+  },
   data: function () {
     return {
       content: "",
+      notes: "",
     };
   },
   computed: {
+    ...mapState(useUserStore, ["game_progress"]),
     output: function () {
       const input = this.content
         .trim()
@@ -99,12 +110,13 @@ export default {
 textarea {
   width: 100%;
   min-height: 30px;
-  height: 200px;
+  height: 150px;
   font-size: larger;
   background: rgba(0, 0, 0, 0);
-  border: 0;
+  border: 1px dashed gray;
   resize: none;
   border-bottom: 1px solid black;
+  padding: 10px;
 }
 
 #output {

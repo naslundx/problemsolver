@@ -35,7 +35,7 @@
       </div>
     </div>
     <template #explanation>
-      <i>Du behöver ta reda på mer information och här i chatten kan du ställa
+      <i>Du behöver ta reda på mer information. I chatten kan du ställa
         frågor, till exempel "Vad kostar en glass?".</i>
     </template>
   </PresentationItem>
