@@ -216,7 +216,7 @@ hr {
   border-top: 1px dashed black;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 899px) {
   .explanation.flexcontainer button {
     display: none;
   }

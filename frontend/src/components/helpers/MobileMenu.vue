@@ -4,7 +4,7 @@
       v-for="(item, index) in items"
       :key="index"
       :class="{
-        disabled: index > numberEnabledElements,
+        disabled: index > numberEnabledElements - 1,
       }"
       @click="() => scrollTo(item.target)"
     >
@@ -56,13 +56,10 @@ export default {
   },
   methods: {
     scrollTo(target) {
-      console.log('wtf')
       document.querySelector(`div.${target}`).scrollIntoView({
         behavior: "smooth", block: "end",
       });
-      console.log(this.items.find(item => item.target === target).index);
       if (this.items.find(item => item.target === target).index === this.numberEnabledElements) {
-        console.log('reached');
         this.$emit('reached');
       }
     },

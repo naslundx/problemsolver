@@ -113,8 +113,12 @@ export default {
     OKExplanation: function () {
       this.item_show_index += 1;
       this.$nextTick(function () {
-        const el = document.querySelector('.container.wrapper:last-child') 
-        console.log(el);
+        let el;
+        if (this.item_show_index === 4) {
+          el = document.querySelector('.container.wrapper:last-child ');
+        } else {
+          el = document.querySelector('.container.wrapper:nth-last-child(2)');
+        } 
         el.scrollIntoView(true, {
           behavior: "smooth",
         });
