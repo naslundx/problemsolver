@@ -15,35 +15,42 @@ GAMES_TABLE = f"games{DEBUG}"
 QUESTIONS_TABLE = f"questions{DEBUG}"
 CHATS_TABLE = f"chats{DEBUG}"
 
-DB_CONN = None
+DB_CONNECTION = None
 DATABASE_URL = get_env_key("DATABASE_URL")
-if DATABASE_URL:
-    DB_CONN = psycopg2.connect(DATABASE_URL, sslmode="require")
+
+
+def connect_database():
+    global DB_CONNECTION
+
+    if not DATABASE_URL:
+        return None
+    
+    DB_CONNECTION = psycopg2.connect(DATABASE_URL, sslmode="require")
 
 # ---
 
-
 def _db_exec(query, get_value=False, params=None):
-    if not DB_CONN:
-        return None
+    if not DB_CONNECTION:
+        connect_database()
 
-    with (cursor := DB_CONN.cursor()):
-        try:
-            cursor.execute(query, params)
-            DB_CONN.commit()
-            if get_value:
-                id_of_new_row = cursor.fetchone()[0]
-                return id_of_new_row
-        except Exception as e:
-            print(e)
-            return None
+    try:
+        with (cursor := DB_CONNECTION.cursor()):
+                cursor.execute(query, params)
+                DB_CONNECTION.commit()
+                if get_value:
+                    id_of_new_row = cursor.fetchone()[0]
+                    return id_of_new_row
+
+    except psycopg2.OperationalError:
+        connect_database()
+        return _db_exec(query, get_value, params)
 
 
 def _db_query(query, single=False, params=None):
-    if not DB_CONN:
+    if not DB_CONNECTION:
         return None
 
-    with (cursor := DB_CONN.cursor()):
+    with (cursor := DB_CONNECTION.cursor()):
         try:
             cursor.execute(query, params)
             if single:
