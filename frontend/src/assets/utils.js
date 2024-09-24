@@ -1,8 +1,8 @@
 // TODO use axios instead?
 
 const send = async (method, url, data = null) => {
-  //let response = await fetch(`/api/${url}`, {
-  let response = await fetch(`http://127.0.0.1:5000/api/${url}`, {
+  const server_url = window.location.host.startsWith('localhost') ? `http://127.0.0.1:5000/api/${url}` : `/api/${url}`; 
+  let response = await fetch(server_url, {
     method,
     ...(data && { body: JSON.stringify(data) }),
   });
