@@ -25,7 +25,7 @@ def connect_database():
     if not DATABASE_URL:
         return None
     
-    DB_CONNECTION = psycopg2.connect(DATABASE_URL) #, sslmode="require")
+    DB_CONNECTION = psycopg2.connect(DATABASE_URL, sslmode="require")
 
 # ---
 
@@ -35,11 +35,11 @@ def _db_exec(query, get_value=False, params=None):
 
     try:
         with (cursor := DB_CONNECTION.cursor()):
-                cursor.execute(query, params)
-                DB_CONNECTION.commit()
-                if get_value:
-                    id_of_new_row = cursor.fetchone()[0]
-                    return id_of_new_row
+            cursor.execute(query, params)
+            DB_CONNECTION.commit()
+            if get_value:
+                id_of_new_row = cursor.fetchone()[0]
+                return id_of_new_row
 
     except psycopg2.OperationalError:
         connect_database()
@@ -48,7 +48,7 @@ def _db_exec(query, get_value=False, params=None):
 
 def _db_query(query, single=False, params=None):
     if not DB_CONNECTION:
-        return None
+        connect_database()
 
     with (cursor := DB_CONNECTION.cursor()):
         try:
