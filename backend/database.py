@@ -25,7 +25,7 @@ def connect_database():
     if not DATABASE_URL:
         return None
     
-    DB_CONNECTION = psycopg2.connect(DATABASE_URL, sslmode="require")
+    DB_CONNECTION = psycopg2.connect(DATABASE_URL) #, sslmode="require")
 
 # ---
 

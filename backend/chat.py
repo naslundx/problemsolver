@@ -8,12 +8,8 @@ openai.api_key = OPENAI_API_KEY
 
 
 GENERAL_OPENAI_PROMPT = """
-Följande regler är jätteviktiga. 
-Svara alltid så kortfattat som möjligt. 
-Svara inte på några uträkningar. 
-Om du inte förstår, svara bara 'Jag förstår inte'. 
-Om du inte vet eller inte får svara, svara bara 'Jag vet inte'. 
-Nu till min fråga:
+Följande regler är jätteviktiga. Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar. Om du inte förstår, svara bara 'Jag förstår inte'. 
+Om du inte vet, svara bara 'Jag vet inte'. Nu till min fråga:
 """
 
 
@@ -25,7 +21,7 @@ def get_response(openai_prompt, content):
     full_prompt = f"{openai_prompt} {GENERAL_OPENAI_PROMPT} {content[:100]}"
 
     chat_completion = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # "gpt-4"
+        model="gpt-4o-mini",
         messages=[{"role": "user", "content": full_prompt}],
         max_tokens=250,
         # lower values like 0.2 will make it more focused and deterministic.

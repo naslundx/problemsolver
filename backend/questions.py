@@ -1,4 +1,5 @@
 from functools import lru_cache
+from ftfy import fix_encoding
 import json
 import re
 import random
@@ -13,9 +14,9 @@ SPECIAL_VARS = {
 }
 
 
-def _process_text(text, variables):
-    if len(variables) == 0:
-        return text
+def _process_text(text, variables = None):
+    if not variables:
+        return fix_encoding(text)
 
     while True:
         match = re.search("\{\{(.*?)\}\}", text)
@@ -35,7 +36,7 @@ def _process_text(text, variables):
 
         text = text[:start] + data + text[end:]
 
-    return text
+    return fix_encoding(text)
 
 
 def get_question(question_id, seed=None):
@@ -48,7 +49,7 @@ def get_question(question_id, seed=None):
 
     return (
         _process_text(question["prompt"], variables),
-        question["question"],
+        _process_text(question["question"]),
         question["unit"],
         question["image"],
         interview,
