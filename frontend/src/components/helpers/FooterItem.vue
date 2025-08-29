@@ -1,7 +1,7 @@
 <template>
   <PresentationItem>
     <div class="flexContainer">
-      <span><a href="https://se.linkedin.com/in/naslundx">Marcus Näslund (c) 2024</a></span>
+      <span><a href="https://se.linkedin.com/in/naslundx">Marcus Näslund (c) 2025</a></span>
       <!-- <div class="vl" /> -->
     </div>
   </PresentationItem>
