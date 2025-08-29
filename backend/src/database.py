@@ -24,8 +24,9 @@ def connect_database():
 
     if not DATABASE_URL:
         return None
-    
-    DB_CONNECTION = psycopg2.connect(DATABASE_URL, sslmode="require")
+
+    DB_CONNECTION = psycopg2.connect(DATABASE_URL) #, sslmode="require")
+    return DB_CONNECTION
 
 # ---
 
@@ -116,7 +117,7 @@ def reset_database():
     )
 
 
-def upload_questions(filename="backend/questions.json"):
+def upload_questions(filename="questions.json"):
     with open(filename) as f:
         questions = json.loads(f.read())
     _db_exec(
