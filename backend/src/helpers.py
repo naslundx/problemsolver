@@ -21,11 +21,11 @@ def get_env_key(name):
     result = os.environ.get(name)
     if result:
         return result
-    
-    with open('backend/.env') as f:
+
+    with open('.env') as f:
         for line in f.readlines():
             key, value = line.split(' ')
             if key == name:
                 return value.strip()
-            
+
     return None

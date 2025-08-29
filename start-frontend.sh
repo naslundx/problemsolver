@@ -1,1 +1,1 @@
-yarn run dev
+cd frontend && yarn run dev

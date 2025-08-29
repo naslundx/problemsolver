@@ -3,21 +3,21 @@ from flask_cors import CORS, cross_origin
 import json
 import os
 
-from .chat import get_response
-from .database import (
+from src.chat import get_response
+from src.database import (
     create_game,
     increment_game_progress,
     fetch_game_progress,
     fetch_question_count,
     save_chat,
 )
-from .questions import (
+from src.questions import (
     get_question,
     get_answer,
     get_clue,
     get_prompt,
 )
-from .helpers import generate_uuid_and_seed
+from src.helpers import generate_uuid_and_seed
 
 
 app = Flask(__name__, static_folder="../frontend/dist/", static_url_path="/")
@@ -120,5 +120,5 @@ def index():
 
 
 if __name__ == "__main__":
-    PORT = int(os.environ.get("PORT"))
-    app.run(threaded=True, host="0.0.0.0", port=PORT)
+    PORT = int(os.environ.get("PORT", "8000"))
+    app.run(threaded=True, port=PORT)

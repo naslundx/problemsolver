@@ -1,1 +1,1 @@
-python -m flask --app backend.app run --debug
+cd backend && uv run
