@@ -25,12 +25,10 @@ export const useQuestionStore = defineStore("question", {
       let userStore = useUserStore();
 
       const game_uuid = userStore.game_uuid;
-      const seed = userStore.seed;
 
       const json = await send("POST", "start", {
         question_id: id,
         game_uuid,
-        seed,
       });
       if (isEmpty(json)) {
         return false;
@@ -71,14 +69,11 @@ export const useQuestionStore = defineStore("question", {
       let userStore = useUserStore();
 
       const game_uuid = userStore.game_uuid;
-      const seed = userStore.seed;
 
-      let api = send("POST", "play", {
-        action: "chat",
+      let api = send("POST", "chat", {
         question_id: this.question_id,
         question: message,
         interview_index,
-        seed,
         game_uuid,
       });
 

@@ -117,7 +117,7 @@ export default {
       return "st";
     },
     ...mapState(useQuestionStore, ["question_id", /*"unit",*/ "question"]),
-    ...mapState(useUserStore, ["game_uuid", "seed"]),
+    ...mapState(useUserStore, ["game_uuid"]),
     showAnswerButton: function () {
       return this.answer_content !== "" && this.answer_status !== true;
     },
@@ -153,12 +153,10 @@ export default {
       this.isLoading = true;
       this.answer_status = "";
 
-      let api = send("POST", "play", {
-        action: "answer",
+      let api = send("POST", "answer", {
         question_id: this.question_id,
         answer: cleanAnswer,
         game_uuid: this.game_uuid,
-        seed: this.seed,
       });
 
       this.$nextTick(function () {

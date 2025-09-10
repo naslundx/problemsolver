@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from functools import lru_cache
 from ftfy import fix_encoding
 import json
@@ -5,7 +6,7 @@ import re
 import random
 import uuid
 from datetime import datetime
-from .database import fetch_question, fetch_question_count
+from .data import fetch_question, fetch_question_count
 
 
 SPECIAL_VARS = {
@@ -14,12 +15,21 @@ SPECIAL_VARS = {
 }
 
 
+@dataclass(frozen=True)
+class Question:
+    prompt: str
+    question: str
+    unit: str
+    image: str
+    interview: list
+
+
 def _process_text(text, variables = None):
     if not variables:
         return fix_encoding(text)
 
     while True:
-        match = re.search("\{\{(.*?)\}\}", text)
+        match = re.search(r"\{\{(.*?)\}\}", text)
         if match is None:
             break
 
@@ -47,12 +57,12 @@ def get_question(question_id, seed=None):
         option["name"] = _process_text(option["name"], variables)
         option["prompt"] = _process_text(option["prompt"], variables)
 
-    return (
-        _process_text(question["prompt"], variables),
-        _process_text(question["question"]),
-        question["unit"],
-        question["image"],
-        interview,
+    return Question(
+        prompt=_process_text(question["prompt"], variables),
+        question=_process_text(question["question"]),
+        unit=question["unit"],
+        image=question["image"],
+        interview=interview,
     )
 
 
