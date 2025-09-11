@@ -1,5 +1,5 @@
 <template>
-  <PresentationItem
+  <BasePanel
     class="wrapper answer"
     icon="check"
     heading="Svara"
@@ -13,7 +13,7 @@
         Lämna ditt svar här:
       </p>
       <div class="answerContainer">
-        <my-button
+        <FlatButton
           class="clearBtn"
           :disabled="answer_content.length === 0"
           icon="eraser"
@@ -29,7 +29,7 @@
             {{ unit }}
           </span>
         </div>
-        <my-button
+        <FlatButton
           :disabled="!showAnswerButton"
           text="Svara"
           class="actionBtn"
@@ -52,7 +52,7 @@
       <p v-if="clue !== ''">
         <b>Ledtråd: </b>{{ clue }}
       </p>
-      <my-button
+      <FlatButton
         v-if="answer_status === true"
         icon="chevron-right"
         class="actionBtn"
@@ -78,12 +78,12 @@
         Du svarar på den ursprungliga frågan här. Du kan försöka flera gånger.
       </i>
     </template>
-  </PresentationItem>
+  </BasePanel>
 </template>
 
 <script>
-import MyButton from "./helpers/MyButton.vue";
-import PresentationItem from "./helpers/PresentationItem.vue";
+import FlatButton from "./helpers/FlatButton.vue";
+import BasePanel from "./helpers/BasePanel.vue";
 import LoadingAnimation from "./helpers/LoadingAnimation.vue";
 
 import { mapActions, mapState } from "pinia";
@@ -94,8 +94,8 @@ import { useQuestionStore } from "@/stores/question";
 export default {
   components: {
     LoadingAnimation,
-    MyButton,
-    PresentationItem,
+    FlatButton,
+    BasePanel,
   },
   props: {
     showExplanation: {

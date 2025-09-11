@@ -1,5 +1,5 @@
 <template>
-  <PresentationItem class="wrapper main">
+  <BasePanel class="wrapper main">
     <div class="container">
       <span
         v-for="number in numbersUpTo"
@@ -19,11 +19,11 @@
         {{ number }}
       </span>
     </div>
-  </PresentationItem>
+  </BasePanel>
 </template>
 
 <script>
-import PresentationItem from "./helpers/PresentationItem.vue";
+import BasePanel from "./helpers/BasePanel.vue";
 import { mapActions, mapState } from "pinia";
 import { useInfoStore } from "@/stores/info";
 import { useUserStore } from "@/stores/user";
@@ -31,7 +31,7 @@ import { useQuestionStore } from "@/stores/question";
 
 export default {
   components: {
-    PresentationItem,
+    BasePanel,
   },
   props: {},
   computed: {

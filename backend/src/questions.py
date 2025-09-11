@@ -76,9 +76,8 @@ def get_prompt(index, interview_index, seed=None):
 
 
 @lru_cache()
-def get_variables(index, seed=None):
-    if seed is not None:
-        random.seed(seed)
+def get_variables(index, seed):
+    random.seed(seed)
 
     result = {}
     question = fetch_question(index)
@@ -95,7 +94,7 @@ def get_variables(index, seed=None):
     return result
 
 
-def get_answer(index, seed=None):
+def get_answer(index, seed):
     question = fetch_question(index)
     variables = get_variables(index, seed)
 

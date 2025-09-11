@@ -1,5 +1,7 @@
+from cachetools.func import ttl_cache
+import json
 from .database import DB, GAMES_TABLE, QUESTIONS_TABLE, CHATS_TABLE
-
+from .settings import DATA_TTL
 
 def create_game(game_uuid, seed, question_id):
     query = f"""
@@ -29,6 +31,7 @@ def fetch_game_progress(game_uuid):
     return DB.query(query, single=True, params=(str(game_uuid),)) or 0
 
 
+@ttl_cache(ttl=DATA_TTL)
 def load_seed_from_game_uuid(game_uuid):
     query = f"""
         SELECT seed
@@ -37,7 +40,8 @@ def load_seed_from_game_uuid(game_uuid):
     """
     return DB.query(query, single=True, params=(str(game_uuid),)) or 0
 
-# TODO use cachetools https://stackoverflow.com/a/54357155
+
+@ttl_cache(ttl=DATA_TTL)
 def fetch_question(question_id):
     query = f"""
         SELECT content

@@ -8,8 +8,13 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 GENERAL_OPENAI_PROMPT = """
-Följande regler är jätteviktiga. Svara alltid så kortfattat som möjligt. Svara inte på några uträkningar. Om du inte förstår, svara bara 'Jag förstår inte'.
-Om du inte vet, svara bara 'Jag vet inte'. Nu till min fråga:
+Följande regler är jätteviktiga:
+    - Svara alltid så kortfattat som möjligt.
+    - Svara inte på några uträkningar.
+    - Om du inte förstår, svara bara 'Jag förstår inte'.
+    - Om du inte vet, svara bara 'Jag vet inte'.
+
+Nu till min fråga:
 """
 
 

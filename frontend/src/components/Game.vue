@@ -1,5 +1,5 @@
 <template>
-  <OverviewItem
+  <GameHeader
     ref="top"
     :full-width="true"
   />
@@ -9,13 +9,13 @@
   </p>
 
   <div class="sections">
-    <HeaderItem
+    <OverviewPanel
       :show-explanation="showExplanation"
       @okexplanation="OKExplanation"
     />
 
     <Transition name="fade">
-      <QuestionItem
+      <ChatPanel
         v-if="showAllItems || item_show_index > 0"
         :show-explanation="showExplanation"
         @okexplanation="OKExplanation"
@@ -23,7 +23,7 @@
     </Transition>
 
     <Transition name="fade">
-      <NotesItem
+      <CalculatorPanel
         v-if="showAllItems || item_show_index > 1"
         :show-explanation="showExplanation"
         @okexplanation="OKExplanation"
@@ -31,7 +31,7 @@
     </Transition>
 
     <Transition name="fade">
-      <AnswerItem
+      <AnswerPanel
         v-if="showAllItems || item_show_index > 2"
         :show-explanation="showExplanation"
         @okexplanation="OKExplanation"
@@ -39,25 +39,25 @@
     </Transition>
   </div>
 
-  <MobileMenu 
+  <MobileMenu
     :number-enabled-elements="item_show_index"
     @reached="onReached"
   />
 
-  <FooterItem
+  <GameFooter
     ref="bottom"
     :full-width="true"
   />
 </template>
 
 <script>
-import AnswerItem from "./AnswerItem.vue";
-import FooterItem from "./helpers/FooterItem.vue";
-import HeaderItem from "./HeaderItem.vue";
+import AnswerPanel from "./AnswerPanel.vue";
+import ChatPanel from "./ChatPanel.vue";
+import GameFooter from "./GameFooter.vue";
+import OverviewPanel from "./OverviewPanel.vue";
 import MobileMenu from "./helpers/MobileMenu.vue";
-import NotesItem from "./NotesItem.vue";
-import OverviewItem from "./OverviewItem.vue";
-import QuestionItem from "./QuestionItem.vue";
+import CalculatorPanel from "./CalculatorPanel.vue";
+import GameHeader from "./GameHeader.vue";
 
 import { mapActions, mapState } from "pinia";
 import { useInfoStore } from "@/stores/info";
@@ -66,13 +66,13 @@ import { useQuestionStore } from "@/stores/question";
 
 export default {
   components: {
-    AnswerItem,
-    FooterItem,
-    HeaderItem,
+    AnswerPanel,
+    CalculatorPanel,
+    ChatPanel,
+    GameFooter,
+    GameHeader,
     MobileMenu,
-    NotesItem,
-    OverviewItem,
-    QuestionItem,
+    OverviewPanel,
   },
   data: function () {
     return {
@@ -118,7 +118,7 @@ export default {
           el = document.querySelector('.container.wrapper:last-child ');
         } else {
           el = document.querySelector('.container.wrapper:nth-last-child(2)');
-        } 
+        }
         el.scrollIntoView(true, {
           behavior: "smooth",
         });
@@ -167,16 +167,17 @@ p.title {
 
 @media only screen and (min-width: 900px) {
   div.sections {
-    flex-flow: row wrap;
+    flex-flow: row;
     row-gap: 20px;
     column-gap: 20px;
     max-width: 1400px;
-    margin: 0 auto;
-    margin-bottom: 10px;
+    padding: 20px;
   }
 
   div.sections > div {
     min-width: 40%;
+    max-width: 80%;
+    max-height: 100%;
     border-radius: 10px;
   }
 
@@ -189,6 +190,6 @@ p.title {
   .fade-leave-to {
     opacity: 0;
   }
-  
+
 }
 </style>

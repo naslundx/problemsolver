@@ -12,10 +12,6 @@
             :icon="`fa-solid fa-${icon}`"
           />
           {{ heading }}
-          <!-- <toggle-button
-            v-if="toggleable"
-            @toggle="toggleShow"
-          /> -->
           <hr v-if="!!heading">
         </h2>
 
@@ -30,7 +26,7 @@
         class="explanation flexcontainer"
       >
         <slot name="explanation" />
-        <my-button
+        <FlatButton
           class="okexplanation wiggle"
           :class="{ hidden: !showOKExplanation }"
           text="OK!"
@@ -42,11 +38,11 @@
 </template>
 
 <script>
-import MyButton from "./MyButton.vue";
+import FlatButton from "./FlatButton.vue";
 
 export default {
   components: {
-    MyButton,
+    FlatButton,
   },
   props: {
     icon: {

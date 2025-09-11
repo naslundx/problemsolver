@@ -1,5 +1,5 @@
 <template>
-  <PresentationItem
+  <BasePanel
     class="wrapper question"
     icon="comments"
     heading="Ställ frågor"
@@ -38,13 +38,13 @@
       <i>Du behöver ta reda på mer information. I chatten kan du ställa
         frågor, till exempel "Vad kostar en glass?".</i>
     </template>
-  </PresentationItem>
+  </BasePanel>
 </template>
 
 <script>
 import ChatBubble from "./helpers/ChatBubble.vue";
 import LoadingAnimation from "./helpers/LoadingAnimation.vue";
-import PresentationItem from "./helpers/PresentationItem.vue";
+import BasePanel from "./helpers/BasePanel.vue";
 
 import { mapActions, mapState } from "pinia";
 import { useQuestionStore } from "@/stores/question";
@@ -53,7 +53,7 @@ export default {
   components: {
     ChatBubble,
     LoadingAnimation,
-    PresentationItem,
+    BasePanel,
   },
   props: {
     showExplanation: {

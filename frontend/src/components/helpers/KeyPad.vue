@@ -1,63 +1,63 @@
 <template>
   <div class="buttons">
-    <my-button
+    <FlatButton
       text="7"
       @click="onClick('7')"
     />
-    <my-button
+    <FlatButton
       text="8"
       @click="onClick('8')"
     />
-    <my-button
+    <FlatButton
       text="9"
       @click="onClick('9')"
     />
-    <my-button
+    <FlatButton
       text="/"
       @click="onClick('/')"
     />
-    <my-button
+    <FlatButton
       text="4"
       @click="onClick('4')"
     />
-    <my-button
+    <FlatButton
       text="5"
       @click="onClick('5')"
     />
-    <my-button
+    <FlatButton
       text="6"
       @click="onClick('6')"
     />
-    <my-button
+    <FlatButton
       text="*"
       @click="onClick('*')"
     />
-    <my-button
+    <FlatButton
       text="1"
       @click="onClick('1')"
     />
-    <my-button
+    <FlatButton
       text="2"
       @click="onClick('2')"
     />
-    <my-button
+    <FlatButton
       text="3"
       @click="onClick('3')"
     />
-    <my-button
+    <FlatButton
       text="-"
       @click="onClick('-')"
     />
-    <my-button
+    <FlatButton
       text="0"
       style="flex: 2 1 10%"
       @click="onClick('0')"
     />
-    <my-button
+    <FlatButton
       text="C"
       @click="onClick('C')"
     />
-    <my-button
+    <FlatButton
       text="+"
       @click="onClick('+')"
     />
@@ -65,10 +65,10 @@
 </template>
 
 <script>
-import MyButton from "./MyButton.vue";
+import FlatButton from "./FlatButton.vue";
 
 export default {
-  components: { MyButton },
+  components: { FlatButton },
   emits: ["click"],
   methods: {
     onClick(element) {

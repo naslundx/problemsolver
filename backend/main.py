@@ -99,6 +99,8 @@ def chat():
     response = get_response(prompt, question)
     save_chat(question_id, question, response)
 
+    # TODO save game_uuid and responder_id for chat, retreive all chats for this person and game and include for context
+
     return {
         "game_uuid": game_uuid,
         "question": question,

@@ -8,7 +8,7 @@
         v-if="showInput"
         class="flexContainer"
       >
-        <my-button
+        <FlatButton
           :disabled="emptyInput"
           icon="eraser"
           class="button"
@@ -20,7 +20,7 @@
           placeholder="Meddelande"
           @keyup.enter="onChat"
         >
-        <my-button
+        <FlatButton
           :disabled="showInfo || emptyInput"
           text="Skicka"
           icon="paper-plane"
@@ -42,11 +42,11 @@
 </template>
 
 <script>
-import MyButton from "./MyButton.vue";
+import FlatButton from "./FlatButton.vue";
 
 export default {
   components: {
-    MyButton,
+    FlatButton,
   },
   props: {
     orientation: {
@@ -116,8 +116,6 @@ p.info {
   color: maroon;
 }
 
-/* --- */
-
 @function em($value) {
   @return calc($value / 16) * 1em;
 }
@@ -168,7 +166,6 @@ body {
     bottom: 0;
     border-left: em($radius) solid $color;
     border-bottom-left-radius: 100%;
-    // z-index: -1;
   }
 }
 
@@ -203,7 +200,6 @@ body {
     bottom: 0;
     border-left: em($radius) solid $color;
     border-bottom-left-radius: 100%;
-    // z-index: -1;
     transform: scaleX(-1);
   }
 }

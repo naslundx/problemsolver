@@ -1,18 +1,17 @@
 <template>
-  <PresentationItem>
+  <BasePanel>
     <div class="flexContainer">
       <span><a href="https://se.linkedin.com/in/naslundx">Marcus Näslund (c) 2025</a></span>
-      <!-- <div class="vl" /> -->
     </div>
-  </PresentationItem>
+  </BasePanel>
 </template>
 
 <script>
-import PresentationItem from "./PresentationItem.vue";
+import BasePanel from "./helpers/BasePanel.vue";
 
 export default {
   components: {
-    PresentationItem,
+    BasePanel,
   },
 };
 </script>

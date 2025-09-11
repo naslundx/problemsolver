@@ -1,12 +1,12 @@
 <template>
-  <PresentationItem
+  <BasePanel
     class="wrapper notes"
-    icon="note-sticky"
-    heading="Anteckningar & Miniräknare"
+    icon="calculator"
+    heading="Miniräknare"
     :toggleable="true"
     :show-explanation="showExplanation"
   >
-    <textarea 
+    <textarea
       v-model="notes"
       placeholder="Valfria anteckningar"
     />
@@ -30,19 +30,19 @@
       <i>Här kan du spara anteckningar, samt räkna ut det du behöver i en enkel
         miniräknare.</i>
     </template>
-  </PresentationItem>
+  </BasePanel>
 </template>
 
 <script>
 import KeyPad from "./helpers/KeyPad.vue";
-import PresentationItem from "./helpers/PresentationItem.vue";
+import BasePanel from "./helpers/BasePanel.vue";
 import { mapState } from "pinia";
 import { useUserStore } from "@/stores/user";
 
 export default {
   components: {
     KeyPad,
-    PresentationItem,
+    BasePanel,
   },
   props: {
     showExplanation: {
