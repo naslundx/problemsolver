@@ -31,6 +31,7 @@ export const useUserStore = defineStore("user", {
         return;
       }
 
+      console.log("creating");
       const settings_json = await send("POST", "create");
       this.game_uuid = settings_json.game_uuid;
       this.game_progress = settings_json.game_progress;

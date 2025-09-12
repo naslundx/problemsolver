@@ -100,7 +100,9 @@ def reset_database():
         f"""
         CREATE TABLE {CHATS_TABLE} (
             id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-            question_id INT,
+            game_uuid UUID NOT NULL,
+            chat_index INT NOT NULL,
+            question_id INT NOT NULL,
             question text,
             answer text,
             CONSTRAINT fk_question_id
@@ -109,6 +111,7 @@ def reset_database():
         );
     """
     )
+    print('Done.')
 
 
 def upload_questions(filename="questions.json"):
@@ -127,3 +130,4 @@ def upload_questions(filename="questions.json"):
     """
     for question in questions:
         DB.execute(query, params=(question["id"], json.dumps(question)))
+    print('Done.')

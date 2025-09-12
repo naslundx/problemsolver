@@ -113,10 +113,7 @@ export default {
     };
   },
   computed: {
-    unit: function () {
-      return "st";
-    },
-    ...mapState(useQuestionStore, ["question_id", /*"unit",*/ "question"]),
+    ...mapState(useQuestionStore, ["question_id", "unit", "question"]),
     ...mapState(useUserStore, ["game_uuid"]),
     showAnswerButton: function () {
       return this.answer_content !== "" && this.answer_status !== true;

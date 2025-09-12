@@ -6,13 +6,13 @@
     :show-explanation="showExplanation"
   >
     <div class="mainContainer">
-      <div class="interviewContainer">
+      <div class="contactContainer">
         <div
-          v-for="(person, index) in interview"
+          v-for="(person, index) in chat"
           :key="person.name"
-          class="interview"
-          :class="{ 'interview-select': index == interview_index }"
-          @click="setInterviewIndex(index)"
+          class="chat"
+          :class="{ 'chat-select': index == chat_index }"
+          @click="setChatIndex(index)"
         >
           <p>{{ person.name }}</p>
           <img :src="person.image">
@@ -64,21 +64,21 @@ export default {
   data: function () {
     return {
       isLoading: false,
-      interview_index: 0,
+      chat_index: 0,
     };
   },
   computed: {
-    ...mapState(useQuestionStore, ["currentHistory", "interview"]),
+    ...mapState(useQuestionStore, ["currentHistory", "chat"]),
   },
   methods: {
-    ...mapActions(useQuestionStore, ["chat"]),
+    ...mapActions(useQuestionStore, ["sendChat"]),
     onChat: async function (content) {
       this.isLoading = true;
-      await this.chat(content, this.interview_index);
+      await this.sendChat(content, this.chat_index);
       this.isLoading = false;
     },
-    setInterviewIndex: function (index) {
-      this.interview_index = index;
+    setChatIndex: function (index) {
+      this.chat_index = index;
     },
   },
 };
@@ -95,7 +95,7 @@ export default {
   justify-content: space-between;
   gap: 10px;
 }
-.interviewContainer {
+.contactContainer {
   display: flex;
   flex-flow: column wrap;
   gap: 5px;
@@ -103,8 +103,6 @@ export default {
 }
 .chatContainer {
   flex-grow: 1;
-  border-left: 1px solid black;
-  overflow-y: scroll;
 }
 input {
   width: 100%;
@@ -118,7 +116,7 @@ b {
   font-size: larger;
   margin-top: 1rem;
 }
-.interview {
+.chat {
   border: 2px solid rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   height: 100px;
@@ -126,18 +124,18 @@ b {
   cursor: pointer;
   opacity: 0.5;
 }
-.interview-select {
+.chat-select {
   border: 2px solid rgba(0, 0, 0, 1);
   background: rgba(210, 248, 225, 1);
   opacity: 1;
 }
-.interview:hover {
+.chat:hover {
   opacity: 1;
 }
-.interview p {
+.chat p {
   text-align: center;
 }
-.interview img {
+.chat img {
   max-width: 50px;
 }
 </style>

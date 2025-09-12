@@ -12,12 +12,12 @@ export const useQuestionStore = defineStore("question", {
     unit: "",
     image_url: "",
     history: {},
-    interview: {},
-    latest_interview_id: 0,
+    chat: {},
+    latest_chat_id: 0,
   }),
   getters: {
     currentHistory() {
-      return this.history[this.latest_interview_id] || [];
+      return this.history[this.latest_chat_id] || [];
     },
   },
   actions: {
@@ -39,9 +39,9 @@ export const useQuestionStore = defineStore("question", {
       this.prompt = json.prompt;
       this.unit = json.unit;
       this.image_url = json.image_url;
-      this.interview = json.interview;
+      this.chat = json.chat;
       this.history = {};
-      this.latest_interview_id = 0;
+      this.latest_chat_id = 0;
       return true;
     },
     async fetchNextQuestion() {
@@ -51,18 +51,18 @@ export const useQuestionStore = defineStore("question", {
       this.index += 1;
 
       element.index = this.index;
-      let history_key = element.interview_index;
+      let history_key = element.chat_index;
       if (!(history_key in this.history)) {
         this.history[history_key] = [];
       }
 
       this.history[history_key].push(element);
     },
-    async chat(message, interview_index = 0) {
-      this.latest_interview_id = interview_index;
+    async sendChat(message, chat_index = 0) {
+      this.latest_chat_id = chat_index;
       this.addToHistory({
         from: "user",
-        interview_index,
+        chat_index,
         content: message,
       });
 
@@ -73,7 +73,7 @@ export const useQuestionStore = defineStore("question", {
       let api = send("POST", "chat", {
         question_id: this.question_id,
         question: message,
-        interview_index,
+        chat_index,
         game_uuid,
       });
 
@@ -81,7 +81,7 @@ export const useQuestionStore = defineStore("question", {
 
       this.addToHistory({
         from: "ai",
-        interview_index,
+        chat_index,
         content: json.response,
       });
     },

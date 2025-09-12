@@ -107,7 +107,7 @@ export default {
     ...mapActions(useUserStore, ["clearLocalStorage", "fetchGame", "clear"]),
     ...mapActions(useQuestionStore, ["start"]),
     async load() {
-      await Promise.all([this.fetchGame(), this.fetchInfo()]);
+      await Promise.all([this.fetchGame()/* , this.fetchInfo()*/]);
       return await this.start(this.game_progress);
     },
     OKExplanation: function () {
@@ -161,6 +161,7 @@ p.title {
     margin: 0;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
+    scroll-snap-align: center;
     column-gap: 10px;
     display: flex;
   }
@@ -170,8 +171,9 @@ p.title {
     flex-flow: row;
     row-gap: 20px;
     column-gap: 20px;
-    max-width: 1400px;
     padding: 20px;
+    max-width: 90%;
+    margin: 0 auto;
   }
 
   div.sections > div {

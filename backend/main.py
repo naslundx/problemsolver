@@ -36,7 +36,7 @@ def info():
 
 
 @app.post("/api/create")
-@cross_origin()
+#@cross_origin()
 def create():
     game_uuid, seed = generate_uuid_and_seed()
     question_id = 0
@@ -66,7 +66,7 @@ def start():
     game_uuid = data.get("game_uuid")
 
     progress = fetch_game_progress(game_uuid)
-    if progress < question_id:
+    if question_id > progress + 1:
         return {}, 403
 
     seed = load_seed_from_game_uuid(game_uuid)
@@ -77,7 +77,7 @@ def start():
         "question": question.question,
         "unit": question.unit,
         "image_url": question.image,
-        "interview": question.interview,
+        "chat": question.chat,
     }
 
 
@@ -85,6 +85,9 @@ def start():
 @cross_origin()
 def chat():
     data = json.loads(request.data)
+    if 'question' not in data or 'chat_index' not in data:
+        return {}, 400
+
     game_uuid = data.get("game_uuid")
     question_id = data.get("question_id")
 
@@ -94,12 +97,10 @@ def chat():
 
     seed = load_seed_from_game_uuid(game_uuid)
     question = data.get("question")[:MAX_QUESTION_LENGTH]
-    interview_index = data.get("interview_index")
-    prompt = get_prompt(question_id, interview_index, seed)
+    chat_index = data.get("chat_index")
+    prompt = get_prompt(question_id, chat_index, seed)
     response = get_response(prompt, question)
-    save_chat(question_id, question, response)
-
-    # TODO save game_uuid and responder_id for chat, retreive all chats for this person and game and include for context
+    save_chat(game_uuid, chat_index, question_id, question, response)
 
     return {
         "game_uuid": game_uuid,

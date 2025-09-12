@@ -17,10 +17,10 @@
       "n": [21, 24],
       "other": ["F_NAME"]
     },
-    "interview": [
+    "chat": [
       {
         "name": "{{F_NAME}}",
-        "prompt": "Låtsas att du heter {{F_NAME}} och köper {{g}} glassar. Du är en 15-årig tjej. Varje glass kostar {{n}} kronor. Varje glass kostar lika mycket. Du får inte svara på någon fråga om hur mycket den totala kostnaden är.",
+        "prompt": "Låtsas att du heter {{F_NAME}} och köper {{g}} glassar. Du är en 15-årig tjej. Varje glass kostar {{n}} kronor. Varje glass kostar lika mycket. Om du får frågor om hur mycket alla glassar kostade tillsammans, säg att du inte vet.",
         "image": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fvectorified.com%2Fimages%2Favatar-icon-png-26.jpg&f=1&nofb=1&ipt=3e7a94aaa621b0d94376c0c052d5907930a4665ecb512594dcb95df4046ac5f8&ipo=images"
       }
     ]
@@ -42,7 +42,7 @@
       "t": [5, 15],
       "other": ["F_NAME"]
     },
-    "interview": [
+    "chat": [
       {
         "name": "{{F_NAME}}",
         "prompt": "Låtsas att du heter {{F_NAME}} och planterar om blommor. Du har {{b}} blommor. Varje plantering tar {{t}} minuter. Du får inte svara på någon fråga om hur lång tid det tar totalt.",
@@ -62,7 +62,7 @@
     ],
     "difficulty": "easy",
     "image": "https://content.instructables.com/F7V/MNW5/HFSHW4IO/F7VMNW5HFSHW4IO.jpg?auto=webp",
-    "interview": [
+    "chat": [
       {
         "name": "{{M_NAME}}",
         "prompt": "Låtsas att du är min farbror och heter {{M_NAME}} och lastar cyklar på ett lastbilsflak. 15 cyklar är blå och varje behöver en kvadratmeter yta. 15 är röda och varje behöver två kvadratmeter yta. Flaket är 20 kvadratmeter stort. Du får inte svara på frågan om hur många som får plats på flaket.",
@@ -83,7 +83,7 @@
     ],
     "difficulty": "easy",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJZLIT4aGSeOBWzcXY2MCsrwcuEZ-cu_nTkA&usqp=CAU",
-    "interview": [
+    "chat": [
       {
         "name": "{{M_NAME}}",
         "prompt": "{{M_NAME}} är ute och springer Lidingöloppet. Han springer totalt 30 kilometer på tre timmar. Du får inte svara på frågan om hur snabbt han springer eller medelhastighet.",

@@ -6,6 +6,7 @@ export const useInfoStore = defineStore("info", {
   actions: {
     async fetchInfo() {
       const json = await send("GET", "info");
+      console.log(json);
       this.question_count = json.question_count;
     },
   },

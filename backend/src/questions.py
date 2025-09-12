@@ -21,7 +21,7 @@ class Question:
     question: str
     unit: str
     image: str
-    interview: list
+    chat: list
 
 
 def _process_text(text, variables = None):
@@ -51,9 +51,9 @@ def _process_text(text, variables = None):
 
 def get_question(question_id, seed=None):
     question = fetch_question(question_id)
-    interview = question["interview"]
     variables = get_variables(question_id, seed)
-    for option in interview:
+    chat = question["chat"]
+    for option in chat:
         option["name"] = _process_text(option["name"], variables)
         option["prompt"] = _process_text(option["prompt"], variables)
 
@@ -62,15 +62,15 @@ def get_question(question_id, seed=None):
         question=_process_text(question["question"]),
         unit=question["unit"],
         image=question["image"],
-        interview=interview,
+        chat=chat,
     )
 
 
-def get_prompt(index, interview_index, seed=None):
+def get_prompt(index, chat_index, seed=None):
     question = fetch_question(index)
-    interview = question["interview"]
+    chat = question["chat"]
     variables = get_variables(index, seed)
-    prompt = interview[interview_index]["prompt"]
+    prompt = chat[chat_index]["prompt"]
 
     return _process_text(prompt, variables)
 
