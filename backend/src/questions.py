@@ -1,12 +1,9 @@
 from dataclasses import dataclass
 from functools import lru_cache
 from ftfy import fix_encoding
-import json
 import re
 import random
-import uuid
-from datetime import datetime
-from .data import fetch_question, fetch_question_count
+from .data import fetch_question
 
 
 SPECIAL_VARS = {
@@ -24,7 +21,7 @@ class Question:
     chat: list
 
 
-def _process_text(text, variables = None):
+def _process_text(text, variables=None):
     if not variables:
         return fix_encoding(text)
 
@@ -39,10 +36,7 @@ def _process_text(text, variables = None):
         for key, value in variables.items():
             data = data.replace(key, value)
 
-        try:
-            data = str(eval(data))
-        except:
-            pass
+        data = str(eval(data))
 
         text = text[:start] + data + text[end:]
 

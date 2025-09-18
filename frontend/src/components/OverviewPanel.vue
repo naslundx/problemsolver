@@ -6,7 +6,7 @@
     :show-explanation="showExplanation"
   >
       <div class="flexContainer">
-          <div class="flexItem">
+          <div class="flexItem textContainer">
               <p class="intro">
                 {{ prompt }}
               </p>
@@ -23,7 +23,7 @@
       </div>
 
     <template #explanation>
-      <i>Först presenteras något som hänt och en fråga du ska svara på.</i>
+      <i>Din vän har en fråga hon vill ha din hjälp med.</i>
     </template>
   </BasePanel>
 </template>
@@ -63,7 +63,12 @@ button {
 }
 .flexItem {
     flex: 1;
-
+}
+.textContainer {
+    padding: 10px;
+}
+.textContainer p {
+    margin-top: 10px;
 }
 .imageContainer {
     padding-left: 10px;

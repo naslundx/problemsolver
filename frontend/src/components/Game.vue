@@ -107,7 +107,7 @@ export default {
     ...mapActions(useUserStore, ["clearLocalStorage", "fetchGame", "clear"]),
     ...mapActions(useQuestionStore, ["start"]),
     async load() {
-      await Promise.all([this.fetchGame()/* , this.fetchInfo()*/]);
+      await Promise.all([this.fetchGame(), this.fetchInfo()]);
       return await this.start(this.game_progress);
     },
     OKExplanation: function () {

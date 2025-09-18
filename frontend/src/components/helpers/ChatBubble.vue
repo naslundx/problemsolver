@@ -22,7 +22,6 @@
         >
         <FlatButton
           :disabled="showInfo || emptyInput"
-          text="Skicka"
           icon="paper-plane"
           class="button"
           @click="onChat"
@@ -95,17 +94,30 @@ export default {
 }
 
 .flexContainer {
-  flex-wrap: wrap;
   justify-content: flex-end;
 }
+
+.flexContainer .button:first-of-type {
+  order: 0;
+}
+
 .flexContainer .button {
+  background-color: transparent;
+  color: white;
   order: 9;
+  border: 0;
+}
+
+.flexContainer .button:hover {
+background-color: white;
+color: blue;
 }
 
 input {
   background: rgba(255, 255, 255, 0.15);
   padding: 3px;
   color: white;
+  order: 1;
   width: 100%;
   font-size: large;
 }
@@ -143,7 +155,7 @@ body {
   display: inline-block;
   margin: em($half);
   min-height: em($double);
-  padding: em($half) em($tail);
+  padding: em($half) em($radius);
   position: relative;
   border-radius: em($radius);
   line-height: 1.5;

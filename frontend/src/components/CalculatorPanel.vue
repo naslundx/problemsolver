@@ -6,24 +6,26 @@
     :toggleable="true"
     :show-explanation="showExplanation"
   >
+    <div class="calculatorArea">
+        <div class="calculator">
+            <p id="output">
+                {{ output }}
+            </p>
+            <input
+                v-model="content"
+                type="text"
+                placeholder="1+1"
+            >
+        </div>
+        <key-pad
+            class="keypad"
+            @click="onClick"
+        />
+    </div>
+
     <textarea
       v-model="notes"
       placeholder="Valfria anteckningar"
-    />
-
-    <div class="calculator">
-      <input
-        v-model="content"
-        type="text"
-        placeholder="1+1"
-      >
-      <p id="output">
-        {{ output }}
-      </p>
-    </div>
-    <key-pad
-      class="keypad"
-      @click="onClick"
     />
 
     <template #explanation>
@@ -51,7 +53,6 @@ export default {
     },
   },
   watch: {
-    // whenever question changes, this function will run
     game_progress() {
       this.content = "";
       this.notes = "";
@@ -107,28 +108,34 @@ export default {
   min-width: 30%;
 }
 
+.calculatorArea {
+    margin: 0 auto;
+}
+
 textarea {
   width: 100%;
   min-height: 30px;
   height: 150px;
   font-size: larger;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(255, 255, 255, 0.2);
   border: 1px dashed gray;
   resize: none;
-  border-bottom: 1px solid black;
+  border-top: 1px solid black;
   padding: 10px;
+  font-family: 'Courier new';
 }
 
 #output {
   font-weight: bold;
+  font-family: 'Courier new';
   font-size: 2em;
-  margin-left: 10px;
   text-align: right;
-  min-height: 2em;
+  min-height: 1.6em;
 }
 
 input {
   font-size: xx-large;
+  font-family: 'Courier new';
   width: 100%;
   border: 0;
   margin-top:5px;
@@ -143,6 +150,7 @@ input {
 
 .keypad {
   width: 75%;
+  max-width: 500px;
   margin: 10px auto;
 }
 

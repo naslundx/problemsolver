@@ -5,37 +5,40 @@
     heading="Svara"
     :show-explanation="showExplanation"
   >
-    <div v-if="!isLoading">
-      <p class="">
+    <div>
+        <p class="">
+            Lämna ditt svar här. Du får försöka flera gånger.
+        </p>
+      <p class="question">
         <b>{{ question }}</b>
       </p>
-      <p class="">
-        Lämna ditt svar här:
-      </p>
-      <div class="answerContainer">
-        <FlatButton
-          class="clearBtn"
-          :disabled="answer_content.length === 0"
-          icon="eraser"
-          @click="clear"
-        />
-        <div>
-          <input
-            v-model="answer_content"
-            type="number"
-            @keyup.enter="answer"
-          >
-          <span class="units">
-            {{ unit }}
-          </span>
+      <div class="wrapper">
+        <div class="answerContainer">
+                <input
+                v-model="answer_content"
+                type="number"
+                @keyup.enter="answer"
+                >
+                <span class="units">
+                {{ unit }}
+                </span>
         </div>
-        <FlatButton
-          :disabled="!showAnswerButton"
-          text="Svara"
-          class="actionBtn"
-          icon="check"
-          @click="answer"
-        />
+        <div class="answerContainer">
+            <FlatButton
+                class="clearBtn"
+                text="Rensa"
+                :disabled="isLoading && answer_content.length === 0"
+                icon="eraser"
+                @click="clear"
+            />
+            <FlatButton
+                :disabled="isLoading && !showAnswerButton"
+                text="Svara"
+                class="actionBtn"
+                icon="check"
+                @click="answer"
+            />
+        </div>
       </div>
     </div>
     <div
@@ -62,9 +65,9 @@
     </div>
 
     <div
-      v-if="!isLoading && !answer_status"
-      class="flexContainer"
+      v-if="!isLoading && !answer_status && previousAnswers.length > 0"
     >
+      <p>Tidigare svar:</p>
       <p
         v-for="item of previousAnswers"
         :key="item"
@@ -73,11 +76,6 @@
       </p>
     </div>
 
-    <template #explanation>
-      <i>
-        Du svarar på den ursprungliga frågan här. Du kan försöka flera gånger.
-      </i>
-    </template>
   </BasePanel>
 </template>
 
@@ -179,6 +177,20 @@ export default {
 <style scoped>
 p {
   font-size: larger;
+}
+
+.question {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: fit-content;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.wrapper {
+    width: 90%;
+    max-width: 300px;
 }
 
 .units {

@@ -1,4 +1,3 @@
-import time
 import os
 from datetime import datetime
 import uuid
@@ -17,9 +16,9 @@ def get_env_key(name):
     if result:
         return result
 
-    with open('.env') as f:
+    with open(".env") as f:
         for line in f.readlines():
-            key, value = line.split(' ')
+            key, value = line.split(" ")
             if key == name:
                 return value.strip()
 

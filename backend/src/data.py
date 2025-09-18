@@ -3,6 +3,7 @@ import json
 from .database import DB, GAMES_TABLE, QUESTIONS_TABLE, CHATS_TABLE
 from .settings import DATA_TTL
 
+
 def create_game(game_uuid, seed, question_id):
     query = f"""
         INSERT INTO {GAMES_TABLE}
@@ -31,7 +32,7 @@ def fetch_game_progress(game_uuid) -> int:
 
 
 @ttl_cache(ttl=DATA_TTL)
-def load_seed_from_game_uuid(game_uuid) -> int:
+def fetch_seed_from_game_uuid(game_uuid) -> int:
     query = f"""
         SELECT seed
         FROM {GAMES_TABLE}
@@ -47,7 +48,7 @@ def fetch_question(question_id) -> dict:
         FROM {QUESTIONS_TABLE}
         WHERE id = %s; -- AND active = '1';
     """
-    content = DB.query(query, single=True, params=(question_id,))
+    content = DB.query(query, single=True, params=(question_id,)) or "{}"
     return json.loads(content)
 
 

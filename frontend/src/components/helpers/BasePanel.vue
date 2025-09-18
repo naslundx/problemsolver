@@ -139,7 +139,7 @@ export default {
 }
 
 h2 {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   color: var(--color-heading);
 }
 
@@ -156,12 +156,8 @@ h2 {
 hr {
   margin-bottom: 5px;
   border: 0;
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.75),
-    rgba(0, 0, 0, 0)
-  );
+  height: 3px;
+  background-image: linear-gradient(to right,#2cc,#0000);
 }
 
 .okexplanation {

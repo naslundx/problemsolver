@@ -13,3 +13,9 @@ dependencies = [
     "openai>=1.102.0",
     "psycopg2>=2.9.10",
 ]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "ruff>=0.13.0",
+]

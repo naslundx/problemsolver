@@ -31,14 +31,13 @@ export const useUserStore = defineStore("user", {
         return;
       }
 
-      console.log("creating");
-      const settings_json = await send("POST", "create");
+      const settings_json = await send("POST", "game");
       this.game_uuid = settings_json.game_uuid;
       this.game_progress = settings_json.game_progress;
       this.saveToLocalStorage();
     },
     async fetchProgress() {
-      const json = await send("GET", `progress?game_uuid=${this.game_uuid}`);
+      const json = await send("GET", `game?game_uuid=${this.game_uuid}`);
       this.game_progress = json.game_progress;
       this.saveToLocalStorage();
     },

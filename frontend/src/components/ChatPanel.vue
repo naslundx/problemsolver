@@ -112,6 +112,9 @@ b {
   font-weight: bold;
   text-transform: uppercase;
 }
+.button {
+    padding: 30px;
+}
 .answer {
   font-size: larger;
   margin-top: 1rem;

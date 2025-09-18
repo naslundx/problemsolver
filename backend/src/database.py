@@ -1,7 +1,7 @@
 import json
 import psycopg2
-import os
 from .helpers import get_env_key
+from .settings import TABLE_SUFFIX
 import psycopg2.extras
 
 
@@ -17,7 +17,7 @@ class Database:
         if not DATABASE_URL:
             return None
 
-        self.connection = psycopg2.connect(DATABASE_URL) #, sslmode="require")
+        self.connection = psycopg2.connect(DATABASE_URL)  # , sslmode="require")
 
     def execute(self, query, get_value=False, params=None):
         if not self.connection:
@@ -35,27 +35,22 @@ class Database:
             self.connect_database()
             return self.db_exec(query, get_value, params)
 
-
     def query(self, query, single=False, params=None):
         if not self.connection:
             self.connect_database()
 
         with (cursor := self.connection.cursor()):
-            try:
-                cursor.execute(query, params)
-                if single:
-                    record = cursor.fetchone()[0]
-                else:
-                    record = cursor.fetchall()
-                return record
-            except:
-                return None
+            cursor.execute(query, params)
+            if single:
+                record = cursor.fetchone()[0]
+            else:
+                record = cursor.fetchall()
+            return record
 
 
-DEBUG = "_debug" if "DEBUG" in os.environ else ""
-GAMES_TABLE = f"games{DEBUG}"
-QUESTIONS_TABLE = f"questions{DEBUG}"
-CHATS_TABLE = f"chats{DEBUG}"
+GAMES_TABLE = f"games{TABLE_SUFFIX}"
+QUESTIONS_TABLE = f"questions{TABLE_SUFFIX}"
+CHATS_TABLE = f"chats{TABLE_SUFFIX}"
 DATABASE_URL = get_env_key("DATABASE_URL")
 DB = Database()
 
@@ -111,7 +106,7 @@ def reset_database():
         );
     """
     )
-    print('Done.')
+    print("Done.")
 
 
 def upload_questions(filename="questions.json"):
@@ -130,4 +125,4 @@ def upload_questions(filename="questions.json"):
     """
     for question in questions:
         DB.execute(query, params=(question["id"], json.dumps(question)))
-    print('Done.')
+    print("Done.")
