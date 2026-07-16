@@ -44,9 +44,10 @@ class Database:
         with (cursor := self.connection.cursor()):
             cursor.execute(query, params)
             if single:
-                record = cursor.fetchone()[0]
-            else:
-                record = cursor.fetchall()
+                record = cursor.fetchone()
+                return record[0] if record else None
+
+            record = cursor.fetchall()
             return record
 
 

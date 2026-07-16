@@ -16,3 +16,11 @@ def generate_uuid_and_seed():
 
 def get_env_key(name):
     return os.environ.get(name)
+
+
+def is_valid_uuid(val):
+    try:
+        uuid.UUID(str(val))
+        return True
+    except ValueError:
+        return False

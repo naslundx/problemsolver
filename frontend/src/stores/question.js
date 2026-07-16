@@ -79,10 +79,15 @@ export const useQuestionStore = defineStore("question", {
 
       let [_, json] = await Promise.all([sleep(3), api]);
 
+      let response =
+        json && json.response
+          ? json.response
+          : "Fel vid kontakt med servern (eller rate-limit nådd). Prova igen senare.";
+
       this.addToHistory({
         from: "ai",
         chat_index,
-        content: json.response,
+        content: response,
       });
     },
   },

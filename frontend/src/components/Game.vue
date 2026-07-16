@@ -86,6 +86,9 @@ export default {
     showAllItems: function () {
       return this.question_id !== 0;
     },
+    showExplanation: function () {
+      return this.question_id === 0;
+    },
   },
   created: function () {
     if (window.innerWidth < 900) {

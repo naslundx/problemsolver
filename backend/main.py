@@ -1,5 +1,4 @@
 from flask import Flask, request
-import json
 import os
 
 from src.chat import get_response
@@ -18,7 +17,7 @@ from src.questions import (
     get_clue,
     get_prompt,
 )
-from src.helpers import generate_uuid_and_seed
+from src.helpers import generate_uuid_and_seed, is_valid_uuid
 
 
 app = Flask(__name__, static_folder="../frontend/dist/", static_url_path="/")
@@ -42,6 +41,8 @@ def game():
         create_game(game_uuid, seed, 0)
     else:
         game_uuid = request.args.get("game_uuid")
+        if not game_uuid or not is_valid_uuid(game_uuid):
+            return {}, 400
 
     progress = (
         fetch_game_progress(game_uuid) if not DEBUG else (fetch_question_count() - 1)
@@ -55,9 +56,12 @@ def game():
 
 @app.post("/api/start")
 def start():
-    data = json.loads(request.data)
+    data = request.get_json(silent=True) or {}
     question_id = data.get("question_id")
     game_uuid = data.get("game_uuid")
+
+    if not game_uuid or not is_valid_uuid(game_uuid) or question_id is None:
+        return {}, 400
 
     if not DEBUG:
         progress = fetch_game_progress(game_uuid)
@@ -78,11 +82,18 @@ def start():
 
 @app.post("/api/chat")
 def chat():
-    data = json.loads(request.data)
-    if "question" not in data or "chat_index" not in data:
+    data = request.get_json(silent=True) or {}
+    if (
+        "question" not in data
+        or "chat_index" not in data
+        or "game_uuid" not in data
+        or "question_id" not in data
+    ):
         return {}, 400
 
     game_uuid = data.get("game_uuid")
+    if not is_valid_uuid(game_uuid):
+        return {}, 400
     question_id = data.get("question_id")
 
     if not DEBUG:
@@ -102,9 +113,15 @@ def chat():
 
 @app.post("/api/answer")
 def submit_answer():
-    data = json.loads(request.data)
+    data = request.get_json(silent=True) or {}
     game_uuid = data.get("game_uuid")
     question_id = data.get("question_id")
+
+    if not game_uuid or not is_valid_uuid(game_uuid) or question_id is None:
+        return {}, 400
+
+    if not game_uuid or question_id is None:
+        return {}, 400
 
     progress = fetch_game_progress(game_uuid)
     if progress < question_id:

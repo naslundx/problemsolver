@@ -152,20 +152,26 @@ export default {
       });
 
       this.$nextTick(function () {
-        const el = this.$refs.animation.$el;
+        const el = this.$refs.animation?.$el;
         if (el) {
-          el.scrollIntoView(true);
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       });
 
-      let [_, json] = await Promise.all([sleep(3000), api]);
-
-      this.answer_status = json.is_correct;
-      this.clue = json.clue;
-      if (!this.answer_status) {
-        this.previousAnswers.push(cleanAnswer);
-      }
+      let [_, json] = await Promise.all([sleep(1000), api]);
       this.isLoading = false;
+
+      if (!json || Object.keys(json).length === 0) {
+        this.answer_status = "Fel vid kontakt med servern, försök igen.";
+        return;
+      }
+
+      if (json.is_correct) {
+        this.answer_status = "Rätt svar!";
+      } else {
+        this.answer_status = "Fel svar :(";
+        this.clue = json.clue;
+      }
     },
   },
 };

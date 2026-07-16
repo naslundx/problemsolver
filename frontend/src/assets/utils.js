@@ -1,11 +1,25 @@
 const send = async (method, url, data = null) => {
   const server_url = `/api/${url}`;
-  let response = await fetch(server_url, {
-    method,
-    ...(data && { body: JSON.stringify(data) }),
-  });
-  let json = await response.json();
-  return json;
+  try {
+    let response = await fetch(server_url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      ...(data && { body: JSON.stringify(data) }),
+    });
+
+    if (!response.ok) {
+      console.error(`API Error: ${response.status} ${response.statusText}`);
+      return {};
+    }
+
+    let json = await response.json();
+    return json;
+  } catch (err) {
+    console.error("Network or parsing error:", err);
+    return {};
+  }
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

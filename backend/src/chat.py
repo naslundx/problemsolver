@@ -25,8 +25,8 @@ def get_response(openai_prompt, content):
     full_prompt = f"{openai_prompt} {GENERAL_OPENAI_PROMPT} {content[:100]}"
     messages = [{"role": "user", "content": full_prompt}]
 
-    chat_completion = client.responses.create(
-        model="gpt-5-mini",
-        input=messages,
+    chat_completion = client.chat.completions.create(
+        model=get_env_key("OPENAI_MODEL") or "gpt-4o-mini",
+        messages=messages,
     )
-    return chat_completion.output_text
+    return chat_completion.choices[0].message.content
