@@ -1,4 +1,4 @@
-const send = async (method, url, data = null) => {
+const send = async (method: string, url: string, data: any = null) => {
   const server_url = `/api/${url}`;
   try {
     let response = await fetch(server_url, {
@@ -6,14 +6,14 @@ const send = async (method, url, data = null) => {
       headers: {
         "Content-Type": "application/json",
       },
-      ...(data && { body: JSON.stringify(data) }),
+      ...(data ? { body: JSON.stringify(data) } : {}),
     });
-
+    
     if (!response.ok) {
       console.error(`API Error: ${response.status} ${response.statusText}`);
       return {};
     }
-
+    
     let json = await response.json();
     return json;
   } catch (err) {
@@ -22,9 +22,9 @@ const send = async (method, url, data = null) => {
   }
 };
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-function isEmpty(obj) {
+function isEmpty(obj: any) {
   for (const prop in obj) {
     if (Object.hasOwn(obj, prop)) {
       return false;

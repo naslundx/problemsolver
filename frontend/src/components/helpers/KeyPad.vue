@@ -64,14 +64,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import FlatButton from "./FlatButton.vue";
 
 export default {
   components: { FlatButton },
   emits: ["click"],
   methods: {
-    onClick(element) {
+    onClick(element: string) {
       this.$emit("click", element);
     },
   },

@@ -11,7 +11,7 @@
           v-for="(person, index) in chat"
           :key="person.name"
           class="chat"
-          :class="{ 'chat-select': index == chat_index }"
+          :class="{ 'chat-select': String(index) === String(chat_index) }"
           @click="setChatIndex(index)"
         >
           <p>{{ person.name }}</p>
@@ -41,7 +41,7 @@
   </BasePanel>
 </template>
 
-<script>
+<script lang="ts">
 import ChatBubble from "./helpers/ChatBubble.vue";
 import LoadingAnimation from "./helpers/LoadingAnimation.vue";
 import BasePanel from "./helpers/BasePanel.vue";
@@ -72,12 +72,12 @@ export default {
   },
   methods: {
     ...mapActions(useQuestionStore, ["sendChat"]),
-    onChat: async function (content) {
+    onChat: async function (content: string) {
       this.isLoading = true;
       await this.sendChat(content, this.chat_index);
       this.isLoading = false;
     },
-    setChatIndex: function (index) {
+    setChatIndex: function (index: number) {
       this.chat_index = index;
     },
   },

@@ -1,7 +1,14 @@
 import { defineStore } from "pinia";
-import { sleep, send, isEmpty } from "../assets/utils.js";
+import { sleep, send, isEmpty } from "../assets/utils";
 
 import { useUserStore } from "@/stores/user";
+
+interface ChatElement {
+  from: string;
+  chat_index: number;
+  content: string;
+  index?: number;
+}
 
 export const useQuestionStore = defineStore("question", {
   state: () => ({
@@ -11,17 +18,17 @@ export const useQuestionStore = defineStore("question", {
     prompt: "",
     unit: "",
     image_url: "",
-    history: {},
-    chat: {},
+    history: {} as Record<number, ChatElement[]>,
+    chat: {} as Record<string, any>,
     latest_chat_id: 0,
   }),
   getters: {
-    currentHistory() {
-      return this.history[this.latest_chat_id] || [];
+    currentHistory(state): ChatElement[] {
+      return state.history[state.latest_chat_id] || [];
     },
   },
   actions: {
-    async start(id) {
+    async start(id: number) {
       let userStore = useUserStore();
 
       const game_uuid = userStore.game_uuid;
@@ -47,7 +54,7 @@ export const useQuestionStore = defineStore("question", {
     async fetchNextQuestion() {
       await this.start(this.question_id + 1);
     },
-    addToHistory(element) {
+    addToHistory(element: ChatElement) {
       this.index += 1;
 
       element.index = this.index;
@@ -58,7 +65,7 @@ export const useQuestionStore = defineStore("question", {
 
       this.history[history_key].push(element);
     },
-    async sendChat(message, chat_index = 0) {
+    async sendChat(message: string, chat_index: number = 0) {
       this.latest_chat_id = chat_index;
       this.addToHistory({
         from: "user",

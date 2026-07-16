@@ -22,7 +22,7 @@
   </BasePanel>
 </template>
 
-<script>
+<script lang="ts">
 import BasePanel from "./helpers/BasePanel.vue";
 import { mapActions, mapState } from "pinia";
 import { useInfoStore } from "@/stores/info";
@@ -33,32 +33,37 @@ export default {
   components: {
     BasePanel,
   },
-  props: {},
+  props: {
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    }
+  },
   computed: {
     ...mapState(useInfoStore, ["question_count"]),
     ...mapState(useUserStore, ["game_progress"]),
     ...mapState(useQuestionStore, ["question_id"]),
     numbersUpTo: function () {
       const arr = Array.from(
-        { length: this.game_progress + 1 },
+        { length: (this.game_progress || 0) + 1 },
         (_, index) => index + 1
       );
       return arr;
     },
     numbersAfter: function () {
-      if (this.game_progress >= this.question_count) {
+      if ((this.game_progress || 0) >= (this.question_count || 0)) {
         return [];
       }
       const arr = Array.from(
-        { length: this.question_count - this.game_progress - 1 },
+        { length: (this.question_count || 0) - (this.game_progress || 0) - 1 },
         (_, index) => index + 1
-      ).map((index) => index + this.game_progress + 1);
+      ).map((index) => index + (this.game_progress || 0) + 1);
       return arr;
     },
   },
   methods: {
     ...mapActions(useQuestionStore, ["start"]),
-    setQuestion: async function (question_id) {
+    setQuestion: async function (question_id: number) {
       await this.start(question_id);
     },
   },

@@ -33,7 +33,7 @@ app.use(createPinia());
 app.use(router);
 app.component("FontAwesomeIcon", FontAwesomeIcon);
 
-library.add([
+library.add(
   faCalculator,
   faCircleInfo,
   faCircleMinus,
@@ -44,7 +44,7 @@ library.add([
   faNoteSticky,
   faCircleQuestion,
   faComments,
-  faPaperPlane,
-]);
+  faPaperPlane
+);
 
 app.mount("#app");

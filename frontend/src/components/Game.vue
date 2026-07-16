@@ -50,7 +50,7 @@
   />
 </template>
 
-<script>
+<script lang="ts">
 import AnswerPanel from "./AnswerPanel.vue";
 import ChatPanel from "./ChatPanel.vue";
 import GameFooter from "./GameFooter.vue";
@@ -104,24 +104,26 @@ export default {
   },
   methods: {
     ...mapActions(useInfoStore, ["fetchInfo"]),
-    ...mapActions(useUserStore, ["clearLocalStorage", "fetchGame", "clear"]),
+    ...mapActions(useUserStore, ["clearLocalStorage", "fetchGame"]),
     ...mapActions(useQuestionStore, ["start"]),
     async load() {
       await Promise.all([this.fetchGame(), this.fetchInfo()]);
-      return await this.start(this.game_progress);
+      return await this.start(this.game_progress || 0);
     },
     OKExplanation: function () {
       this.item_show_index += 1;
       this.$nextTick(function () {
-        let el;
+        let el = null as Element | null;
         if (this.item_show_index === 4) {
           el = document.querySelector(".container.wrapper:last-child ");
         } else {
           el = document.querySelector(".container.wrapper:nth-last-child(2)");
         }
-        el.scrollIntoView(true, {
-          behavior: "smooth",
-        });
+        if (el) {
+          el.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
       });
     },
     onReached: function () {

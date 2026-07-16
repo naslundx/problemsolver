@@ -8,6 +8,7 @@ npm run lint
 
 # Backend
 cd ../backend
-uv run black .
+uv run black --check .
 uv run pylint .
 uv run ruff check .
+uv run mypy .

@@ -28,7 +28,7 @@
   </BasePanel>
 </template>
 
-<script>
+<script lang="ts">
 import BasePanel from "./helpers/BasePanel.vue";
 import { mapState } from "pinia";
 import { useQuestionStore } from "../stores/question";

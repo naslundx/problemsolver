@@ -35,7 +35,7 @@
   </BasePanel>
 </template>
 
-<script>
+<script lang="ts">
 import KeyPad from "./helpers/KeyPad.vue";
 import BasePanel from "./helpers/BasePanel.vue";
 import { mapState } from "pinia";
@@ -90,13 +90,16 @@ export default {
     },
   },
   methods: {
-    onClick(item) {
+    onClick(item: string) {
       if (item === "C") {
         this.content = "";
       } else {
         this.content += item;
       }
-      document.querySelector(".calculator input").focus();
+      const input = document.querySelector(".calculator input") as HTMLInputElement;
+      if (input) {
+        input.focus();
+      }
     },
   },
 };

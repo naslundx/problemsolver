@@ -18,6 +18,9 @@ dependencies = [
 [dependency-groups]
 dev = [
     "black>=25.1.0",
+    "mypy>=2.3.0",
     "pylint>=4.0.6",
     "ruff>=0.13.0",
+    "types-cachetools>=7.0.0.20260713",
+    "types-psycopg2>=2.9.21.20260712",
 ]

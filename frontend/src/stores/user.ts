@@ -1,16 +1,16 @@
 import { defineStore } from "pinia";
-import { send } from "../assets/utils.js";
+import { send } from "../assets/utils";
 
 const LOCALSTORAGE_NAME = "naslundx_user";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
-    game_uuid: null,
-    game_progress: null,
+    game_uuid: null as string | null,
+    game_progress: null as number | null,
   }),
   actions: {
     clearLocalStorage() {
-      localStorage.clear(LOCALSTORAGE_NAME);
+      localStorage.removeItem(LOCALSTORAGE_NAME);
     },
     saveToLocalStorage() {
       localStorage.setItem(

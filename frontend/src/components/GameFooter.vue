@@ -6,13 +6,19 @@
   </BasePanel>
 </template>
 
-<script>
+<script lang="ts">
 import BasePanel from "./helpers/BasePanel.vue";
 
 export default {
   components: {
     BasePanel,
   },
+  props: {
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    }
+  }
 };
 </script>
 

@@ -18,7 +18,7 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   components: {},
   props: {
@@ -55,15 +55,16 @@ export default {
     };
   },
   methods: {
-    scrollTo(target) {
-      document.querySelector(`div.${target}`).scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-      });
-      if (
-        this.items.find((item) => item.target === target).index ===
-        this.numberEnabledElements
-      ) {
+    scrollTo(target: string) {
+      const el = document.querySelector(`div.${target}`);
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      }
+      const found = this.items.find((item) => item.target === target);
+      if (found && found.index === this.numberEnabledElements) {
         this.$emit("reached");
       }
     },

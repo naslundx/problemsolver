@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import FlatButton from "./FlatButton.vue";
 
 export default {

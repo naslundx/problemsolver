@@ -76,7 +76,7 @@
   </BasePanel>
 </template>
 
-<script>
+<script lang="ts">
 import FlatButton from "./helpers/FlatButton.vue";
 import BasePanel from "./helpers/BasePanel.vue";
 import LoadingAnimation from "./helpers/LoadingAnimation.vue";
@@ -101,7 +101,7 @@ export default {
   data: function () {
     return {
       answer_content: "",
-      answer_status: null,
+      answer_status: null as boolean | string | null,
       isLoading: false,
       clue: "",
       previousAnswers: [],
@@ -152,7 +152,7 @@ export default {
       });
 
       this.$nextTick(function () {
-        const el = this.$refs.animation?.$el;
+        const el = (this.$refs.animation as any)?.$el;
         if (el) {
           el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
@@ -167,10 +167,11 @@ export default {
       }
 
       if (json.is_correct) {
-        this.answer_status = "Rätt svar!";
+        this.answer_status = true;
       } else {
-        this.answer_status = "Fel svar :(";
+        this.answer_status = false;
         this.clue = json.clue;
+        this.previousAnswers.push(cleanAnswer);
       }
     },
   },
