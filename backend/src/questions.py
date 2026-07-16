@@ -36,7 +36,7 @@ def _process_text(text, variables=None):
         for key, value in variables.items():
             data = data.replace(key, value)
 
-        data = str(eval(data))
+        data = str(eval(data))  # pylint: disable=eval-used
 
         text = text[:start] + data + text[end:]
 

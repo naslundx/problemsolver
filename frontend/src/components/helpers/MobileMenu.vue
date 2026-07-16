@@ -27,7 +27,7 @@ export default {
       default: 0,
     },
   },
-  emits: ['reached'],
+  emits: ["reached"],
   data: function () {
     return {
       items: [
@@ -57,10 +57,14 @@ export default {
   methods: {
     scrollTo(target) {
       document.querySelector(`div.${target}`).scrollIntoView({
-        behavior: "smooth", block: "end",
+        behavior: "smooth",
+        block: "end",
       });
-      if (this.items.find(item => item.target === target).index === this.numberEnabledElements) {
-        this.$emit('reached');
+      if (
+        this.items.find((item) => item.target === target).index ===
+        this.numberEnabledElements
+      ) {
+        this.$emit("reached");
       }
     },
   },

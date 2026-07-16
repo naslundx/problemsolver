@@ -79,11 +79,6 @@ export default {
       item_show_index: 0,
     };
   },
-  created: function () {
-    if (window.innerWidth < 900) {
-      this.item_show_index = 1;
-    }
-  },
   computed: {
     ...mapState(useInfoStore, ["question_count"]),
     ...mapState(useUserStore, ["game_progress"]),
@@ -91,9 +86,11 @@ export default {
     showAllItems: function () {
       return this.question_id !== 0;
     },
-    showExplanation: function () {
-      return this.question_id === 0;
-    },
+  },
+  created: function () {
+    if (window.innerWidth < 900) {
+      this.item_show_index = 1;
+    }
   },
   async mounted() {
     let result = await this.load();
@@ -115,9 +112,9 @@ export default {
       this.$nextTick(function () {
         let el;
         if (this.item_show_index === 4) {
-          el = document.querySelector('.container.wrapper:last-child ');
+          el = document.querySelector(".container.wrapper:last-child ");
         } else {
-          el = document.querySelector('.container.wrapper:nth-last-child(2)');
+          el = document.querySelector(".container.wrapper:nth-last-child(2)");
         }
         el.scrollIntoView(true, {
           behavior: "smooth",
@@ -148,7 +145,6 @@ p.title {
   margin-bottom: 5px;
 }
 
-
 .sections > div {
   min-width: 100%;
   width: 100%;
@@ -156,15 +152,15 @@ p.title {
 }
 
 .sections {
-    flex-grow: 1;
-    flex-flow: row;
-    margin: 0;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    scroll-snap-align: center;
-    column-gap: 10px;
-    display: flex;
-  }
+  flex-grow: 1;
+  flex-flow: row;
+  margin: 0;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-snap-align: center;
+  column-gap: 10px;
+  display: flex;
+}
 
 @media only screen and (min-width: 900px) {
   div.sections {
@@ -185,13 +181,12 @@ p.title {
 
   .fade-enter-active,
   .fade-leave-active {
-    transition: opacity 1.0s ease;
+    transition: opacity 1s ease;
   }
 
   .fade-enter-from,
   .fade-leave-to {
     opacity: 0;
   }
-
 }
 </style>

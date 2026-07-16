@@ -109,8 +109,8 @@ export default {
 }
 
 .flexContainer .button:hover {
-background-color: white;
-color: blue;
+  background-color: white;
+  color: blue;
 }
 
 input {

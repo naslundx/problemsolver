@@ -7,20 +7,20 @@
     :show-explanation="showExplanation"
   >
     <div class="calculatorArea">
-        <div class="calculator">
-            <p id="output">
-                {{ output }}
-            </p>
-            <input
-                v-model="content"
-                type="text"
-                placeholder="1+1"
-            >
-        </div>
-        <key-pad
-            class="keypad"
-            @click="onClick"
-        />
+      <div class="calculator">
+        <p id="output">
+          {{ output }}
+        </p>
+        <input
+          v-model="content"
+          type="text"
+          placeholder="1+1"
+        >
+      </div>
+      <key-pad
+        class="keypad"
+        @click="onClick"
+      />
     </div>
 
     <textarea
@@ -50,12 +50,6 @@ export default {
     showExplanation: {
       type: Boolean,
       default: true,
-    },
-  },
-  watch: {
-    game_progress() {
-      this.content = "";
-      this.notes = "";
     },
   },
   data: function () {
@@ -89,6 +83,12 @@ export default {
       }
     },
   },
+  watch: {
+    game_progress() {
+      this.content = "";
+      this.notes = "";
+    },
+  },
   methods: {
     onClick(item) {
       if (item === "C") {
@@ -109,7 +109,7 @@ export default {
 }
 
 .calculatorArea {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 textarea {
@@ -122,12 +122,12 @@ textarea {
   resize: none;
   border-top: 1px solid black;
   padding: 10px;
-  font-family: 'Courier new';
+  font-family: "Courier new";
 }
 
 #output {
   font-weight: bold;
-  font-family: 'Courier new';
+  font-family: "Courier new";
   font-size: 2em;
   text-align: right;
   min-height: 1.6em;
@@ -135,10 +135,10 @@ textarea {
 
 input {
   font-size: xx-large;
-  font-family: 'Courier new';
+  font-family: "Courier new";
   width: 100%;
   border: 0;
-  margin-top:5px;
+  margin-top: 5px;
 }
 
 .calculator {

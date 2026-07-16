@@ -101,7 +101,7 @@ def chat():
 
 
 @app.post("/api/answer")
-def answer():
+def submit_answer():
     data = json.loads(request.data)
     game_uuid = data.get("game_uuid")
     question_id = data.get("question_id")
@@ -131,4 +131,4 @@ def index():
 
 if __name__ == "__main__":
     PORT = int(os.environ.get("PORT", "5000"))
-    app.run(threaded=True, port=PORT)
+    app.run(host="0.0.0.0", threaded=True, port=PORT)

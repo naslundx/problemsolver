@@ -5,22 +5,22 @@
     heading="Scenario"
     :show-explanation="showExplanation"
   >
-      <div class="flexContainer">
-          <div class="flexItem textContainer">
-              <p class="intro">
-                {{ prompt }}
-              </p>
-              <p class="question">
-                {{ question }}
-              </p>
-          </div>
-          <div class="flexItem imageContainer">
-            <img
-              v-if="image_url"
-              :src="image_url"
-            >
-          </div>
+    <div class="flexContainer">
+      <div class="flexItem textContainer">
+        <p class="intro">
+          {{ prompt }}
+        </p>
+        <p class="question">
+          {{ question }}
+        </p>
       </div>
+      <div class="flexItem imageContainer">
+        <img
+          v-if="image_url"
+          :src="image_url"
+        >
+      </div>
+    </div>
 
     <template #explanation>
       <i>Din vän har en fråga hon vill ha din hjälp med.</i>
@@ -58,35 +58,36 @@ button {
   margin-left: 5px;
 }
 .flexContainer {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 .flexItem {
-    flex: 1;
+  flex: 1;
 }
 .textContainer {
-    padding: 10px;
+  padding: 10px;
 }
 .textContainer p {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 .imageContainer {
-    padding-left: 10px;
-    max-width: 50%;
-    max-height: 30%;
+  padding-left: 10px;
+  max-width: 50%;
+  max-height: 30%;
 }
 .imageContainer img {
-    width: 100%;
-    mask-image: linear-gradient(to right, transparent 0%, black 10%);
-    mask-repeat: no-repeat;
-    mask-size: cover;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent 0%, black 10%);
+  mask-repeat: no-repeat;
+  mask-size: cover;
 }
 .question {
   font-weight: bold;
 }
 
 @media only screen and (min-width: 900px) {
-  .intro, .question {
+  .intro,
+  .question {
     font-size: larger;
   }
 }

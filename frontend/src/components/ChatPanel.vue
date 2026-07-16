@@ -35,8 +35,8 @@
       </div>
     </div>
     <template #explanation>
-      <i>Du behöver ta reda på mer information. I chatten kan du ställa
-        frågor, till exempel "Vad kostar en glass?".</i>
+      <i>Du behöver ta reda på mer information. I chatten kan du ställa frågor,
+        till exempel "Vad kostar en glass?".</i>
     </template>
   </BasePanel>
 </template>
@@ -113,7 +113,7 @@ b {
   text-transform: uppercase;
 }
 .button {
-    padding: 30px;
+  padding: 30px;
 }
 .answer {
   font-size: larger;

@@ -1,1 +1,0 @@
-cd backend && uv run main.py

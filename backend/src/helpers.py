@@ -1,6 +1,9 @@
 import os
 from datetime import datetime
 import uuid
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def generate_uuid_and_seed():
@@ -12,14 +15,4 @@ def generate_uuid_and_seed():
 
 
 def get_env_key(name):
-    result = os.environ.get(name)
-    if result:
-        return result
-
-    with open(".env") as f:
-        for line in f.readlines():
-            key, value = line.split(" ")
-            if key == name:
-                return value.strip()
-
-    return None
+    return os.environ.get(name)

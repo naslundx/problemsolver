@@ -157,7 +157,7 @@ hr {
   margin-bottom: 5px;
   border: 0;
   height: 3px;
-  background-image: linear-gradient(to right,#2cc,#0000);
+  background-image: linear-gradient(to right, #2cc, #0000);
 }
 
 .okexplanation {
@@ -203,7 +203,7 @@ hr {
   flex-direction: column;
   height: 100%;
 }
- .explanation.flexcontainer {
+.explanation.flexcontainer {
   border-left: 0;
   border-top: 1px dashed black;
 }

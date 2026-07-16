@@ -15,7 +15,7 @@ class Database:
 
     def connect_database(self):
         if not DATABASE_URL:
-            return None
+            return
 
         self.connection = psycopg2.connect(DATABASE_URL)  # , sslmode="require")
 
@@ -33,7 +33,9 @@ class Database:
 
         except psycopg2.OperationalError:
             self.connect_database()
-            return self.db_exec(query, get_value, params)
+            return self.execute(query, get_value, params)
+
+        return None
 
     def query(self, query, single=False, params=None):
         if not self.connection:
@@ -110,7 +112,7 @@ def reset_database():
 
 
 def upload_questions(filename="questions.json"):
-    with open(filename) as f:
+    with open(filename, encoding="utf-8") as f:
         questions = json.loads(f.read())
 
     DB.execute(
