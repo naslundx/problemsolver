@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any
 from functools import lru_cache
 from ftfy import fix_encoding
 import re
@@ -18,10 +19,10 @@ class Question:
     question: str
     unit: str
     image: str
-    chat: list
+    chat: list[dict[str, Any]]
 
 
-def _process_text(text, variables=None):
+def _process_text(text: str, variables: dict[str, str] | None = None) -> str:
     if not variables:
         return fix_encoding(text)
 
@@ -43,7 +44,7 @@ def _process_text(text, variables=None):
     return fix_encoding(text)
 
 
-def get_question(question_id, seed=None):
+def get_question(question_id: int, seed: int | None = None) -> Question:
     question = fetch_question(question_id)
     variables = get_variables(question_id, seed)
     chat = question["chat"]
@@ -60,7 +61,7 @@ def get_question(question_id, seed=None):
     )
 
 
-def get_prompt(index, chat_index, seed=None):
+def get_prompt(index: int, chat_index: int, seed: int | None = None) -> str:
     question = fetch_question(index)
     chat = question["chat"]
     variables = get_variables(index, seed)
@@ -70,7 +71,7 @@ def get_prompt(index, chat_index, seed=None):
 
 
 @lru_cache()
-def get_variables(index, seed):
+def get_variables(index: int, seed: int | None) -> dict[str, str]:
     random.seed(seed)
 
     result = {}
@@ -88,17 +89,19 @@ def get_variables(index, seed):
     return result
 
 
-def get_answer(index, seed):
+def get_answer(index: int, seed: int) -> str:
     question = fetch_question(index)
     variables = get_variables(index, seed)
 
-    return _process_text(question["correct"], variables)
+    res = _process_text(question["correct"], variables)
+    return str(res)
 
 
-def get_clue(index):
+def get_clue(index: int) -> str:
     question = fetch_question(index)
 
-    return random.choice(question["clues"])
+    res = random.choice(question["clues"])
+    return str(res)
 
 
 # TODO store stats

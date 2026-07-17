@@ -1,10 +1,11 @@
 from cachetools.func import ttl_cache
+from typing import Any
 import json
 from .database import DB, GAMES_TABLE, QUESTIONS_TABLE, CHATS_TABLE
 from .settings import DATA_TTL
 
 
-def create_game(game_uuid, seed, question_id):
+def create_game(game_uuid: str, seed: int, question_id: int) -> None:
     query = f"""
         INSERT INTO {GAMES_TABLE}
         (game_uuid, seed, question_id)
@@ -13,7 +14,7 @@ def create_game(game_uuid, seed, question_id):
     DB.execute(query, params=(str(game_uuid), seed, question_id))
 
 
-def increment_game_progress(game_uuid, question_id):
+def increment_game_progress(game_uuid: str, question_id: int) -> None:
     query = f"""
         UPDATE {GAMES_TABLE}
         SET question_id = %s
@@ -22,7 +23,7 @@ def increment_game_progress(game_uuid, question_id):
     DB.execute(query, params=(question_id, str(game_uuid)))
 
 
-def fetch_game_progress(game_uuid) -> int:
+def fetch_game_progress(game_uuid: str | None) -> int:
     query = f"""
         SELECT question_id
         FROM {GAMES_TABLE}
@@ -32,7 +33,7 @@ def fetch_game_progress(game_uuid) -> int:
 
 
 @ttl_cache(ttl=DATA_TTL)
-def fetch_seed_from_game_uuid(game_uuid) -> int:
+def fetch_seed_from_game_uuid(game_uuid: str | None) -> int:
     query = f"""
         SELECT seed
         FROM {GAMES_TABLE}
@@ -42,14 +43,20 @@ def fetch_seed_from_game_uuid(game_uuid) -> int:
 
 
 @ttl_cache(ttl=DATA_TTL)
-def fetch_question(question_id) -> dict:
+def fetch_question(question_id: int) -> dict[str, Any]:
     query = f"""
         SELECT content
         FROM {QUESTIONS_TABLE}
         WHERE id = %s; -- AND active = '1';
     """
     content = DB.query(query, single=True, params=(question_id,)) or "{}"
-    return json.loads(content)
+
+    if isinstance(content, (str, bytes, bytearray)):
+        res = json.loads(content)
+        if isinstance(res, dict):
+            return res
+
+    return {}
 
 
 def fetch_question_count() -> int:
@@ -58,10 +65,15 @@ def fetch_question_count() -> int:
         FROM {QUESTIONS_TABLE};
     """
 
-    return DB.query(query, single=True) or 0
+    res = DB.query(query, single=True)
+    if isinstance(res, int):
+        return res
+    return 0
 
 
-def save_chat(game_uuid, chat_index, question_id, question, answer):
+def save_chat(
+    game_uuid: str, chat_index: int, question_id: int, question: str, answer: str
+) -> None:
     query = f"""
         INSERT INTO {CHATS_TABLE}
         (game_uuid, chat_index, question_id, question, answer)

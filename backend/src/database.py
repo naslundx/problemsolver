@@ -1,35 +1,41 @@
 import json
 import psycopg2
+from typing import Any
+import psycopg2.extensions
+import psycopg2.extras
 from .helpers import get_env_key
 from .settings import TABLE_SUFFIX
-import psycopg2.extras
 
 
-psycopg2.extras.register_uuid()
+psycopg2.extras.register_uuid()  # type: ignore
 
 
 class Database:
-    def __init__(self):
-        self.connection = None
+    def __init__(self) -> None:
+        self.connection: psycopg2.extensions.connection | None = None
         self.connect_database()
 
-    def connect_database(self):
+    def connect_database(self) -> None:
         if not DATABASE_URL:
             return
 
         self.connection = psycopg2.connect(DATABASE_URL)  # , sslmode="require")
 
-    def execute(self, query, get_value=False, params=None):
+    def execute(
+        self, query: str, get_value: bool = False, params: tuple[Any, ...] | None = None
+    ) -> int | None:
         if not self.connection:
             self.connect_database()
 
         try:
+            assert self.connection is not None
             with (cursor := self.connection.cursor()):
                 cursor.execute(query, params)
                 self.connection.commit()
                 if get_value:
-                    id_of_new_row = cursor.fetchone()[0]
-                    return id_of_new_row
+                    id_of_new_row = cursor.fetchone()
+                    if id_of_new_row:
+                        return int(id_of_new_row[0])
 
         except psycopg2.OperationalError:
             self.connect_database()
@@ -37,18 +43,21 @@ class Database:
 
         return None
 
-    def query(self, query, single=False, params=None):
+    def query(
+        self, query: str, single: bool = False, params: tuple[Any, ...] | None = None
+    ) -> Any:
         if not self.connection:
             self.connect_database()
 
+        assert self.connection is not None
         with (cursor := self.connection.cursor()):
             cursor.execute(query, params)
             if single:
                 record = cursor.fetchone()
                 return record[0] if record else None
 
-            record = cursor.fetchall()
-            return record
+            res = cursor.fetchall()
+            return res
 
 
 GAMES_TABLE = f"games{TABLE_SUFFIX}"
@@ -58,7 +67,7 @@ DATABASE_URL = get_env_key("DATABASE_URL")
 DB = Database()
 
 
-def reset_database():
+def reset_database() -> None:
     DB.execute(
         f"""
         DROP TABLE IF EXISTS {CHATS_TABLE};
@@ -112,7 +121,7 @@ def reset_database():
     print("Done.")
 
 
-def upload_questions(filename="questions.json"):
+def upload_questions(filename: str = "questions.json") -> None:
     with open(filename, encoding="utf-8") as f:
         questions = json.loads(f.read())
 

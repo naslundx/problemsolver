@@ -1,4 +1,5 @@
 from flask import Flask, request
+from typing import Any
 import os
 
 from src.chat import get_response
@@ -28,21 +29,23 @@ if DEBUG:
 
 
 @app.get("/api/info")
-def info():
+def info() -> dict[str, Any]:
     return {
         "question_count": fetch_question_count(),
     }
 
 
 @app.route("/api/game", methods=["GET", "POST"])
-def game():
+def game() -> tuple[dict[str, Any], int] | dict[str, Any]:
     if request.method == "POST":
-        game_uuid, seed = generate_uuid_and_seed()
+        uuid_val, seed = generate_uuid_and_seed()
+        game_uuid = str(uuid_val)
         create_game(game_uuid, seed, 0)
     else:
-        game_uuid = request.args.get("game_uuid")
-        if not game_uuid or not is_valid_uuid(game_uuid):
+        req_uuid = request.args.get("game_uuid")
+        if not req_uuid or not is_valid_uuid(req_uuid):
             return {}, 400
+        game_uuid = req_uuid
 
     progress = (
         fetch_game_progress(game_uuid) if not DEBUG else (fetch_question_count() - 1)
@@ -55,13 +58,15 @@ def game():
 
 
 @app.post("/api/start")
-def start():
+def start() -> tuple[dict[str, Any], int] | dict[str, Any]:
     data = request.get_json(silent=True) or {}
-    question_id = data.get("question_id")
+    question_id_raw = data.get("question_id")
     game_uuid = data.get("game_uuid")
 
-    if not game_uuid or not is_valid_uuid(game_uuid) or question_id is None:
+    if not game_uuid or not is_valid_uuid(game_uuid) or question_id_raw is None:
         return {}, 400
+
+    question_id = int(question_id_raw)
 
     if not DEBUG:
         progress = fetch_game_progress(game_uuid)
@@ -81,7 +86,7 @@ def start():
 
 
 @app.post("/api/chat")
-def chat():
+def chat() -> tuple[dict[str, Any], int] | dict[str, Any]:
     data = request.get_json(silent=True) or {}
     if (
         "question" not in data
@@ -92,9 +97,13 @@ def chat():
         return {}, 400
 
     game_uuid = data.get("game_uuid")
-    if not is_valid_uuid(game_uuid):
+    if not game_uuid or not is_valid_uuid(game_uuid):
         return {}, 400
-    question_id = data.get("question_id")
+
+    question_id_raw = data.get("question_id")
+    if question_id_raw is None:
+        return {}, 400
+    question_id = int(question_id_raw)
 
     if not DEBUG:
         progress = fetch_game_progress(game_uuid)
@@ -102,17 +111,20 @@ def chat():
             return {}, 403
 
     seed = fetch_seed_from_game_uuid(game_uuid)
-    question = data.get("question")[:MAX_QUESTION_LENGTH]
-    chat_index = data.get("chat_index")
+    question_str = str(data.get("question"))[:MAX_QUESTION_LENGTH]
+    chat_index_raw = data.get("chat_index")
+    if chat_index_raw is None:
+        return {}, 400
+    chat_index = int(chat_index_raw)
     prompt = get_prompt(question_id, chat_index, seed)
-    response = get_response(prompt, question)
-    save_chat(game_uuid, chat_index, question_id, question, response)
+    response = get_response(prompt, question_str)
+    save_chat(str(game_uuid), chat_index, question_id, question_str, response)
 
-    return {"game_uuid": game_uuid, "question": question, "response": response}
+    return {"game_uuid": game_uuid, "question": question_str, "response": response}
 
 
 @app.post("/api/answer")
-def submit_answer():
+def submit_answer() -> tuple[dict[str, Any], int] | dict[str, Any]:
     data = request.get_json(silent=True) or {}
     game_uuid = data.get("game_uuid")
     question_id = data.get("question_id")
@@ -142,7 +154,7 @@ def submit_answer():
 
 
 @app.get("/")
-def index():
+def index() -> Any:
     return app.send_static_file("index.html")
 
 

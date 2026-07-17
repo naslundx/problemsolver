@@ -1,14 +1,24 @@
 #!/bin/bash
 set -e
 
+run_quietly() {
+    local output
+    if ! output=$("$@" 2>&1); then
+        echo "❌ Command failed: $*"
+        echo "$output"
+        exit 1
+    fi
+}
+
 # Frontend
 cd frontend
-npm run format
-npm run lint
+run_quietly npm run format
+run_quietly npm run type-check
+run_quietly npm run lint
 
 # Backend
 cd ../backend
-uv run black --check .
-uv run pylint .
-uv run ruff check .
-uv run mypy .
+run_quietly uv run black --check .
+run_quietly uv run pylint .
+run_quietly uv run ruff check .
+run_quietly uv run mypy --strict .
