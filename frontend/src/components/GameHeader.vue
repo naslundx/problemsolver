@@ -37,7 +37,7 @@ export default {
     fullWidth: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   computed: {
     ...mapState(useInfoStore, ["question_count"]),

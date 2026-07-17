@@ -82,7 +82,7 @@ import BasePanel from "./helpers/BasePanel.vue";
 import LoadingAnimation from "./helpers/LoadingAnimation.vue";
 
 import { mapActions, mapState } from "pinia";
-import { send, sleep } from "../assets/utils.js";
+import { send, sleep } from "../assets/utils";
 import { useUserStore } from "@/stores/user";
 import { useQuestionStore } from "@/stores/question";
 
@@ -104,7 +104,7 @@ export default {
       answer_status: null as boolean | string | null,
       isLoading: false,
       clue: "",
-      previousAnswers: [],
+      previousAnswers: [] as string[],
     };
   },
   computed: {
@@ -158,7 +158,7 @@ export default {
         }
       });
 
-      let [_, json] = await Promise.all([sleep(1000), api]);
+      let [, json] = await Promise.all([sleep(1000), api]);
       this.isLoading = false;
 
       if (!json || Object.keys(json).length === 0) {

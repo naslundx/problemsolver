@@ -17,8 +17,8 @@ export default {
     fullWidth: {
       type: Boolean,
       default: false,
-    }
-  }
+    },
+  },
 };
 </script>
 

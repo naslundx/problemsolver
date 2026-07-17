@@ -84,7 +84,7 @@ heroku run "uv run python3 -c \"from src.database import *; reset_database(); up
 
 ## Todo
 - Go through frontend, fix any obvious issues, inconsistencies or layout problems
-- **Type Safety**: Migrate the Vue frontend JavaScript files to TypeScript for enhanced developer experience and error checking.
+- [x] **Type Safety**: Migrate the Vue frontend JavaScript files to TypeScript for enhanced developer experience and error checking.
 
 ## Possible future ideas
 

@@ -96,7 +96,9 @@ export default {
       } else {
         this.content += item;
       }
-      const input = document.querySelector(".calculator input") as HTMLInputElement;
+      const input = document.querySelector(
+        ".calculator input"
+      ) as HTMLInputElement;
       if (input) {
         input.focus();
       }

@@ -14,17 +14,14 @@
           class="button"
           @click="clear"
         />
-        v-model="input_content"
-        type="text"
-        placeholder="Meddelande"
-        @keyup.enter="onChat"
-      >
-      <FlatButton
-        :disabled="showInfo || emptyInput"
-        icon="paper-plane"
-        class="button"
-        @click="onChat"
-      />
+        v-model="input_content" type="text" placeholder="Meddelande"
+        @keyup.enter="onChat" >
+        <FlatButton
+          :disabled="showInfo || emptyInput"
+          icon="paper-plane"
+          class="button"
+          @click="onChat"
+        />
       </div>
       <p v-else>
         {{ content }}

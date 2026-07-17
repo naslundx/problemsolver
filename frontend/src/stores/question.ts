@@ -19,7 +19,7 @@ export const useQuestionStore = defineStore("question", {
     unit: "",
     image_url: "",
     history: {} as Record<number, ChatElement[]>,
-    chat: {} as Record<string, any>,
+    chat: [] as any[],
     latest_chat_id: 0,
   }),
   getters: {
@@ -29,7 +29,7 @@ export const useQuestionStore = defineStore("question", {
   },
   actions: {
     async start(id: number) {
-      let userStore = useUserStore();
+      const userStore = useUserStore();
 
       const game_uuid = userStore.game_uuid;
 
@@ -58,7 +58,7 @@ export const useQuestionStore = defineStore("question", {
       this.index += 1;
 
       element.index = this.index;
-      let history_key = element.chat_index;
+      const history_key = element.chat_index;
       if (!(history_key in this.history)) {
         this.history[history_key] = [];
       }
@@ -73,20 +73,20 @@ export const useQuestionStore = defineStore("question", {
         content: message,
       });
 
-      let userStore = useUserStore();
+      const userStore = useUserStore();
 
       const game_uuid = userStore.game_uuid;
 
-      let api = send("POST", "chat", {
+      const api = send("POST", "chat", {
         question_id: this.question_id,
         question: message,
         chat_index,
         game_uuid,
       });
 
-      let [_, json] = await Promise.all([sleep(3), api]);
+      const [, json] = await Promise.all([sleep(3), api]);
 
-      let response =
+      const response =
         json && json.response
           ? json.response
           : "Fel vid kontakt med servern (eller rate-limit nådd). Prova igen senare.";
